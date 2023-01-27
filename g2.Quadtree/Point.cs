@@ -6,24 +6,19 @@ using System.Threading.Tasks;
 
 namespace g2.Quadtree;
 
-public struct Point
+public class Point
 {
-    private readonly int _x;
-    private readonly int _y;
-
     public Point()
     {
-        _x = 0;
-        _y = 0;
+        X = 0;
+        Y = 0;
     }
 
-    public Point(int x, int y)
+    public Point(double x, double y)
     {
-        this._x = x;
-        this._y = y;
+        X = x;
+        Y = y;
     }
-
-    public int X => _x;
-
-    public int Y => _y;
+    public double X { get; init; }
+    public double Y { get; init; }
 }

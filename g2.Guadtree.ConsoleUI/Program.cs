@@ -1,17 +1,24 @@
 ﻿
-AxisAlignedBoundingBox boundingBox = new(new Point(25, 25), 25);
-PointRegionQuadtree qTree = new(boundingBox);
-qTree.Insert(new Point(5, 5));
-//qTree.Insert(new Point(10, 10));
-//qTree.Insert(new Point(15, 15));
-//qTree.Insert(new Point(25, 25));
-//qTree.Insert(new Point(40, 40));
-//qTree.Insert(new Point(12, 12));
-//qTree.Insert(new Point(40, 40));
-//qTree.Insert(new Point(40, 40));
-//qTree.Insert(new Point(40, 40));
-//qTree.Insert(new Point(40, 40));
-//qTree.Insert(new Point(40, 40));
-Console.WriteLine(qTree);
+int WIDTH = 200;
+int HEIGHT = 200;
+int X = 200;
+int Y = 200;
+int CAPACATY = 4;
+
+AxisAlignedBoundingBox boundingBox = new(X, Y, WIDTH, HEIGHT);
+PointRegionQuadtree qTree = new(boundingBox, CAPACATY);
+
+Random rnd = new Random();
+
+for (int i = 0; i < 50; i++)
+{
+    int x = rnd.Next(WIDTH);
+    int y = rnd.Next(HEIGHT);
+    var point = new Point(x, y);
+
+    qTree.Insert(point);
+}
+
+
 
 Console.ReadKey();

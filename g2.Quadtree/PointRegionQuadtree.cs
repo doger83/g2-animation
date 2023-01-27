@@ -1,103 +1,91 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace g2.Quadtree;
 
-public class PointRegionQuadtree : Quadtree, IPointRegionQuadtree
+public class PointRegionQuadtree //: IQuadtree
 {
-    public bool Divided { get; set; } = false;
-    public PointRegionQuadtree(IAxisAlignedBoundingBox boundary) : base(boundary)
+    public AxisAlignedBoundingBox Boundary; // { get; set; }
+    public int Capacaty;
+    public List<Point> Points;
+    public bool Divided;
+
+    public PointRegionQuadtree(AxisAlignedBoundingBox boundary, int capacaty)
     {
+        Boundary = boundary;
+        Capacaty = capacaty;
+        Points = new();
         Divided = false;
     }
 
-    public override IAxisAlignedBoundingBox Boundary { get => _boundary; set => _boundary = value; }
-    public override List<Point>? Points { get => _points; set => _points = value; }
-    public override IQuadtree? NorthWest { get => (IPointRegionQuadtree)_northWest!; set => _northWest = (IPointRegionQuadtree)value!; }
-    public override IQuadtree? NorthEast { get => (IPointRegionQuadtree)_northEast!; set => _northEast = (IPointRegionQuadtree)value!; }
-    public override IQuadtree? SouthWest { get => (IPointRegionQuadtree)_southWest!; set => _southWest = (IPointRegionQuadtree)value!; }
-    public override IQuadtree? SouthEast { get => (IPointRegionQuadtree)_southEast!; set => _southEast = (IPointRegionQuadtree)value!; }
-
-    public void Insert(Point point)
+    public bool Insert(Point point)
     {
-        Points ??= new List<Point>();
-        // Ignore objects that do not belong in this quad tree
-        if (!Boundary.ContainsPoint(point))
-            return; // object cannot be added
-
-
-        // If there is space in this quad tree and if doesn't have subdivisions, add the object here
-        if (Points.Count < NODE_CAPACITY)
+        if (!Boundary.Contains(point))
         {
-            Points.Add(point);
-        } // Otherwise, subdivide and then add the point to whichever node will accept it
-        else
-        {
-            if (!Divided)
-            {
-
-                Subdivide();
-                Divided = true;
-            }
-        // We have to add the points/data contained in this quad array to the new quads if we only want
-        // the last node to hold the data
-
-            (NorthWest as IPointRegionQuadtree)!.Insert(point);
-            (NorthEast as IPointRegionQuadtree)!.Insert(point);
-            (SouthWest as IPointRegionQuadtree)!.Insert(point);
-            (SouthEast as IPointRegionQuadtree)!.Insert(point);
+            return false;
         }
 
-        // Otherwise, the point cannot be inserted for some unknown reason (this should never happen)       
+
+        if (Points.Count < Capacaty)
+        {
+            Points.Add(point);
+            return true;
+        }
+        else
+        {
+            if (!this.Divided)
+            {
+                Subdivide();
+            }
+
+            if (this.NorthEast.Insert(point))
+            {
+                return true;
+            }
+            else if (this.NorthWest.Insert(point))
+            {
+                return true;
+            }
+            else if(this.SouthEast.Insert(point))
+            {
+                return true;
+            }
+            else if(this.SouthWest.Insert(point))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public override void QueryRange(AxisAlignedBoundingBox range)
+    public PointRegionQuadtree NorthEast;
+    public PointRegionQuadtree NorthWest;
+    public PointRegionQuadtree SouthEast;
+    public PointRegionQuadtree SouthWest;
+    private void Subdivide()
     {
-        throw new NotImplementedException();
-    }
+        var x = this.Boundary.X;
+        var y = this.Boundary.Y;
+        var w = this.Boundary.Width;
+        var h = this.Boundary.Height;
 
-    public override void Subdivide()
-    {
-        int newHalfDimension = _boundary.HalfDimension / 2;
-        int oldBounderyX = _boundary.Center.X;
-        int oldBounderyY = _boundary.Center.Y;
+        var ne = new AxisAlignedBoundingBox(x + w / 2, y - h / 2, w / 2, h / 2);
+        NorthEast = new(ne, this.Capacaty);
 
-        NorthWest ??= new PointRegionQuadtree(
-            new AxisAlignedBoundingBox(
-                new Point(oldBounderyX - newHalfDimension,
-                          oldBounderyY - newHalfDimension),
-                          newHalfDimension));
+        var nw = new AxisAlignedBoundingBox(x - w / 2, y - h / 2, w / 2, h / 2);
+        NorthWest = new(nw, this.Capacaty);
 
-        NorthEast ??= new PointRegionQuadtree(
-        new AxisAlignedBoundingBox(
-            new Point(oldBounderyX + newHalfDimension,
-                      oldBounderyY - newHalfDimension),
-                      newHalfDimension));
+        var se = new AxisAlignedBoundingBox(x + w / 2, y + h / 2, w / 2, h / 2);
+        SouthEast = new(se, this.Capacaty);
 
-        SouthWest ??= new PointRegionQuadtree(
-        new AxisAlignedBoundingBox(
-            new Point(oldBounderyX - newHalfDimension,
-                      oldBounderyY + newHalfDimension),
-                      newHalfDimension));
+        var sw = new AxisAlignedBoundingBox(x - w / 2, y + h / 2, w / 2, h / 2);
+        SouthWest = new(sw, this.Capacaty);
 
-        SouthEast ??= new PointRegionQuadtree(
-        new AxisAlignedBoundingBox(
-            new Point(oldBounderyX + newHalfDimension,
-                      oldBounderyY + newHalfDimension),
-                      newHalfDimension));
-    }
-
-    public override string ToString()
-    {
-        return @$"----------
-Boundary: {Boundary} 
-Points: {(Points is null ? "null" : Points.Count.ToString())} 
-NW: {(NorthWest is null ? "null" : NorthWest.ToString())} 
-NE: {(NorthEast is null ? "null" : NorthEast.ToString())} 
-SW: {(SouthWest is null ? "null" : SouthWest.ToString())} 
-SE: {(SouthEast is null ? "null" : SouthEast.ToString())}";
+        this.Divided = true;
     }
 }

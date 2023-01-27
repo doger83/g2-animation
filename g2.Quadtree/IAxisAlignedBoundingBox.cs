@@ -1,11 +1,10 @@
-﻿namespace g2.Quadtree
-{
-    public interface IAxisAlignedBoundingBox
-    {
-        Point Center { get; }
-        int HalfDimension { get; }
+﻿namespace g2.Quadtree;
 
-        bool ContainsPoint(Point point);
-        bool IintersectsAABB(Point other);
-    }
+public interface IAxisAlignedBoundingBox
+{
+    //Point Center { get; }
+    //int HalfDimension { get; }
+
+    //bool ContainsPoint(Point point);
+    //bool IintersectsAABB(Point other);
 }

@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:g2.QuadTree.DesktopWPFUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="768" Width="1024">
+        Title="MainWindow" Height="600" Width="800">
     <Grid>
-        <Canvas x:Name="myCanvas" Background="Black" Width="600" Height="600"/>
+        <Canvas x:Name="myCanvas" Background="Black" Width="400" Height="400" MouseDown="myCanvas_MouseDown"/>
         <Button x:Name="btn_Start" Content="START" HorizontalAlignment="Left" Margin="55,173,0,0" VerticalAlignment="Top" Height="44" Width="113" Click="btn_Start_Click"/>
+        <Label x:Name="PositionText" Content="Mouse Position: " HorizontalAlignment="Center" Margin="0,33,0,0" VerticalAlignment="Top" Width="400"/>
 
 
     </Grid>
