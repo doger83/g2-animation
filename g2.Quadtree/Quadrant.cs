@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace g2.Quadtree;
 
-public  class AxisAlignedBoundingBox // : IAxisAlignedBoundingBox
+public  class Quadrant // : IAxisAlignedBoundingBox
 {
-    public AxisAlignedBoundingBox(double x, double y, double width, double height)
+    public Quadrant(double x, double y, double width, double height)
     {
         X = x;
         Y = y;

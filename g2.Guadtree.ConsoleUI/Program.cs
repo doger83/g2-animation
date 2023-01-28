@@ -5,7 +5,7 @@ const int X = 200;
 const int Y = 200;
 const int CAPACATY = 1;
 
-AxisAlignedBoundingBox boundingBox = new(X, Y, WIDTH, HEIGHT);
+Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
 PointRegionQuadtree qTree = new(boundingBox, CAPACATY);
 Random rnd = new();
 

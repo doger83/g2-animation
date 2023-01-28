@@ -10,7 +10,7 @@ namespace g2.Quadtree;
 
 public class PointRegionQuadtree //: IQuadtree
 {
-    public PointRegionQuadtree(AxisAlignedBoundingBox boundary, int capacaty)
+    public PointRegionQuadtree(Quadrant boundary, int capacaty)
     {
         Boundary = boundary;
         Capacaty = capacaty;
@@ -18,7 +18,7 @@ public class PointRegionQuadtree //: IQuadtree
         Divided = false;
     }
 
-    public AxisAlignedBoundingBox Boundary { get; }
+    public Quadrant Boundary { get; }
     public int Capacaty { get; }
     public List<Point> Points { get; private set; }
     public bool Divided { get; private set; } 
@@ -60,16 +60,16 @@ public class PointRegionQuadtree //: IQuadtree
         var w = Boundary.Width;
         var h = Boundary.Height;
 
-        var ne = new AxisAlignedBoundingBox(x + w / 2, y - h / 2, w / 2, h / 2);
+        var ne = new Quadrant(x + w / 2, y - h / 2, w / 2, h / 2);
         NorthEast = new(ne, Capacaty);
 
-        var nw = new AxisAlignedBoundingBox(x - w / 2, y - h / 2, w / 2, h / 2);
+        var nw = new Quadrant(x - w / 2, y - h / 2, w / 2, h / 2);
         NorthWest = new(nw, Capacaty);
 
-        var se = new AxisAlignedBoundingBox(x + w / 2, y + h / 2, w / 2, h / 2);
+        var se = new Quadrant(x + w / 2, y + h / 2, w / 2, h / 2);
         SouthEast = new(se, Capacaty);
 
-        var sw = new AxisAlignedBoundingBox(x - w / 2, y + h / 2, w / 2, h / 2);
+        var sw = new Quadrant(x - w / 2, y + h / 2, w / 2, h / 2);
         SouthWest = new(sw, Capacaty);
 
         Divided = true;

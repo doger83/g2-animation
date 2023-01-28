@@ -27,7 +27,7 @@ public partial class MainWindow : Window
     private const int HEIGHT = 200;
     private const int X = 200;
     private const int Y = 200;
-    private const int CAPACATY = 1;
+    private const int CAPACATY = 4;
 
     private readonly PointRegionQuadtree qTree;
 
@@ -35,7 +35,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        AxisAlignedBoundingBox boundingBox = new(X, Y, WIDTH, HEIGHT);
+        Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
         qTree = new(boundingBox, CAPACATY);
     }
 
