@@ -29,6 +29,7 @@ public class PointRegionQuadtree //: IQuadtree
     }
 
     public AxisAlignedBoundingBox Boundary { get => boundary; /*set => boundary = value;*/ }
+    public int Capacaty { get => capacaty; /*set => capacaty = value;*/ }
     public List<Point> Points { get => points; /*set => points = value;*/ }
     public bool Divided { get => divided; /*set => divided = value;*/ } 
     public PointRegionQuadtree? NorthWest { get => northWest; /*set => northWest = value;*/ }
