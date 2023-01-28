@@ -10,51 +10,66 @@ namespace g2.Quadtree;
 
 public class PointRegionQuadtree //: IQuadtree
 {
-    private readonly AxisAlignedBoundingBox Boundary; // { get; set; }
-    private readonly int Capacaty;
-    private readonly List<Point> Points;
-    private bool Divided;
+    private readonly AxisAlignedBoundingBox boundary;
+    private readonly int capacaty;
+    private readonly List<Point> points;
+    private bool divided;
+
+    private PointRegionQuadtree? northEast;
+    private PointRegionQuadtree? northWest;
+    private PointRegionQuadtree? southEast;
+    private PointRegionQuadtree? southWest;
 
     public PointRegionQuadtree(AxisAlignedBoundingBox boundary, int capacaty)
     {
-        Boundary = boundary;
-        Capacaty = capacaty;
-        Points = new();
-        Divided = false;
+        this.boundary = boundary;
+        this.capacaty = capacaty;
+        this.points = new();
+        this.divided = false;
     }
+
+    public AxisAlignedBoundingBox Boundary { get => boundary; }
+    public List<Point> Points { get => points; }
+    public bool Divided { get => divided; }
+
+
+    public PointRegionQuadtree? NorthWest { get => northWest; /*set => northWest = value;*/ }
+    public PointRegionQuadtree? NorthEast { get => northEast; /*set => northEast = value;*/ }
+    public PointRegionQuadtree? SouthEast { get => southEast; /*set => southEast = value;*/ }
+    public PointRegionQuadtree? SouthWest { get => southWest; /*set => southWest = value;*/ }
 
     public bool Insert(Point point)
     {
-        if (!Boundary.Contains(point))
+        if (!boundary.Contains(point))
         {
             return false;
         }
 
-        if (Points.Count < Capacaty)
+        if (points.Count < capacaty)
         {
-            Points.Add(point);
+            points.Add(point);
             return true;
         }
         else
         {
-            if (!this.Divided)
+            if (!this.divided)
             {
                 Subdivide();
             }
 
-            if (NorthEast!.Insert(point))
+            if (northEast!.Insert(point))
             {
                 return true;
             }
-            else if (NorthWest!.Insert(point))
+            else if (northWest!.Insert(point))
             {
                 return true;
             }
-            else if(SouthEast!.Insert(point))
+            else if (southEast!.Insert(point))
             {
                 return true;
             }
-            else if(SouthWest!.Insert(point))
+            else if (southWest!.Insert(point))
             {
                 return true;
             }
@@ -62,29 +77,25 @@ public class PointRegionQuadtree //: IQuadtree
         return false;
     }
 
-    public PointRegionQuadtree? NorthEast;
-    public PointRegionQuadtree? NorthWest;
-    public PointRegionQuadtree? SouthEast;
-    public PointRegionQuadtree? SouthWest;
     private void Subdivide()
     {
-        var x = Boundary.X;
-        var y = Boundary.Y;
-        var w = Boundary.Width;
-        var h = Boundary.Height;
+        var x = boundary.X;
+        var y = boundary.Y;
+        var w = boundary.Width;
+        var h = boundary.Height;
 
         var ne = new AxisAlignedBoundingBox(x + w / 2, y - h / 2, w / 2, h / 2);
-        NorthEast = new(ne, Capacaty);
+        northEast = new PointRegionQuadtree(ne, capacaty);
 
         var nw = new AxisAlignedBoundingBox(x - w / 2, y - h / 2, w / 2, h / 2);
-        NorthWest = new(nw, Capacaty);
+        northWest = new(nw, capacaty);
 
         var se = new AxisAlignedBoundingBox(x + w / 2, y + h / 2, w / 2, h / 2);
-        SouthEast = new(se, Capacaty);
+        southEast = new(se, capacaty);
 
         var sw = new AxisAlignedBoundingBox(x - w / 2, y + h / 2, w / 2, h / 2);
-        SouthWest = new(sw, Capacaty);
+        southWest = new(sw, capacaty);
 
-        Divided = true;
+        divided = true;
     }
 }
