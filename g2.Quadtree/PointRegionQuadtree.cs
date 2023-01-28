@@ -75,7 +75,7 @@ public class PointRegionQuadtree //: IQuadtree
         var h = Boundary.Height;
 
         var ne = new AxisAlignedBoundingBox(x + w / 2, y - h / 2, w / 2, h / 2);
-        NorthEast = new PointRegionQuadtree(ne, Capacaty);
+        NorthEast = new(ne, Capacaty);
 
         var nw = new AxisAlignedBoundingBox(x - w / 2, y - h / 2, w / 2, h / 2);
         NorthWest = new(nw, Capacaty);
