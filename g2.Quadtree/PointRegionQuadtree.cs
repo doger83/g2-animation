@@ -20,7 +20,7 @@ public class PointRegionQuadtree //: IQuadtree
 
     public AxisAlignedBoundingBox Boundary { get; }
     public int Capacaty { get; }
-    public List<Point> Points { get; }
+    public List<Point> Points { get; private set; }
     public bool Divided { get; private set; } 
     public PointRegionQuadtree? NorthWest { get; private set; }
     public PointRegionQuadtree? NorthEast { get; private set; }
@@ -73,5 +73,24 @@ public class PointRegionQuadtree //: IQuadtree
         SouthWest = new(sw, Capacaty);
 
         Divided = true;
+
+        // Move points to children.
+        // This improves performance by placing points
+        // in the smallest available rectangle.
+        foreach (var p in Points) {
+            var inserted =
+                NorthWest.Insert(p) ||
+                NorthEast.Insert(p) ||
+                SouthEast.Insert(p) ||
+                SouthWest.Insert(p);
+
+            if (!inserted)
+            {
+                // Todo: add more Argument Validation!
+                throw new ArgumentOutOfRangeException("capacity must be greater than 0");
+            }
+        }
+
+        Points = new();
     }
 }
