@@ -27,7 +27,7 @@ public partial class MainWindow : Window
     int HEIGHT = 200;
     int X = 200;
     int Y = 200;
-    int CAPACATY = 4;
+    int CAPACATY = 1;
 
     PointRegionQuadtree _qTree;
 
@@ -38,17 +38,17 @@ public partial class MainWindow : Window
         int canvaseCenter = (int)(myCanvas.ActualWidth) / 2;
         int halfDimension = (int)(myCanvas.ActualWidth) / 2;
         AxisAlignedBoundingBox boundingBox = new(200, 200, 200, 200);
-        _qTree = new(boundingBox, 4);
+        _qTree = new(boundingBox, CAPACATY);
 
     }
 
 
     private void btn_Start_Click(object sender, RoutedEventArgs e)
     {
-        
+
         Random rnd = new Random();
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 1; i++)
         {
             int x = rnd.Next(WIDTH * 2);
             int y = rnd.Next(HEIGHT * 2);
@@ -62,6 +62,7 @@ public partial class MainWindow : Window
 
     private void Draw(PointRegionQuadtree qTree)
     {
+
         //Line line = new Line();
         //Thickness thickness = new Thickness(0, 0, 0, 0);
         ////line.Margin = thickness;
@@ -105,17 +106,18 @@ public partial class MainWindow : Window
 
         if (qTree.Divided)
         {
-           
-                Draw(qTree.NorthWest);
-          
-                Draw(qTree.NorthEast);
-          
-            
-                Draw(qTree.SouthWest);
-            
-            
-                Draw(qTree.SouthEast);
-            
+
+
+            Draw(qTree.NorthWest);
+
+            Draw(qTree.NorthEast);
+
+
+            Draw(qTree.SouthWest);
+
+
+            Draw(qTree.SouthEast);
+
         }
 
 
@@ -125,13 +127,14 @@ public partial class MainWindow : Window
     private void myCanvas_MouseDown(object sender, MouseButtonEventArgs e)
     {
         System.Windows.Point p = e.GetPosition(myCanvas);
-        PositionText.Content =  string.Format("Last click at X = {0}, Y = {1}", p.X, p.Y);
+        PositionText.Content = string.Format("Last click at X = {0}, Y = {1}", p.X, p.Y);
 
         int x = (int)p.X;
         int y = (int)p.Y;
 
         Point point = new Point(x, y);
         _qTree.Insert(point);
+        myCanvas.Children.Clear();
         Draw(_qTree);
     }
 }
