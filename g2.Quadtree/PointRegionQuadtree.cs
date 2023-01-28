@@ -10,66 +10,56 @@ namespace g2.Quadtree;
 
 public class PointRegionQuadtree //: IQuadtree
 {
-    private readonly AxisAlignedBoundingBox boundary;
-    private readonly int capacaty;
-    private readonly List<Point> points;
-    private bool divided;
-
-    private PointRegionQuadtree? northEast;
-    private PointRegionQuadtree? northWest;
-    private PointRegionQuadtree? southEast;
-    private PointRegionQuadtree? southWest;
-
     public PointRegionQuadtree(AxisAlignedBoundingBox boundary, int capacaty)
     {
-        this.boundary = boundary;
-        this.capacaty = capacaty;
-        this.points = new();
-        this.divided = false;
+        Boundary = boundary;
+        Capacaty = capacaty;
+        Points = new();
+        Divided = false;
     }
 
-    public AxisAlignedBoundingBox Boundary { get => boundary; /*set => boundary = value;*/ }
-    public int Capacaty { get => capacaty; /*set => capacaty = value;*/ }
-    public List<Point> Points { get => points; /*set => points = value;*/ }
-    public bool Divided { get => divided; /*set => divided = value;*/ } 
-    public PointRegionQuadtree? NorthWest { get => northWest; /*set => northWest = value;*/ }
-    public PointRegionQuadtree? NorthEast { get => northEast; /*set => northEast = value;*/ }
-    public PointRegionQuadtree? SouthEast { get => southEast; /*set => southEast = value;*/ }
-    public PointRegionQuadtree? SouthWest { get => southWest; /*set => southWest = value;*/ }
+    public AxisAlignedBoundingBox Boundary { get; }
+    public int Capacaty { get; }
+    public List<Point> Points { get; }
+    public bool Divided { get; private set; } 
+    public PointRegionQuadtree? NorthWest { get; private set; }
+    public PointRegionQuadtree? NorthEast { get; private set; }
+    public PointRegionQuadtree? SouthEast { get; private set; }
+    public PointRegionQuadtree? SouthWest { get; private set; }
 
 
     public bool Insert(Point point)
     {
-        if (!boundary.Contains(point))
+        if (!Boundary.Contains(point))
         {
             return false;
         }
 
-        if (points.Count < capacaty)
+        if (Points.Count < Capacaty)
         {
-            points.Add(point);
+            Points.Add(point);
             return true;
         }
         else
         {
-            if (!this.divided)
+            if (!Divided)
             {
                 Subdivide();
             }
 
-            if (northEast!.Insert(point))
+            if (NorthEast!.Insert(point))
             {
                 return true;
             }
-            else if (northWest!.Insert(point))
+            else if (NorthWest!.Insert(point))
             {
                 return true;
             }
-            else if (southEast!.Insert(point))
+            else if (SouthEast!.Insert(point))
             {
                 return true;
             }
-            else if (southWest!.Insert(point))
+            else if (SouthWest!.Insert(point))
             {
                 return true;
             }
@@ -79,23 +69,23 @@ public class PointRegionQuadtree //: IQuadtree
 
     private void Subdivide()
     {
-        var x = boundary.X;
-        var y = boundary.Y;
-        var w = boundary.Width;
-        var h = boundary.Height;
+        var x = Boundary.X;
+        var y = Boundary.Y;
+        var w = Boundary.Width;
+        var h = Boundary.Height;
 
         var ne = new AxisAlignedBoundingBox(x + w / 2, y - h / 2, w / 2, h / 2);
-        northEast = new PointRegionQuadtree(ne, capacaty);
+        NorthEast = new PointRegionQuadtree(ne, Capacaty);
 
         var nw = new AxisAlignedBoundingBox(x - w / 2, y - h / 2, w / 2, h / 2);
-        northWest = new(nw, capacaty);
+        NorthWest = new(nw, Capacaty);
 
         var se = new AxisAlignedBoundingBox(x + w / 2, y + h / 2, w / 2, h / 2);
-        southEast = new(se, capacaty);
+        SouthEast = new(se, Capacaty);
 
         var sw = new AxisAlignedBoundingBox(x - w / 2, y + h / 2, w / 2, h / 2);
-        southWest = new(sw, capacaty);
+        SouthWest = new(sw, Capacaty);
 
-        divided = true;
+        Divided = true;
     }
 }

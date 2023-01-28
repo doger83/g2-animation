@@ -16,10 +16,10 @@ public  class AxisAlignedBoundingBox // : IAxisAlignedBoundingBox
         Height = height;
     }
 
-    public double X { get; set; }
-    public double Y { get; set; }
-    public double Width { get; set; }
-    public double Height { get; set; }
+    public double X { get; }
+    public double Y { get; }
+    public double Width { get; }
+    public double Height { get; }
   
     public bool Contains(Point point)
     {
@@ -32,42 +32,4 @@ public  class AxisAlignedBoundingBox // : IAxisAlignedBoundingBox
 
         return result;
     }
-
-
-
-    // ******************************************************************************************
-    //    private readonly Point _center;
-    //    private readonly int _halfDimension;
-
-    //    public AxisAlignedBoundingBox()
-    //    {
-    //        _center = new Point();
-    //        _halfDimension = 1;
-    //    }
-
-    //    public AxisAlignedBoundingBox(Point center, int halfDimension)
-    //    {
-    //        _halfDimension = halfDimension;
-    //        _center = center;
-    //    }
-
-    //    public int HalfDimension => _halfDimension;
-
-    //    public Point Center => _center;
-
-    //    public bool ContainsPoint(Point point) 
-    //    {
-    //        bool result = !((point.X < _center.X - _halfDimension) || (point.X > _center.X + _halfDimension) ||
-    //                       (point.Y < _center.Y - _halfDimension) || (point.Y > _center.Y + _halfDimension));
-
-    //        return result;
-    //    }
-    //    public bool IintersectsAABB(Point other) { throw new NotImplementedException(); }
-
-    //    public override string ToString()
-    //    {
-    //        return @$"Point at x: {Center.X} y: {Center.Y}
-    //HalfDimension: {HalfDimension}";
-    //    }
-
 }
