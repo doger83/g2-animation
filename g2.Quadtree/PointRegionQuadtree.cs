@@ -35,36 +35,22 @@ public class PointRegionQuadtree //: IQuadtree
             return false;
         }
 
-        if (Points.Count < Capacaty)
+        if (!Divided)
         {
-            Points.Add(point);
-            return true;
-        }
-        else
-        {
-            if (!Divided)
+            if (Points.Count < Capacaty)
             {
-                Subdivide();
+                Points.Add(point);
+                return true;
             }
+            Subdivide();
+        }
 
-            if (NorthEast!.Insert(point))
-            {
-                return true;
-            }
-            else if (NorthWest!.Insert(point))
-            {
-                return true;
-            }
-            else if (SouthEast!.Insert(point))
-            {
-                return true;
-            }
-            else if (SouthWest!.Insert(point))
-            {
-                return true;
-            }
-        }
-        return false;
+        return (
+            NorthEast!.Insert(point) ||
+            NorthWest!.Insert(point) ||
+            SouthEast!.Insert(point) ||
+            SouthWest!.Insert(point)
+            );
     }
 
     private void Subdivide()
