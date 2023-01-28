@@ -8,7 +8,7 @@ int CAPACATY = 1;
 AxisAlignedBoundingBox boundingBox = new(X, Y, WIDTH, HEIGHT);
 PointRegionQuadtree qTree = new(boundingBox, CAPACATY);
 
-Random rnd = new Random();
+Random rnd = new();
 
 for (int i = 0; i < 50; i++)
 {

@@ -23,30 +23,26 @@ namespace g2.QuadTree.DesktopWPFUI;
 /// </summary>
 public partial class MainWindow : Window
 {
-    int WIDTH = 200;
-    int HEIGHT = 200;
-    int X = 200;
-    int Y = 200;
-    int CAPACATY = 1;
+    private const int WIDTH = 200;
+    private const int HEIGHT = 200;
+    private const int X = 200;
+    private const int Y = 200;
+    private const int CAPACATY = 1;
 
-    PointRegionQuadtree _qTree;
+    private readonly PointRegionQuadtree qTree;
 
     public MainWindow()
     {
         InitializeComponent();
 
-        int canvaseCenter = (int)(myCanvas.ActualWidth) / 2;
-        int halfDimension = (int)(myCanvas.ActualWidth) / 2;
-        AxisAlignedBoundingBox boundingBox = new(200, 200, 200, 200);
-        _qTree = new(boundingBox, CAPACATY);
-
+        AxisAlignedBoundingBox boundingBox = new(X, Y, WIDTH, HEIGHT);
+        qTree = new(boundingBox, CAPACATY);
     }
 
-
-    private void btn_Start_Click(object sender, RoutedEventArgs e)
+    private void Btn_Start_Click(object sender, RoutedEventArgs e)
     {
 
-        Random rnd = new Random();
+        Random rnd = new();
 
         for (int i = 0; i < 1; i++)
         {
@@ -54,10 +50,10 @@ public partial class MainWindow : Window
             int y = rnd.Next(HEIGHT * 2);
             var point = new Point(x, y);
 
-            _qTree.Insert(point);
+            qTree.Insert(point);
         }
 
-        Draw(_qTree);
+        Draw(qTree);
     }
 
     private void Draw(PointRegionQuadtree qTree)
@@ -77,18 +73,20 @@ public partial class MainWindow : Window
 
         double width = qTree.Boundary.Width * 2;
         double height = qTree.Boundary.Height * 2;
-        Rectangle rectangle = new Rectangle();
-        rectangle.StrokeThickness = 0.5;
-        rectangle.Stroke = Brushes.Red;
-        rectangle.Width = width;
-        rectangle.Height = height;
+        Rectangle rectangle = new()
+        {
+            StrokeThickness = 0.5,
+            Stroke = Brushes.Red,
+            Width = width,
+            Height = height
+        };
         Canvas.SetLeft(rectangle, qTree.Boundary.X - qTree.Boundary.Width);
         Canvas.SetTop(rectangle, qTree.Boundary.Y - qTree.Boundary.Height);
         myCanvas.Children.Add(rectangle);
 
         foreach (var point in qTree.Points)
         {
-            Ellipse circle = new Ellipse()
+            Ellipse circle = new()
             {
                 Width = 5,
                 Height = 5,
@@ -99,32 +97,20 @@ public partial class MainWindow : Window
 
             myCanvas.Children.Add(circle);
 
-            circle.SetValue(Canvas.LeftProperty, (double)point.X);
-            circle.SetValue(Canvas.TopProperty, (double)point.Y);
+            circle.SetValue(Canvas.LeftProperty, point.X);
+            circle.SetValue(Canvas.TopProperty, point.Y);
         }
-
 
         if (qTree.Divided)
         {
-
-
-            Draw(qTree.NorthWest);
-
-            Draw(qTree.NorthEast);
-
-
-            Draw(qTree.SouthWest);
-
-
-            Draw(qTree.SouthEast);
-
+            Draw(qTree.NorthWest!);
+            Draw(qTree.NorthEast!);
+            Draw(qTree.SouthWest!);
+            Draw(qTree.SouthEast!);
         }
-
-
-
     }
 
-    private void myCanvas_MouseDown(object sender, MouseButtonEventArgs e)
+    private void MyCanvas_MouseDown(object sender, MouseButtonEventArgs e)
     {
         System.Windows.Point p = e.GetPosition(myCanvas);
         PositionText.Content = string.Format("Last click at X = {0}, Y = {1}", p.X, p.Y);
@@ -132,9 +118,9 @@ public partial class MainWindow : Window
         int x = (int)p.X;
         int y = (int)p.Y;
 
-        Point point = new Point(x, y);
-        _qTree.Insert(point);
+        Point point = new(x, y);
+        qTree.Insert(point);
         myCanvas.Children.Clear();
-        Draw(_qTree);
+        Draw(qTree);
     }
 }

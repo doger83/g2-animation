@@ -43,19 +43,19 @@ public class PointRegionQuadtree //: IQuadtree
                 Subdivide();
             }
 
-            if (this.NorthEast.Insert(point))
+            if (this.NorthEast!.Insert(point))
             {
                 return true;
             }
-            else if (this.NorthWest.Insert(point))
+            else if (this.NorthWest!.Insert(point))
             {
                 return true;
             }
-            else if(this.SouthEast.Insert(point))
+            else if(this.SouthEast!.Insert(point))
             {
                 return true;
             }
-            else if(this.SouthWest.Insert(point))
+            else if(this.SouthWest!.Insert(point))
             {
                 return true;
             }
@@ -63,10 +63,10 @@ public class PointRegionQuadtree //: IQuadtree
         return false;
     }
 
-    public PointRegionQuadtree NorthEast;
-    public PointRegionQuadtree NorthWest;
-    public PointRegionQuadtree SouthEast;
-    public PointRegionQuadtree SouthWest;
+    public PointRegionQuadtree? NorthEast;
+    public PointRegionQuadtree? NorthWest;
+    public PointRegionQuadtree? SouthEast;
+    public PointRegionQuadtree? SouthWest;
     private void Subdivide()
     {
         var x = this.Boundary.X;
