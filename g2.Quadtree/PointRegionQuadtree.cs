@@ -28,15 +28,14 @@ public class PointRegionQuadtree //: IQuadtree
         this.divided = false;
     }
 
-    public AxisAlignedBoundingBox Boundary { get => boundary; }
-    public List<Point> Points { get => points; }
-    public bool Divided { get => divided; }
-
-
+    public AxisAlignedBoundingBox Boundary { get => boundary; /*set => boundary = value;*/ }
+    public List<Point> Points { get => points; /*set => points = value;*/ }
+    public bool Divided { get => divided; /*set => divided = value;*/ } 
     public PointRegionQuadtree? NorthWest { get => northWest; /*set => northWest = value;*/ }
     public PointRegionQuadtree? NorthEast { get => northEast; /*set => northEast = value;*/ }
     public PointRegionQuadtree? SouthEast { get => southEast; /*set => southEast = value;*/ }
     public PointRegionQuadtree? SouthWest { get => southWest; /*set => southWest = value;*/ }
+
 
     public bool Insert(Point point)
     {
