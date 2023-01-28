@@ -1,13 +1,12 @@
 ﻿
-int WIDTH = 200;
-int HEIGHT = 200;
-int X = 200;
-int Y = 200;
-int CAPACATY = 1;
+const int WIDTH = 200;
+const int HEIGHT = 200;
+const int X = 200;
+const int Y = 200;
+const int CAPACATY = 1;
 
 AxisAlignedBoundingBox boundingBox = new(X, Y, WIDTH, HEIGHT);
 PointRegionQuadtree qTree = new(boundingBox, CAPACATY);
-
 Random rnd = new();
 
 for (int i = 0; i < 50; i++)
@@ -18,7 +17,5 @@ for (int i = 0; i < 50; i++)
 
     qTree.Insert(point);
 }
-
-
 
 Console.ReadKey();

@@ -10,10 +10,10 @@ namespace g2.Quadtree;
 
 public class PointRegionQuadtree //: IQuadtree
 {
-    public AxisAlignedBoundingBox Boundary; // { get; set; }
-    public int Capacaty;
-    public List<Point> Points;
-    public bool Divided;
+    private readonly AxisAlignedBoundingBox Boundary; // { get; set; }
+    private readonly int Capacaty;
+    private readonly List<Point> Points;
+    private bool Divided;
 
     public PointRegionQuadtree(AxisAlignedBoundingBox boundary, int capacaty)
     {
@@ -30,7 +30,6 @@ public class PointRegionQuadtree //: IQuadtree
             return false;
         }
 
-
         if (Points.Count < Capacaty)
         {
             Points.Add(point);
@@ -43,19 +42,19 @@ public class PointRegionQuadtree //: IQuadtree
                 Subdivide();
             }
 
-            if (this.NorthEast!.Insert(point))
+            if (NorthEast!.Insert(point))
             {
                 return true;
             }
-            else if (this.NorthWest!.Insert(point))
+            else if (NorthWest!.Insert(point))
             {
                 return true;
             }
-            else if(this.SouthEast!.Insert(point))
+            else if(SouthEast!.Insert(point))
             {
                 return true;
             }
-            else if(this.SouthWest!.Insert(point))
+            else if(SouthWest!.Insert(point))
             {
                 return true;
             }
@@ -69,23 +68,23 @@ public class PointRegionQuadtree //: IQuadtree
     public PointRegionQuadtree? SouthWest;
     private void Subdivide()
     {
-        var x = this.Boundary.X;
-        var y = this.Boundary.Y;
-        var w = this.Boundary.Width;
-        var h = this.Boundary.Height;
+        var x = Boundary.X;
+        var y = Boundary.Y;
+        var w = Boundary.Width;
+        var h = Boundary.Height;
 
         var ne = new AxisAlignedBoundingBox(x + w / 2, y - h / 2, w / 2, h / 2);
-        NorthEast = new(ne, this.Capacaty);
+        NorthEast = new(ne, Capacaty);
 
         var nw = new AxisAlignedBoundingBox(x - w / 2, y - h / 2, w / 2, h / 2);
-        NorthWest = new(nw, this.Capacaty);
+        NorthWest = new(nw, Capacaty);
 
         var se = new AxisAlignedBoundingBox(x + w / 2, y + h / 2, w / 2, h / 2);
-        SouthEast = new(se, this.Capacaty);
+        SouthEast = new(se, Capacaty);
 
         var sw = new AxisAlignedBoundingBox(x - w / 2, y + h / 2, w / 2, h / 2);
-        SouthWest = new(sw, this.Capacaty);
+        SouthWest = new(sw, Capacaty);
 
-        this.Divided = true;
+        Divided = true;
     }
 }
