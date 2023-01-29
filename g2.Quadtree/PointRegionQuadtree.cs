@@ -11,6 +11,7 @@ namespace g2.Quadtree;
 
 public class PointRegionQuadtree //: IQuadtree
 {
+    public static int Count;
     public PointRegionQuadtree(Quadrant boundary, int capacaty)
     {
         Boundary = boundary;
@@ -22,7 +23,7 @@ public class PointRegionQuadtree //: IQuadtree
     public Quadrant Boundary { get; }
     public int Capacaty { get; }
     public bool Divided { get; private set; } 
-    public List<Point> Points { get; private set; }
+    public List<Point>? Points { get; private set; }
     public PointRegionQuadtree? NorthWest { get; private set; }
     public PointRegionQuadtree? NorthEast { get; private set; }
     public PointRegionQuadtree? SouthEast { get; private set; }
@@ -39,7 +40,7 @@ public class PointRegionQuadtree //: IQuadtree
         if (!Divided)
         {
             // Todo: Points may be null here! 
-            if (Points.Count < Capacaty)
+            if ((Points ??= new()).Count < Capacaty)
             {
                 Points.Add(point);
                 return true;
@@ -48,12 +49,43 @@ public class PointRegionQuadtree //: IQuadtree
         }
 
         return // Todo: add Testcase in case this happens to throw Ex
-            (NorthEast?.Insert(point) ?? throw new NullReferenceException($"{nameof(NorthEast)} cannot be null")) ||
-            (NorthWest?.Insert(point) ?? throw new NullReferenceException($"{nameof(NorthWest)} cannot be null")) ||
-            (SouthEast?.Insert(point) ?? throw new NullReferenceException($"{nameof(SouthEast)} cannot be null")) ||
+            (NorthEast.Insert(point)) ||
+            (NorthWest!.Insert(point)) ||
+            (SouthEast?.Insert(point) ?? false) ||
             (SouthWest?.Insert(point) ?? throw new NullReferenceException($"{nameof(SouthWest)} cannot be null"))
             ;
     }
+    public List<Point> Query(Quadrant searchWindow, List<Point>? foundPoints = null)
+    {  
+        if (!Boundary.Intersects(searchWindow))
+        {
+            return foundPoints ?? new();
+        }
+        else
+        {
+            if (Points is not null)
+            {
+                // Todo: Points null?
+                foreach (var point in Points)
+                {
+                    Count++;
+                    if (searchWindow.Contains(point))
+                    {
+                        (foundPoints ??= new()).Add(point);
+                    }
+                }
+            }
+            if (Divided)
+            {
+                (foundPoints ??= new()).AddRange(NorthEast!.Query(searchWindow));
+                (foundPoints ??= new()).AddRange(NorthWest!.Query(searchWindow));
+                (foundPoints ??= new()).AddRange(SouthEast!.Query(searchWindow));
+                (foundPoints ??= new()).AddRange(SouthWest!.Query(searchWindow));
+
+            }
+            return foundPoints ?? new();
+        }
+    }    
 
     private void Subdivide()
     {
@@ -69,16 +101,16 @@ public class PointRegionQuadtree //: IQuadtree
         var w = Boundary.Width;
         var h = Boundary.Height;
 
-        var ne = new Quadrant(x + w / 2, y - h / 2, w / 2, h / 2);
+        var ne = new Quadrant(x + w / 2.0, y - h / 2.0, w / 2.0, h / 2.0);
         NorthEast = new(ne, Capacaty);
 
-        var nw = new Quadrant(x - w / 2, y - h / 2, w / 2, h / 2);
+        var nw = new Quadrant(x - w / 2.0, y - h / 2.0, w / 2.0, h / 2.0);
         NorthWest = new(nw, Capacaty);
 
-        var se = new Quadrant(x + w / 2, y + h / 2, w / 2, h / 2);
+        var se = new Quadrant(x + w / 2.0, y + h / 2.0, w / 2.0, h / 2.0);
         SouthEast = new(se, Capacaty);
 
-        var sw = new Quadrant(x - w / 2, y + h / 2, w / 2, h / 2);
+        var sw = new Quadrant(x - w / 2.0, y + h / 2.0, w / 2.0, h / 2.0);
         SouthWest = new(sw, Capacaty);
     }
 
@@ -89,7 +121,7 @@ public class PointRegionQuadtree //: IQuadtree
             throw new NullReferenceException("Children must be initialized before you can move points into them! Hint: maybe you changed order in methodcalls?");
         }
         // This improves performance by placing points in the smallest available rectangle.
-        for (int i = 0; i < Points.Count; i++)
+        for (int i = 0; i < Points?.Count; i++)
         {
             Point? p = Points[i];
             var inserted =
@@ -104,7 +136,6 @@ public class PointRegionQuadtree //: IQuadtree
                 throw new ArgumentOutOfRangeException("capacity must be greater than 0");
             }
         }
-
-        Points = new();
+        Points = null;
     }
 }

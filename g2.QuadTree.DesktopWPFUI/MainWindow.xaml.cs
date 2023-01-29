@@ -23,11 +23,13 @@ namespace g2.QuadTree.DesktopWPFUI;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private const int WIDTH = 200;
-    private const int HEIGHT = 200;
-    private const int X = 200;
-    private const int Y = 200;
+    private const double WIDTH = 200.0;
+    private const double HEIGHT = 200.0;
+    private const double X = 200.0;
+    private const double Y = 200.0;
     private const int CAPACATY = 4;
+    private const int GROWINGRATE = 5;
+    private int totalPoints = 0;
 
     private readonly PointRegionQuadtree qTree;
 
@@ -41,14 +43,15 @@ public partial class MainWindow : Window
 
     private void Btn_Start_Click(object sender, RoutedEventArgs e)
     {
+        totalPoints += GROWINGRATE;
 
         Random rnd = new();
 
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < GROWINGRATE; i++)
         {
-            int x = rnd.Next(WIDTH * 2);
-            int y = rnd.Next(HEIGHT * 2);
-            var point = new Point(x, y);
+            var x = rnd.NextDouble() * WIDTH * 2.0;
+            var y = rnd.NextDouble() * HEIGHT * 2.0;
+            Point point = new(x, y);
 
             qTree.Insert(point);
         }
@@ -84,21 +87,23 @@ public partial class MainWindow : Window
         Canvas.SetTop(rectangle, qTree.Boundary.Y - qTree.Boundary.Height);
         myCanvas.Children.Add(rectangle);
 
-        foreach (var point in qTree.Points)
+        if (qTree.Points is not null)
         {
-            Ellipse circle = new()
+            foreach (var point in qTree.Points)
             {
-                Width = 5,
-                Height = 5,
-                Stroke = Brushes.Green,
-                StrokeThickness = 1,
+                Ellipse circle = new()
+                {
+                    Width = 5,
+                    Height = 5,
+                    Stroke = Brushes.Green,
+                    StrokeThickness = 1,
+                };
 
-            };
+                myCanvas.Children.Add(circle);
 
-            myCanvas.Children.Add(circle);
-
-            circle.SetValue(Canvas.LeftProperty, point.X);
-            circle.SetValue(Canvas.TopProperty, point.Y);
+                circle.SetValue(Canvas.LeftProperty, point.X);
+                circle.SetValue(Canvas.TopProperty, point.Y);
+            } 
         }
 
         if (qTree.Divided)
@@ -112,11 +117,62 @@ public partial class MainWindow : Window
 
     private void MyCanvas_MouseDown(object sender, MouseButtonEventArgs e)
     {
+        AddRectangle(sender, e);
+    }
+
+    private void AddRectangle(object sender, MouseButtonEventArgs e)
+    {
+        System.Windows.Point mousePosition = e.GetPosition(myCanvas);
+
+        PointRegionQuadtree.Count = 0;
+
+        double x = mousePosition.X;
+        double y = mousePosition.Y;
+
+        double width = 150.0;
+        double height = 150.0;
+        Quadrant searchWindow = new(x, y, width / 2, height / 2);
+       
+        Rectangle rect = new Rectangle();
+        rect.Stroke = new SolidColorBrush(Colors.Green);
+        rect.StrokeThickness = 1;
+        //rect.Fill = new SolidColorBrush(Colors.Black);
+        rect.Width = width;
+        rect.Height = height;
+        Canvas.SetLeft(rect, x - width / 2);
+        Canvas.SetTop(rect, y - height / 2);
+        myCanvas.Children.Add(rect);
+       
+        List<Point> points = qTree.Query(searchWindow);
+
+
+        foreach (var point in points)
+        {
+            Ellipse circle = new()
+            {
+                Width = 5,
+                Height = 5,
+                Stroke = Brushes.Blue,
+                StrokeThickness = 3,
+
+            };
+
+            myCanvas.Children.Add(circle);
+
+            circle.SetValue(Canvas.LeftProperty, point.X);
+            circle.SetValue(Canvas.TopProperty, point.Y);
+        }
+
+        PositionText.Content = string.Format("Total Points: {0} | Found Points: {1} | Visited Points: {2}", totalPoints, points.Count, PointRegionQuadtree.Count);
+    }
+
+    private void AddPointAtMousePosition(object sender, MouseButtonEventArgs e)
+    {
         System.Windows.Point p = e.GetPosition(myCanvas);
         PositionText.Content = string.Format("Last click at X = {0}, Y = {1}", p.X, p.Y);
 
-        int x = (int)p.X;
-        int y = (int)p.Y;
+        double x = p.X;
+        double y = p.Y;
 
         Point point = new(x, y);
         qTree.Insert(point);
