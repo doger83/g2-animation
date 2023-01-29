@@ -52,7 +52,7 @@ public partial class MainWindow : Window
 
             qTree.Insert(point);
         }
-
+        myCanvas.Children.Clear();
         Draw(qTree);
     }
 

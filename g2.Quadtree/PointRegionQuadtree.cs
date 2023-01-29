@@ -47,7 +47,7 @@ public class PointRegionQuadtree //: IQuadtree
             Subdivide();
         }
 
-        return 
+        return // Todo: add Testcase in case this happens to throw Ex
             (NorthEast?.Insert(point) ?? throw new NullReferenceException($"{nameof(NorthEast)} cannot be null")) ||
             (NorthWest?.Insert(point) ?? throw new NullReferenceException($"{nameof(NorthWest)} cannot be null")) ||
             (SouthEast?.Insert(point) ?? throw new NullReferenceException($"{nameof(SouthEast)} cannot be null")) ||
