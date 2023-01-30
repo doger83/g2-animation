@@ -50,43 +50,43 @@ public class PointRegionQuadtree //: IQuadtree
         }
 
         return // Todo: add Testcase in case this happens to throw Ex
-            (NorthEast.Insert(point)) ||
+            (NorthEast!.Insert(point)) ||
             (NorthWest!.Insert(point)) ||
-            (SouthEast?.Insert(point) ?? false) ||
-            (SouthWest?.Insert(point) ?? throw new NullReferenceException($"{nameof(SouthWest)} cannot be null"))
-            ;
+            (SouthEast!.Insert(point)) ||
+            (SouthWest!.Insert(point)) ;
     }
     public List<Point> Query(Quadrant searchWindow, List<Point>? foundPoints = null)
     {  
-        if (!Boundary.Intersects(searchWindow))
+        if (foundPoints == null)
         {
-            return foundPoints ?? new();
+            foundPoints = new List<Point>();
         }
-        else
+        if (!searchWindow.Intersects(Boundary))
         {
-            if (Points is not null)
+            return foundPoints;
+        }
+        if (Divided)
+        {
+            NorthEast!.Query(searchWindow, foundPoints);
+            NorthWest!.Query(searchWindow, foundPoints);
+            SouthEast!.Query(searchWindow, foundPoints);
+            SouthWest!.Query(searchWindow, foundPoints);
+
+        }
+        if (Points is not null)
+        {
+            // Todo: Points null?
+            foreach (var point in Points)
             {
-                // Todo: Points null?
-                foreach (var point in Points)
+                Count++;
+                if (searchWindow.Contains(point))
                 {
-                    Count++;
-                    if (searchWindow.Contains(point))
-                    {
-                        (foundPoints ??= new()).Add(point);
-                    }
+                    foundPoints.Add(point);
                 }
             }
-            if (Divided)
-            {
-                (foundPoints ??= new()).AddRange(NorthEast!.Query(searchWindow));
-                (foundPoints ??= new()).AddRange(NorthWest!.Query(searchWindow));
-                (foundPoints ??= new()).AddRange(SouthEast!.Query(searchWindow));
-                (foundPoints ??= new()).AddRange(SouthWest!.Query(searchWindow));
-
-            }
-            return foundPoints ?? new();
         }
-    }    
+        return foundPoints;
+    }
 
     private void Subdivide()
     {
