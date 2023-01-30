@@ -43,11 +43,38 @@ public partial class MainWindow : Window
 
     private void Btn_Start_Click(object sender, RoutedEventArgs e)
     {
-        totalPoints += GROWINGRATE;
+        AddRandomPointsToTree(GROWINGRATE);
 
+        myCanvas.Children.Clear();
+        DrawQuadTree(qTree);
+    }
+
+    private void MyCanvas_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+        //AddPointAtMousePosition(sender, e);
+        PointRegionQuadtree.Count = 0;
+        DrawSearchwindowAtMousePosition(sender, e);
+    }
+
+    private void DrawQuadTree(PointRegionQuadtree qTree)
+    {
+        DrawRectangleAtQuadrant(qTree.Boundary);
+        DrawCircleAtPoints(qTree.Points);
+  
+        if (qTree.Divided)
+        {
+            DrawQuadTree(qTree.NorthWest!);
+            DrawQuadTree(qTree.NorthEast!);
+            DrawQuadTree(qTree.SouthWest!);
+            DrawQuadTree(qTree.SouthEast!);
+        }
+    }
+
+    private void AddRandomPointsToTree(int growingrate)
+    {
         Random rnd = new();
 
-        for (int i = 0; i < GROWINGRATE; i++)
+        for (int i = 0; i < growingrate; i++)
         {
             var x = rnd.NextDouble() * WIDTH * 2.0;
             var y = rnd.NextDouble() * HEIGHT * 2.0;
@@ -55,118 +82,10 @@ public partial class MainWindow : Window
 
             qTree.Insert(point);
         }
-        myCanvas.Children.Clear();
-        Draw(qTree);
+        totalPoints += growingrate;
     }
 
-    private void Draw(PointRegionQuadtree qTree)
-    {
-
-        //Line line = new Line();
-        //Thickness thickness = new Thickness(0, 0, 0, 0);
-        ////line.Margin = thickness;
-        ////line.Visibility = Visibility.Visible;
-        //line.StrokeThickness = 1;
-        //line.Stroke = Brushes.White;
-        //line.X1 = qTree.Boundary.X - qTree.Boundary.Width;
-        //line.X2 = qTree.Boundary.X;
-        //line.Y1 = qTree.Boundary.Y - qTree.Boundary.Height;
-        //line.Y2 = qTree.Boundary.Y;
-        //myCanvas.Children.Add(line);
-
-        double width = qTree.Boundary.Width * 2;
-        double height = qTree.Boundary.Height * 2;
-        Rectangle rectangle = new()
-        {
-            StrokeThickness = 0.5,
-            Stroke = Brushes.Red,
-            Width = width,
-            Height = height
-        };
-        Canvas.SetLeft(rectangle, qTree.Boundary.X - qTree.Boundary.Width);
-        Canvas.SetTop(rectangle, qTree.Boundary.Y - qTree.Boundary.Height);
-        myCanvas.Children.Add(rectangle);
-
-        if (qTree.Points is not null)
-        {
-            foreach (var point in qTree.Points)
-            {
-                Ellipse circle = new()
-                {
-                    Width = 5,
-                    Height = 5,
-                    Stroke = Brushes.Green,
-                    StrokeThickness = 1,
-                };
-
-                myCanvas.Children.Add(circle);
-
-                circle.SetValue(Canvas.LeftProperty, point.X);
-                circle.SetValue(Canvas.TopProperty, point.Y);
-            } 
-        }
-
-        if (qTree.Divided)
-        {
-            Draw(qTree.NorthWest!);
-            Draw(qTree.NorthEast!);
-            Draw(qTree.SouthWest!);
-            Draw(qTree.SouthEast!);
-        }
-    }
-
-    private void MyCanvas_MouseDown(object sender, MouseButtonEventArgs e)
-    {
-        AddRectangle(sender, e);
-    }
-
-    private void AddRectangle(object sender, MouseButtonEventArgs e)
-    {
-        System.Windows.Point mousePosition = e.GetPosition(myCanvas);
-
-        PointRegionQuadtree.Count = 0;
-
-        double x = mousePosition.X;
-        double y = mousePosition.Y;
-
-        double width = 150.0;
-        double height = 150.0;
-        Quadrant searchWindow = new(x, y, width / 2, height / 2);
-       
-        Rectangle rect = new Rectangle();
-        rect.Stroke = new SolidColorBrush(Colors.Green);
-        rect.StrokeThickness = 1;
-        //rect.Fill = new SolidColorBrush(Colors.Black);
-        rect.Width = width;
-        rect.Height = height;
-        Canvas.SetLeft(rect, x - width / 2);
-        Canvas.SetTop(rect, y - height / 2);
-        myCanvas.Children.Add(rect);
-       
-        List<Point> points = qTree.Query(searchWindow);
-
-
-        foreach (var point in points)
-        {
-            Ellipse circle = new()
-            {
-                Width = 5,
-                Height = 5,
-                Stroke = Brushes.Blue,
-                StrokeThickness = 3,
-
-            };
-
-            myCanvas.Children.Add(circle);
-
-            circle.SetValue(Canvas.LeftProperty, point.X);
-            circle.SetValue(Canvas.TopProperty, point.Y);
-        }
-
-        PositionText.Content = string.Format("Total Points: {0} | Found Points: {1} | Visited Points: {2}", totalPoints, points.Count, PointRegionQuadtree.Count);
-    }
-
-    private void AddPointAtMousePosition(object sender, MouseButtonEventArgs e)
+    private void AddPointAtMousePositionToTree(object sender, MouseButtonEventArgs e)
     {
         System.Windows.Point p = e.GetPosition(myCanvas);
         PositionText.Content = string.Format("Last click at X = {0}, Y = {1}", p.X, p.Y);
@@ -176,7 +95,86 @@ public partial class MainWindow : Window
 
         Point point = new(x, y);
         qTree.Insert(point);
+
         myCanvas.Children.Clear();
-        Draw(qTree);
+        DrawQuadTree(qTree);
+    }
+
+    private void DrawSearchwindowAtMousePosition(object sender, MouseButtonEventArgs e)
+    {
+        double width = 150.0;
+        double height = 150.0;
+
+        System.Windows.Point mousePosition = e.GetPosition(myCanvas);
+        double x = mousePosition.X;
+        double y = mousePosition.Y;
+
+        Quadrant searchWindow = new(x, y, width / 2, height / 2);
+        List<Point> points = qTree.Query(searchWindow);
+
+        DrawRectangleAtQuadrant(searchWindow, Brushes.Blue);
+        DrawCircleAtPoints(points, Brushes.Blue);
+
+        // Todo: add Bindings
+        PositionText.Content = string.Format("Total Points: {0} | Found Points: {1} | Visited Points: {2}", totalPoints, points.Count, PointRegionQuadtree.Count);
+    }
+
+    private void DrawRectangleAtQuadrant(Quadrant quadrant)
+    {
+        DrawRectangleAtQuadrant(quadrant, Brushes.Red);
+    }
+
+    private void DrawRectangleAtQuadrant(Quadrant quadrant, SolidColorBrush color)
+    {
+        double totalWidth = quadrant.Width * 2;
+        double totalHeight = quadrant.Height * 2;
+
+        Rectangle rectangle = new()
+        {
+            StrokeThickness = 0.5,
+            Stroke = color,
+            Width = totalWidth,
+            Height = totalHeight
+        };
+        Canvas.SetLeft(rectangle, quadrant.X - quadrant.Width);
+        Canvas.SetTop(rectangle, quadrant.Y - quadrant.Height);
+        myCanvas.Children.Add(rectangle);
+    }
+    private void DrawCircleAtPoints(List<Point>? points)
+    {
+        DrawCircleAtPoints(points, Brushes.Green);
+    }
+
+    private void DrawCircleAtPoints(List<Point>? points, SolidColorBrush color)
+    {
+        if (points is null)
+        {
+            return;
+        }
+        foreach (var point in points)
+        {
+            DrawCircleAtPoint(point, color);
+        }
+    }
+
+    private void DrawCircleAtPoint(Point point)
+    {
+        DrawCircleAtPoint(point, Brushes.Green);
+    }
+
+    private void DrawCircleAtPoint(Point point, SolidColorBrush color)
+    {
+        Ellipse circle = new()
+        {
+            Width = 5,
+            Height = 5,
+            Stroke = color,
+            StrokeThickness = 3,
+        };
+
+        myCanvas.Children.Add(circle);
+ 
+        circle.SetValue(Canvas.LeftProperty, point.X - circle.Width / 2.0);
+        circle.SetValue(Canvas.TopProperty, point.Y - circle.Height / 2.0);
     }
 }
