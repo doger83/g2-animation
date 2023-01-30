@@ -23,6 +23,7 @@ public class PointRegionQuadtree //: IQuadtree
     public Quadrant Boundary { get; }
     public int Capacaty { get; }
     public bool Divided { get; private set; } 
+
     public List<Point>? Points { get; private set; }
     public PointRegionQuadtree? NorthWest { get; private set; }
     public PointRegionQuadtree? NorthEast { get; private set; }
@@ -90,7 +91,7 @@ public class PointRegionQuadtree //: IQuadtree
     private void Subdivide()
     {
         InitializeSubQuadrants();
-        MovePointsToChildren();              
+        MovePointsToSubQuadrants();              
         Divided = true;
     }
 
@@ -114,7 +115,7 @@ public class PointRegionQuadtree //: IQuadtree
         SouthWest = new(sw, Capacaty);
     }
 
-    private void MovePointsToChildren()
+    private void MovePointsToSubQuadrants()
     {
         if (NorthWest is null || NorthEast is null || SouthEast is null || SouthWest is null)
         {

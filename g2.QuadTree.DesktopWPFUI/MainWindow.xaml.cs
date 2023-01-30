@@ -31,14 +31,14 @@ public partial class MainWindow : Window
     private const int GROWINGRATE = 5;
     private int totalPoints = 0;
 
-    private readonly PointRegionQuadtree qTree;
+    private readonly PointRegionQuadtree quadTree;
 
     public MainWindow()
     {
         InitializeComponent();
 
         Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
-        qTree = new(boundingBox, CAPACATY);
+        quadTree = new(boundingBox, CAPACATY);
     }
 
     private void Btn_Start_Click(object sender, RoutedEventArgs e)
@@ -46,7 +46,7 @@ public partial class MainWindow : Window
         AddRandomPointsToTree(GROWINGRATE);
 
         myCanvas.Children.Clear();
-        DrawQuadTree(qTree);
+        Draw(quadTree);
     }
 
     private void MyCanvas_MouseDown(object sender, MouseButtonEventArgs e)
@@ -56,31 +56,31 @@ public partial class MainWindow : Window
         DrawSearchwindowAtMousePosition(sender, e);
     }
 
-    private void DrawQuadTree(PointRegionQuadtree qTree)
+    private void Draw(PointRegionQuadtree quadTree)
     {
-        DrawRectangleAtQuadrant(qTree.Boundary);
-        DrawCircleAtPoints(qTree.Points);
+        DrawRectangleAtQuadrant(quadTree.Boundary);
+        DrawCircleAtPoints(quadTree.Points);
   
-        if (qTree.Divided)
+        if (quadTree.Divided)
         {
-            DrawQuadTree(qTree.NorthWest!);
-            DrawQuadTree(qTree.NorthEast!);
-            DrawQuadTree(qTree.SouthWest!);
-            DrawQuadTree(qTree.SouthEast!);
+            Draw(quadTree.NorthWest!);
+            Draw(quadTree.NorthEast!);
+            Draw(quadTree.SouthWest!);
+            Draw(quadTree.SouthEast!);
         }
     }
 
     private void AddRandomPointsToTree(int growingrate)
     {
-        Random rnd = new();
+        Random random = new();
 
         for (int i = 0; i < growingrate; i++)
         {
-            var x = rnd.NextDouble() * WIDTH * 2.0;
-            var y = rnd.NextDouble() * HEIGHT * 2.0;
+            var x = random.NextDouble() * WIDTH * 2.0;
+            var y = random.NextDouble() * HEIGHT * 2.0;
             Point point = new(x, y);
 
-            qTree.Insert(point);
+            quadTree.Insert(point);
         }
         totalPoints += growingrate;
     }
@@ -88,30 +88,24 @@ public partial class MainWindow : Window
     private void AddPointAtMousePositionToTree(object sender, MouseButtonEventArgs e)
     {
         System.Windows.Point p = e.GetPosition(myCanvas);
-        PositionText.Content = string.Format("Last click at X = {0}, Y = {1}", p.X, p.Y);
 
-        double x = p.X;
-        double y = p.Y;
-
-        Point point = new(x, y);
-        qTree.Insert(point);
+        quadTree.Insert(new Point(p.X, p.Y));
 
         myCanvas.Children.Clear();
-        DrawQuadTree(qTree);
+        Draw(quadTree);
+
+        // Todo: add Bindings
+        PositionText.Content = string.Format("Last click at X = {0}, Y = {1}", p.X, p.Y);
     }
 
-    private void DrawSearchwindowAtMousePosition(object sender, MouseButtonEventArgs e)
+    private void DrawSearchwindowAtMousePosition(object sender, MouseButtonEventArgs e, double width = 150.0, double height = 150.0)
     {
-        double width = 150.0;
-        double height = 150.0;
+        System.Windows.Point p = e.GetPosition(myCanvas);
 
-        System.Windows.Point mousePosition = e.GetPosition(myCanvas);
-        double x = mousePosition.X;
-        double y = mousePosition.Y;
+        Quadrant searchWindow = new(p.X, p.Y, width / 2, height / 2);
+        List<Point> points = quadTree.Query(searchWindow);
 
-        Quadrant searchWindow = new(x, y, width / 2, height / 2);
-        List<Point> points = qTree.Query(searchWindow);
-
+        // Todo: draw rectangle only in the canvas boudings
         DrawRectangleAtQuadrant(searchWindow, Brushes.Blue);
         DrawCircleAtPoints(points, Brushes.Blue);
 
@@ -146,7 +140,7 @@ public partial class MainWindow : Window
     }
 
     private void DrawCircleAtPoints(List<Point>? points, SolidColorBrush color)
-    {
+    { // nullable List ? why ... now I know... its because the list of points in the tree node might be null because the points are in one of the children!
         if (points is null)
         {
             return;
