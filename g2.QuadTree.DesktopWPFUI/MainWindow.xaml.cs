@@ -28,7 +28,7 @@ public partial class MainWindow : Window
     private const double X = 200.0;
     private const double Y = 200.0;
     private const int CAPACATY = 4;
-    private const int GROWINGRATE = 555;
+    private const int GROWINGRATE = 5;
     private int totalPoints = 0;
 
     private readonly PointRegionQuadtree quadTree;

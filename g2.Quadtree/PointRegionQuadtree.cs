@@ -120,7 +120,7 @@ public class PointRegionQuadtree //: IQuadtree
     {
         if (!Divided)
         {
-            return;
+            throw new InvalidOperationException($"Children must be initialized before you can move points into them! Hint: maybe you called {nameof(MovePointsToSubQuadrants)} before {nameof(InitializeSubQuadrants)} ?");
         }
         // This improves performance by placing points in the smallest available rectangle.
         for (int i = 0; i < Points?.Count; i++)
