@@ -92,7 +92,7 @@ public class PointRegionQuadtree //: IQuadtree
     {
         InitializeSubQuadrants();
         MovePointsToSubQuadrants();              
-        Divided = true;
+        
     }
 
     private void InitializeSubQuadrants()
@@ -113,23 +113,24 @@ public class PointRegionQuadtree //: IQuadtree
 
         var sw = new Quadrant(x - w / 2.0, y + h / 2.0, w / 2.0, h / 2.0);
         SouthWest = new(sw, Capacaty);
+        Divided = true;
     }
 
     private void MovePointsToSubQuadrants()
     {
-        if (NorthWest is null || NorthEast is null || SouthEast is null || SouthWest is null)
+        if (!Divided)
         {
-            throw new NullReferenceException("Children must be initialized before you can move points into them! Hint: maybe you changed order in methodcalls?");
+            return;
         }
         // This improves performance by placing points in the smallest available rectangle.
         for (int i = 0; i < Points?.Count; i++)
         {
             Point? p = Points[i];
             var inserted =
-                NorthWest.Insert(p) ||
-                NorthEast.Insert(p) ||
-                SouthEast.Insert(p) ||
-                SouthWest.Insert(p);
+                NorthWest!.Insert(p) ||
+                NorthEast!.Insert(p) ||
+                SouthEast!.Insert(p) ||
+                SouthWest!.Insert(p);
 
             if (!inserted)
             {
