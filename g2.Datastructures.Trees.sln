@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.Quadtree", "g2.Quadtree\g2.Quadtree.csproj", "{32E1E178-262A-4522-9BE8-9DD87FA3E0E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.Datastructures.Trees", "g2.Quadtree\g2.Datastructures.Trees.csproj", "{32E1E178-262A-4522-9BE8-9DD87FA3E0E2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.Guadtree.ConsoleUI", "g2.Guadtree.ConsoleUI\g2.Guadtree.ConsoleUI.csproj", "{CD69A3D8-65D2-4BA0-A141-35026F937587}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.Datastructures.ConsoleUI", "g2.Guadtree.ConsoleUI\g2.Datastructures.ConsoleUI.csproj", "{CD69A3D8-65D2-4BA0-A141-35026F937587}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E466635B-7F29-4F36-8071-82BD21CB821E}"
 	ProjectSection(SolutionItems) = preProject
@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		sources\Codingtrain\quadtree.js = sources\Codingtrain\quadtree.js
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.QuadTree.DesktopWPFUI", "g2.QuadTree.DesktopWPFUI\g2.QuadTree.DesktopWPFUI.csproj", "{A13C081D-5D09-4A01-BEC0-71B8BCD11E9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.Datastructures.DesktopWPFUI", "g2.QuadTree.DesktopWPFUI\g2.Datastructures.DesktopWPFUI.csproj", "{A13C081D-5D09-4A01-BEC0-71B8BCD11E9F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
