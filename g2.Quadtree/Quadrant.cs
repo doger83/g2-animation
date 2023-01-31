@@ -39,3 +39,12 @@ public  class Quadrant // : Rectangle
         searchWindow.Y + searchWindow.Height < this.Y - this.Height
     );
 }
+
+public enum Quadrants
+{
+    NorthWest,
+    NorthEast,
+    SouthWest,
+    SouthEast
+}
+

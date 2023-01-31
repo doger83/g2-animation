@@ -15,13 +15,13 @@ public class PointRegionQuadtree //: IQuadtree
     public PointRegionQuadtree(Quadrant boundary, int capacaty)
     {
         Boundary = boundary;
-        Capacaty = capacaty;
+        Capacity = capacaty;
         Points = new();
         Divided = false;
     }
 
     public Quadrant Boundary { get; }
-    public int Capacaty { get; }
+    public int Capacity { get; }
     public bool Divided { get; private set; } 
 
     public List<Point>? Points { get; private set; }
@@ -30,6 +30,54 @@ public class PointRegionQuadtree //: IQuadtree
     public PointRegionQuadtree? SouthEast { get; private set; }
     public PointRegionQuadtree? SouthWest { get; private set; }
 
+
+    public bool InsertChatgpt(Point point)
+    {
+        if (!Boundary.Contains(point))
+        {
+            return false;
+        }
+
+        var currentNode = this;
+        while (currentNode.Divided)
+        {
+            var quadrant = currentNode.GetQuadrant(point);
+            currentNode = quadrant switch
+            {
+                Quadrants.NorthEast => currentNode.NorthEast,
+                Quadrants.NorthWest => currentNode.NorthWest,
+                Quadrants.SouthEast => currentNode.SouthEast,
+                Quadrants.SouthWest => currentNode.SouthWest,
+                _ => throw new Exception("Unexpected quadrant value"),
+            };
+        }
+
+        if ((currentNode.Points ??= new List<Point>()).Count < Capacity)
+        {
+            currentNode.Points.Add(point);
+            return true;
+        }
+        currentNode.Subdivide();
+        return currentNode.InsertChatgpt(point);
+    }
+
+    public Quadrants GetQuadrant(Point point)
+    {
+        var xMidpoint = (Boundary.X - (Boundary.Width/2) + Boundary.X + (Boundary.Width/2)) / 2;
+        var yMidpoint = (Boundary.Y - (Boundary.Height/2) + Boundary.Y + (Boundary.Height / 2)) / 2;
+
+        var inNorth = point.Y >= xMidpoint;
+        var inWest = point.X < yMidpoint;
+
+        if (inNorth)
+        {
+            return inWest ? Quadrants.NorthWest : Quadrants.NorthEast;
+        }
+        else
+        {
+            return inWest ? Quadrants.SouthWest : Quadrants.SouthEast;
+        }
+    }
 
     public bool Insert(Point point)
     {
@@ -41,7 +89,7 @@ public class PointRegionQuadtree //: IQuadtree
         if (!Divided)
         {
             // Todo: Points may be null here! 
-            if ((Points ??= new()).Count < Capacaty)
+            if ((Points ??= new()).Count < Capacity)
             {
                 Points.Add(point);
                 return true;
@@ -91,8 +139,8 @@ public class PointRegionQuadtree //: IQuadtree
     private void Subdivide()
     {
         InitializeSubQuadrants();
-        MovePointsToSubQuadrants();              
-        
+        MovePointsToSubQuadrants();
+
     }
 
     private void InitializeSubQuadrants()
@@ -103,16 +151,16 @@ public class PointRegionQuadtree //: IQuadtree
         var h = Boundary.Height;
 
         var ne = new Quadrant(x + w / 2.0, y - h / 2.0, w / 2.0, h / 2.0);
-        NorthEast = new(ne, Capacaty);
+        NorthEast = new(ne, Capacity);
 
         var nw = new Quadrant(x - w / 2.0, y - h / 2.0, w / 2.0, h / 2.0);
-        NorthWest = new(nw, Capacaty);
+        NorthWest = new(nw, Capacity);
 
         var se = new Quadrant(x + w / 2.0, y + h / 2.0, w / 2.0, h / 2.0);
-        SouthEast = new(se, Capacaty);
+        SouthEast = new(se, Capacity);
 
         var sw = new Quadrant(x - w / 2.0, y + h / 2.0, w / 2.0, h / 2.0);
-        SouthWest = new(sw, Capacaty);
+        SouthWest = new(sw, Capacity);
         Divided = true;
     }
 
@@ -134,7 +182,7 @@ public class PointRegionQuadtree //: IQuadtree
 
             if (!inserted)
             {
-                // Todo: add more Argument Validation!
+                // Todo: add more Argument Validation! this can go to setter of Capacaty
                 throw new ArgumentOutOfRangeException("capacity must be greater than 0");
             }
         }
