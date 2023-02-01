@@ -31,35 +31,35 @@ public class PointRegionQuadtree //: IQuadtree
     public PointRegionQuadtree? SouthWest { get; private set; }
 
 
-    public bool InsertChatgpt(Point point)
-    {
-        if (!Boundary.Contains(point))
-        {
-            return false;
-        }
+    //public bool InsertChatgpt(Point point)
+    //{
+    //    if (!Boundary.Contains(point))
+    //    {
+    //        return false;
+    //    }
 
-        var currentNode = this;
-        while (currentNode.Divided)
-        {
-            var quadrant = currentNode.GetQuadrant(point);
-            currentNode = quadrant switch
-            {
-                Quadrants.NorthEast => currentNode.NorthEast,
-                Quadrants.NorthWest => currentNode.NorthWest,
-                Quadrants.SouthEast => currentNode.SouthEast,
-                Quadrants.SouthWest => currentNode.SouthWest,
-                _ => throw new Exception("Unexpected quadrant value"),
-            };
-        }
+    //    var currentNode = this;
+    //    while (currentNode.Divided)
+    //    {
+    //        var quadrant = currentNode.GetQuadrant(point);
+    //        currentNode = quadrant switch
+    //        {
+    //            Quadrants.NorthEast => currentNode.NorthEast,
+    //            Quadrants.NorthWest => currentNode.NorthWest,
+    //            Quadrants.SouthEast => currentNode.SouthEast,
+    //            Quadrants.SouthWest => currentNode.SouthWest,
+    //            _ => throw new Exception("Unexpected quadrant value"),
+    //        };
+    //    }
 
-        if ((currentNode.Points ??= new List<Point>()).Count < Capacity)
-        {
-            currentNode.Points.Add(point);
-            return true;
-        }
-        currentNode.Subdivide();
-        return currentNode.InsertChatgpt(point);
-    }
+    //    if ((currentNode.Points ??= new List<Point>()).Count < Capacity)
+    //    {
+    //        currentNode.Points.Add(point);
+    //        return true;
+    //    }
+    //    currentNode.Subdivide();
+    //    return currentNode.InsertChatgpt(point);
+    //}
 
     public Quadrants GetQuadrant(Point point)
     {
@@ -105,10 +105,8 @@ public class PointRegionQuadtree //: IQuadtree
     }
     public List<Point> Query(Quadrant searchWindow, List<Point>? foundPoints = null)
     {  
-        if (foundPoints == null)
-        {
-            foundPoints = new List<Point>();
-        }
+        foundPoints ??= new List<Point>();
+
         if (!searchWindow.Intersects(Boundary))
         {
             return foundPoints;
@@ -173,7 +171,7 @@ public class PointRegionQuadtree //: IQuadtree
         // This improves performance by placing points in the smallest available rectangle.
         for (int i = 0; i < Points?.Count; i++)
         {
-            Point? p = Points[i];
+            Point p = Points[i];
             var inserted =
                 NorthWest!.Insert(p) ||
                 NorthEast!.Insert(p) ||
