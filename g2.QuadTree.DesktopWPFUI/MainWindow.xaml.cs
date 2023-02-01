@@ -1,6 +1,8 @@
-﻿using g2.Quadtree;
+﻿using g2.Datastructures.DesktopWPFUI;
+using g2.Quadtree;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,44 +25,59 @@ namespace g2.QuadTree.DesktopWPFUI;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private const double WIDTH = 200.0;
-    private const double HEIGHT = 200.0;
-    private const double X = 200.0;
-    private const double Y = 200.0;
+    private const double WIDTH = 400.0;
+    private const double HEIGHT = 300.0;
+    private const double X = 400.0;
+    private const double Y = 300.0;
     private const int CAPACATY = 4;
-    private const int GROWINGRATE = 1;
+    private const int GROWINGRATE = 100;
     private int totalPoints = 0;
 
     private readonly PointRegionQuadtree quadTree;
+    private Game gameLoop;
+    FPSCounterViewModel fpsCounter;
+
+    //private readonly BackgroundWorker worker;
 
     public MainWindow()
     {
         InitializeComponent();
-
+        fpsCounter = new FPSCounterViewModel();
+        gameLoop = new(fpsCounter);
+        DataContext = fpsCounter;
         Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
         quadTree = new(boundingBox, CAPACATY);
+        PointRegionQuadtree.Count = 0;
+    }
+
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        Task.Factory.StartNew(gameLoop.Update);
+    
     }
 
     private void Btn_Start_Click(object sender, RoutedEventArgs e)
     {
         AddRandomPointsToTree(GROWINGRATE);
-
         myCanvas.Children.Clear();
         Draw(quadTree);
     }
 
-    private void MyCanvas_MouseDown(object sender, MouseButtonEventArgs e)
-    {
-        //AddPointAtMousePosition(sender, e);
-        PointRegionQuadtree.Count = 0;
+    private void MyCanvas_LeftMouseDown(object sender, MouseButtonEventArgs e)
+    {        
         DrawSearchwindowAtMousePosition(sender, e);
     }
+
+    private void MyCanvas_RightMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        AddPointAtMousePositionToTree(sender, e);
+    }
+
 
     private void Draw(PointRegionQuadtree quadTree)
     {
         DrawRectangleAtQuadrant(quadTree.Boundary);
         DrawCircleAtPoints(quadTree.Points);
-  
         if (quadTree.Divided)
         {
             Draw(quadTree.NorthWest!);
@@ -68,34 +85,6 @@ public partial class MainWindow : Window
             Draw(quadTree.SouthWest!);
             Draw(quadTree.SouthEast!);
         }
-    }
-
-    private void AddRandomPointsToTree(int growingrate)
-    {
-        Random random = new();
-
-        for (int i = 0; i < growingrate; i++)
-        {
-            var x = random.NextDouble() * WIDTH * 2.0;
-            var y = random.NextDouble() * HEIGHT * 2.0;
-            Point point = new(x, y);
-
-            quadTree.Insert(point);
-        }
-        totalPoints += growingrate;
-    }
-
-    private void AddPointAtMousePositionToTree(object sender, MouseButtonEventArgs e)
-    {
-        System.Windows.Point p = e.GetPosition(myCanvas);
-
-        quadTree.Insert(new Point(p.X, p.Y));
-
-        myCanvas.Children.Clear();
-        Draw(quadTree);
-
-        // Todo: add Bindings
-        PositionText.Content = string.Format("Last click at X = {0}, Y = {1}", p.X, p.Y);
     }
 
     private void DrawSearchwindowAtMousePosition(object sender, MouseButtonEventArgs e, double width = 150.0, double height = 150.0)
@@ -170,5 +159,34 @@ public partial class MainWindow : Window
  
         circle.SetValue(Canvas.LeftProperty, point.X - circle.Width / 2.0);
         circle.SetValue(Canvas.TopProperty, point.Y - circle.Height / 2.0);
+    }
+
+
+    private void AddRandomPointsToTree(int growingrate)
+    {
+        Random random = new();
+
+        for (int i = 0; i < growingrate; i++)
+        {
+            var x = random.NextDouble() * WIDTH * 2.0;
+            var y = random.NextDouble() * HEIGHT * 2.0;
+            Point point = new(x, y);
+
+            quadTree.Insert(point);
+        }
+        totalPoints += growingrate;
+    }
+
+    private void AddPointAtMousePositionToTree(object sender, MouseButtonEventArgs e)
+    {
+        System.Windows.Point p = e.GetPosition(myCanvas);
+
+        quadTree.Insert(new Point(p.X, p.Y));
+
+        myCanvas.Children.Clear();
+        Draw(quadTree);
+
+        // Todo: add Bindings
+        MousPositionText.Content = string.Format("Last click at X = {0}, Y = {1}", p.X, p.Y);
     }
 }
