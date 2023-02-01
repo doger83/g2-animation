@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace g2.Quadtree;
 
-public class Point
+public struct Point
 {
     public Point()
     {
