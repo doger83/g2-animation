@@ -5,6 +5,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace g2.Datastructures.DesktopWPFUI;
 public class FPSCounterViewModel : INotifyPropertyChanged
@@ -12,13 +15,15 @@ public class FPSCounterViewModel : INotifyPropertyChanged
 
     DateTime lastUpdate;
     uint framesSinceLastUpdate;
+    Canvas canvas;
 
-    public FPSCounterViewModel()
+    public FPSCounterViewModel(Canvas canvas)
     {
         lastUpdate = DateTime.Now;
         framesSinceLastUpdate = 0;
+        this.canvas = canvas;
     }
- 
+
 
     private String fpsCounter = String.Empty;
     public String FPSCounter
@@ -27,8 +32,14 @@ public class FPSCounterViewModel : INotifyPropertyChanged
         set
         {
             fpsCounter = value;
-            NotifyPropertyChanged();
+            NotifyPropertyChanged(nameof(FPSCounter));
+            NotifyPropertyChanged(nameof(SekCounter));
         }
+    }
+    
+    public String SekCounter
+    {
+        get { return DateTime.Now.ToString(); }       
     }
 
     public void Draw()
@@ -36,7 +47,7 @@ public class FPSCounterViewModel : INotifyPropertyChanged
         framesSinceLastUpdate++;
         if ((DateTime.Now - lastUpdate).TotalMilliseconds >= 1000)
         {
-            fpsCounter = $"  {framesSinceLastUpdate} fps";
+            fpsCounter = $"{framesSinceLastUpdate} fps";
 
             framesSinceLastUpdate = 0;
             lastUpdate = DateTime.Now;

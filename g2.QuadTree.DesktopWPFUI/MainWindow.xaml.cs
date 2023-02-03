@@ -37,23 +37,46 @@ public partial class MainWindow : Window
     private Game gameLoop;
     FPSCounterViewModel fpsCounter;
 
+    List<Particle> particles;
+
     //private readonly BackgroundWorker worker;
 
     public MainWindow()
     {
         InitializeComponent();
-        fpsCounter = new FPSCounterViewModel();
-        gameLoop = new(fpsCounter);
+        fpsCounter = new FPSCounterViewModel(myCanvas);
+        Particle p = new(500, 350, 30, myCanvas);
+
+        gameLoop = new(fpsCounter, myCanvas, p);
         DataContext = fpsCounter;
         Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
         quadTree = new(boundingBox, CAPACATY);
         PointRegionQuadtree.Count = 0;
+        myCanvas.Focus();
+
+        //particles =  new List<Particle>();
+        //Random random = new();
+
+        //for (int i = 0; i < 15; i++)
+        //{
+        //    var x = random.NextDouble() * WIDTH * 2.0;
+        //    var y = random.NextDouble() * HEIGHT * 2.0;
+        //    Particle pa = new(x, y, 15, myCanvas);
+
+        //    particles.Add(pa);
+        //}
+       
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
+
+        //var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
+
+
         Task.Factory.StartNew(gameLoop.Update);
-    
+
+
     }
 
     private void Btn_Start_Click(object sender, RoutedEventArgs e)
@@ -61,6 +84,9 @@ public partial class MainWindow : Window
         AddRandomPointsToTree(GROWINGRATE);
         myCanvas.Children.Clear();
         Draw(quadTree);
+
+        //_ = gameLoop.Update();
+
     }
 
     private void MyCanvas_LeftMouseDown(object sender, MouseButtonEventArgs e)
@@ -154,11 +180,10 @@ public partial class MainWindow : Window
             Stroke = color,
             StrokeThickness = 3,
         };
-
+        Canvas.SetLeft(circle, point.X - circle.Width / 2.0);
+        Canvas.SetTop(circle, point.Y - circle.Height / 2.0);
         myCanvas.Children.Add(circle);
  
-        circle.SetValue(Canvas.LeftProperty, point.X - circle.Width / 2.0);
-        circle.SetValue(Canvas.TopProperty, point.Y - circle.Height / 2.0);
     }
 
 

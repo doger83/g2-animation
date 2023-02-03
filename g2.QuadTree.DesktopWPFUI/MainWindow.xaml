@@ -7,11 +7,12 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="768" Width="1024" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
     <Grid>
-        <Canvas x:Name="myCanvas" Background="Black" Width="800" Height="600" Margin="112,76,112,76" MouseLeftButtonDown="MyCanvas_LeftMouseDown" MouseRightButtonDown="MyCanvas_RightMouseDown"/>
-        <Button x:Name="btn_Start" Content="START" HorizontalAlignment="Center" Margin="0,698,0,0" VerticalAlignment="Top" Height="23" Width="112" Click="Btn_Start_Click"/>
+        <Canvas x:Name="myCanvas" Background="BEige" Width="800" Height="600" Margin="112,76,112,76" MouseLeftButtonDown="MyCanvas_LeftMouseDown" MouseRightButtonDown="MyCanvas_RightMouseDown"/>
+        <Button x:Name="btn_Start" Content="START" HorizontalAlignment="Left" Margin="667,31,0,0" VerticalAlignment="Top" Height="23" Width="112" Click="Btn_Start_Click"/>
         <Label x:Name="PositionText" Content="Total Points: {0} | Found Points: {1} | Visited Points: {2}" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="400"/>
         <Label x:Name="MousPositionText" Content="Last click at X = {0}, Y = {1}" HorizontalAlignment="Center" Margin="0,41,0,0" VerticalAlignment="Top" Width="400"/>
-        <Label x:Name="FPSText" Content="{Binding Path=FPSCounter, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="112,10,0,0" VerticalAlignment="Top" Width="195"/>
+        <Label x:Name="FPSText" Content="{Binding Path=FPSCounter, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="112,10,0,0" VerticalAlignment="Top" Width="195" Height="26" Background="#FFDF8E8E"/>
+        <Label x:Name="SekText" Content="{Binding Path=SekCounter, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="112,42,0,0" VerticalAlignment="Top" Width="195" Height="26" Background="#FF8EC2DF" RenderTransformOrigin="0.484,2.786"/>
 
 
 

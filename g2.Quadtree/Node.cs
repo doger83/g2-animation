@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace g2.Quadtree;s
+namespace g2.Quadtree;
 
 public struct Node
 {
