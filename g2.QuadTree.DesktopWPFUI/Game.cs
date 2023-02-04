@@ -33,44 +33,25 @@ public class Game
         {
             fpsCounter.Draw();
 
-            Application.Current?.Dispatcher.Invoke( () =>
-            {
-                particle.Move();
-                particle.Boundary();
+            particle.Move();
+            particle.Boundary();
+
+            // Todo: kann eventuell durch ein LOCK entfallen? und alle Aufrufe direkt 
+            //particle.Move();
+            //particle.Boundary();
+            //particle.Render();
+            Application.Current?.Dispatcher.InvokeAsync(() =>
+            {           
+
                 particle.Render();
-                // update the UI elements here
             });
             Thread.Sleep(1);
         }
 
     }
-    //public async Task Update()
-    //{
-
-    //    await Task.Run( () =>
-    //    {
-    //        while (true)
-    //        {
-    //            fpsCounter.Draw();
-
-    //            DrawCircleAtPoint(particle);
-
-
-
-
-    //        }
-    //    });
-    //}   
-
-
-    private async Task StopGameLoop(int milliseconds)
-    {
-        await Task.Delay(milliseconds);
-    }
 
     private void DrawCircleAtPoint(Particle p)
     {
-
         Ellipse circle = new()
         {
             Width = p.Radius * 2,
@@ -79,11 +60,11 @@ public class Game
             Fill = Brushes.Beige,
             StrokeThickness = 3,
         };
+        circle.SetValue(Canvas.TopProperty, p.Y - p.Radius);
+        circle.SetValue(Canvas.LeftProperty, p.X - p.Radius);
 
         canvas.Children.Add(circle);
 
-        circle.SetValue(Canvas.LeftProperty, p.X - p.Radius);
-        circle.SetValue(Canvas.TopProperty, p.Y - p.Radius);
     }
 
 }

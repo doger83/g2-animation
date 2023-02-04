@@ -44,15 +44,17 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        fpsCounter = new FPSCounterViewModel(myCanvas);
-        Particle p = new(500, 350, 30, myCanvas);
 
-        gameLoop = new(fpsCounter, myCanvas, p);
+        fpsCounter = new FPSCounterViewModel(myCanvas);
         DataContext = fpsCounter;
+
+        Particle p = new(500, 350, 30, myCanvas);
+        gameLoop = new(fpsCounter, myCanvas, p);
+    
         Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
         quadTree = new(boundingBox, CAPACATY);
         PointRegionQuadtree.Count = 0;
-        myCanvas.Focus();
+       
 
         //particles =  new List<Particle>();
         //Random random = new();
@@ -70,13 +72,7 @@ public partial class MainWindow : Window
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-
-        //var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-
-
         Task.Factory.StartNew(gameLoop.Update);
-
-
     }
 
     private void Btn_Start_Click(object sender, RoutedEventArgs e)
@@ -84,9 +80,6 @@ public partial class MainWindow : Window
         AddRandomPointsToTree(GROWINGRATE);
         myCanvas.Children.Clear();
         Draw(quadTree);
-
-        //_ = gameLoop.Update();
-
     }
 
     private void MyCanvas_LeftMouseDown(object sender, MouseButtonEventArgs e)

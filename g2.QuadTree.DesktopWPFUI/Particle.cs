@@ -11,13 +11,10 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace g2.Datastructures.DesktopWPFUI;
-public class Particle
-{
-    public double X { get; set; }
-    public double Y { get; set; }
-    public double Radius { get; set; }
-    Canvas canvas;
 
+public struct Particle
+{
+    private readonly Canvas canvas;
 
     public Particle(double x, double y, double radius, Canvas canvas)
     {
@@ -25,81 +22,54 @@ public class Particle
         Y = y;
         Radius = radius;
         this.canvas = canvas;
+        Shape = new ()
+        {
+            Width = radius * 2,
+            Height = radius * 2,
+            Stroke = Brushes.Aqua,
+            Fill = Brushes.Beige,
+            StrokeThickness = 3,
+        };
+        canvas.Children.Add(Shape);
+    }
+    public double X { get; set; }
+    public double Y { get; set; }
+    public double Radius { get; set; }
+    public Ellipse Shape { get; }
+
+    public void Render()
+    {        
+        //Canvas.SetLeft(Shape, X);
+        //Canvas.SetTop(Shape, Y);
+
+        Shape.SetValue(Canvas.TopProperty, Y);
+        Shape.SetValue(Canvas.LeftProperty, X);
+
     }
 
     public void Move()
     {
         Random random = new();
-        X += random.Next(-1, 2);
-        Y += random.Next(-1, 2);
+        X += random.Next(-5, 6);
+        Y += random.Next(-5, 6);
     }
 
-    public void  Render()
-    {
-        canvas.Children.Clear();
-            //canvas.Dispatcher.Invoke(() =>
-            //{
-            //canvas.Children.Clear();
-            Ellipse circle = new()
-            {
-                Width = Radius * 2,
-                Height = Radius * 2,
-                Stroke = Brushes.Aqua,
-                Fill = Brushes.Beige,
-                StrokeThickness = 3,
-            };
-            Canvas.SetLeft(circle, X);
-            Canvas.SetTop(circle, Y);
-
-            canvas.Children.Add(circle);
-        //});
-
-
-    }
-
-    private void DrawCircleAtPoint(Point point, Canvas canvas)
-    {
-        canvas.Dispatcher.Invoke(() =>
-        {
-            Ellipse circle = new()
-            {
-                Width = Radius * 2,
-                Height = Radius * 2,
-                Stroke = Brushes.Aqua,
-                Fill = Brushes.Beige,
-                StrokeThickness = 3,
-            };
-            Canvas.SetLeft(circle, X);
-            Canvas.SetTop(circle, Y);
-
-            canvas.Children.Add(circle);
-
-        });
-            Thread.Sleep(100);
-      
-    }
-
-    internal void Boundary()
+    public void Boundary()
     {
         if (X > canvas.ActualWidth - Radius * 2)
         {
-            //xSpeed = 0;
             X = canvas.ActualWidth - Radius * 2;
         }
         if (X < 0)
         {
-            //xSpeed = 0;
             X = 0;
         }
-
-        if (Y > canvas.ActualHeight - Radius *2)
+        if (Y > canvas.ActualHeight - Radius * 2)
         {
-            //ySpeed = 0;
-            Y = canvas.ActualHeight - Radius *2;
+            Y = canvas.ActualHeight - Radius * 2;
         }
         if (Y < 0)
         {
-            //ySpeed = 0;
             Y = 0;
         }
     }
