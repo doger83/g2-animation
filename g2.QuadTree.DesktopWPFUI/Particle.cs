@@ -14,6 +14,8 @@ namespace g2.Datastructures.DesktopWPFUI;
 
 public struct Particle
 {
+    // ToDo: Add Regions like WPF Samples
+
     private readonly Canvas canvas;
 
     public Particle(double x, double y, double radius, Canvas canvas)
