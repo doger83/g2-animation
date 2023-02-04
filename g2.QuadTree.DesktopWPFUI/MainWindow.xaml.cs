@@ -34,12 +34,9 @@ public partial class MainWindow : Window
     private int totalPoints = 0;
 
     private readonly PointRegionQuadtree quadTree;
-    private Game gameLoop;
-    FPSCounterViewModel fpsCounter;
-
-    List<Particle> particles;
-
-    //private readonly BackgroundWorker worker;
+    private readonly Animation gameLoop;
+    private readonly FPSCounterViewModel fpsCounter;
+    private readonly List<Particle> particles;
 
     public MainWindow()
     {
@@ -48,26 +45,25 @@ public partial class MainWindow : Window
         fpsCounter = new FPSCounterViewModel(myCanvas);
         DataContext = fpsCounter;
 
-        Particle p = new(500, 350, 30, myCanvas);
+        Particle p = new(X, Y, 30, myCanvas);
         gameLoop = new(fpsCounter, myCanvas, p);
     
         Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
         quadTree = new(boundingBox, CAPACATY);
         PointRegionQuadtree.Count = 0;
-       
 
-        //particles =  new List<Particle>();
-        //Random random = new();
 
-        //for (int i = 0; i < 15; i++)
-        //{
-        //    var x = random.NextDouble() * WIDTH * 2.0;
-        //    var y = random.NextDouble() * HEIGHT * 2.0;
-        //    Particle pa = new(x, y, 15, myCanvas);
+        particles = new List<Particle>();
+        Random random = new();
 
-        //    particles.Add(pa);
-        //}
-       
+        for (int i = 0; i < 15; i++)
+        {
+            var x = random.NextDouble() * WIDTH * 2.0;
+            var y = random.NextDouble() * HEIGHT * 2.0;
+            Particle pa = new(x, y, 15, myCanvas);
+
+            particles.Add(pa);
+        }
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)

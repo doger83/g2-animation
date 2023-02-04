@@ -14,13 +14,13 @@ using System.Windows.Threading;
 
 namespace g2.Datastructures.DesktopWPFUI;
 
-public class Game
+public class Animation
 {
-    Canvas canvas;
+    private readonly Canvas canvas;
     private readonly FPSCounterViewModel fpsCounter;
-    Particle particle;
+    private Particle particle;
 
-    public Game(FPSCounterViewModel fpsCounter, Canvas canvas, Particle particle)
+    public Animation(FPSCounterViewModel fpsCounter, Canvas canvas, Particle particle)
     {
         this.fpsCounter = fpsCounter;
         this.canvas = canvas;
@@ -49,23 +49,5 @@ public class Game
         }
 
     }
-
-    private void DrawCircleAtPoint(Particle p)
-    {
-        Ellipse circle = new()
-        {
-            Width = p.Radius * 2,
-            Height = p.Radius * 2,
-            Stroke = Brushes.Aqua,
-            Fill = Brushes.Beige,
-            StrokeThickness = 3,
-        };
-        circle.SetValue(Canvas.TopProperty, p.Y - p.Radius);
-        circle.SetValue(Canvas.LeftProperty, p.X - p.Radius);
-
-        canvas.Children.Add(circle);
-
-    }
-
 }
 
