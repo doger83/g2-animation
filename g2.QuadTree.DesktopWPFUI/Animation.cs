@@ -28,32 +28,19 @@ public class Animation
         this.particle = new(50, 50, 30, canvas);
     }
 
-
-    // ToDo: put DeltaTime in a static class
-    private double deltaTime = 0;
-    private TimeSpan lastRenderingTimeSpan = TimeSpan.Zero;
-    private DateTime lastRenderingTime = DateTime.Now;
-    // ToDo: only count the time between frames without targetframerate to make pc speed differences no thing
-    private const double TARGET_RENDERING_TIME = 1.0 / 100;
     public void Update()
     {
         while (true)
         {
-
-            Time.stopwatch.Restart();
+            Time.Restart();
           
             fpsCounter.Draw();
             particle.Move();
-            particle.Boundary();
-
-            //Thread.Sleep(1);
+            particle.Boundary();    
 
 
-            Time.stopwatch.Stop();
-            //Time.duration = Time.stopwatch.ElapsedMilliseconds;
-            long ticks = Time.stopwatch.ElapsedTicks;
-            Time.duration = (double)ticks / (double)Stopwatch.Frequency * 1000.0;                 
-            
+            Time.Stop();         
+            Time.Duration = (double)Time.stopwatch.ElapsedTicks / (double)Stopwatch.Frequency * 1000.0;   
         }
     }
 }
