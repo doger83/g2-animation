@@ -47,7 +47,7 @@ public class FPSCounterViewModel : INotifyPropertyChanged
         framesSinceLastUpdate++;
         if ((DateTime.Now - lastUpdate).TotalMilliseconds >= 1000)
         {
-            fpsCounter = $"{framesSinceLastUpdate} fps";
+            fpsCounter = $"{framesSinceLastUpdate:n0} fps";
 
             framesSinceLastUpdate = 0;
             lastUpdate = DateTime.Now;
