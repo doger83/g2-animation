@@ -25,8 +25,8 @@ namespace g2.QuadTree.DesktopWPFUI;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private const double WIDTH = 400.0;
-    private const double HEIGHT = 300.0;
+    private const double WIDTH = 500.0;
+    private const double HEIGHT = 500.0;
     private const double X = 50.0;
     private const double Y = 50.0;
     private const int CAPACATY = 4;
@@ -35,20 +35,16 @@ public partial class MainWindow : Window
 
     private readonly PointRegionQuadtree quadTree;
 
-    private readonly Animation animation;
+    private Animation animation;
+    private List<Particle>? particles;
     private readonly FPSCounterViewModel fpsCounter;
-    private readonly List<Particle> particles;
 
     public MainWindow()
     {
         InitializeComponent();
 
         fpsCounter = new FPSCounterViewModel(myCanvas);
-        DataContext = fpsCounter;
-
-
-
-        animation = new(fpsCounter, myCanvas);
+        DataContext = fpsCounter;       
 
 
         Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
@@ -72,13 +68,8 @@ public partial class MainWindow : Window
 
     private void Render(object? sender, EventArgs e)
     {
-
-        //Canvas.SetLeft(animation.Particle.Shape, animation.Particle.X - animation.Particle.Radius);
-        //Canvas.SetTop(animation.Particle.Shape, animation.Particle.Y - animation.Particle.Radius);
-
-
-        animation.Particle.Shape.SetValue(Canvas.TopProperty, animation.Particle.Y - animation.Particle.Radius);
-        animation.Particle.Shape.SetValue(Canvas.LeftProperty, animation.Particle.X - animation.Particle.Radius);
+        animation?.Particle.Shape.SetValue(Canvas.TopProperty, animation.Particle.Y - animation.Particle.Radius);
+        animation?.Particle.Shape.SetValue(Canvas.LeftProperty, animation.Particle.X - animation.Particle.Radius);
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -110,13 +101,12 @@ public partial class MainWindow : Window
             };
             myCanvas.Children.Add(line);
         }
-
-        //animation = new(fpsCounter, myCanvas);
-        //Task.Factory.StartNew(animation.Update);
     }
 
     private void Btn_Start_Click(object sender, RoutedEventArgs e)
     {
+        animation = new(fpsCounter, myCanvas);
+        //fpsCounter.animation = animation;
         Task.Factory.StartNew(animation.Update);
         btn_Start.IsEnabled = false;
         //AddRandomPointsToTree(GROWINGRATE);

@@ -25,7 +25,7 @@ public class Animation
     {
         this.fpsCounter = fpsCounter;
         this.canvas = canvas;
-        this.particle = new(50, 50, 30, canvas);
+        this.particle = new(50, 50, 25, canvas);
     }
 
     public Particle Particle { get { return particle; } private set { particle = value; } }
@@ -35,15 +35,21 @@ public class Animation
         while (true)
         {
             Time.Restart();
-          
+
             fpsCounter.Draw();
             particle.Move();
-            particle.Boundary();    
+            particle.Boundary();
             // ...
 
-            Time.Stop();         
-            Time.Duration = (double)Time.stopwatch.ElapsedTicks / (double)Stopwatch.Frequency * 1000.0;   
+            Time.Stop();
+            Time.Duration = TicksInMilliseconds();
         }
+    }
+
+    private static double TicksInMilliseconds()
+    {
+        // ToDo: What happens if timer still runs? 
+        return (double)Time.stopwatch.ElapsedTicks / (double)Stopwatch.Frequency * 1000.0;
     }
 }
 
