@@ -27,14 +27,15 @@ public partial class MainWindow : Window
 {
     private const double WIDTH = 400.0;
     private const double HEIGHT = 300.0;
-    private const double X = 400.0;
-    private const double Y = 300.0;
+    private const double X = 50.0;
+    private const double Y = 50.0;
     private const int CAPACATY = 4;
     private const int GROWINGRATE = 100;
     private int totalPoints = 0;
 
     private readonly PointRegionQuadtree quadTree;
-    private readonly Animation gameLoop;
+
+    private readonly Animation animation;
     private readonly FPSCounterViewModel fpsCounter;
     private readonly List<Particle> particles;
 
@@ -45,47 +46,91 @@ public partial class MainWindow : Window
         fpsCounter = new FPSCounterViewModel(myCanvas);
         DataContext = fpsCounter;
 
-        Particle p = new(X, Y, 30, myCanvas);
-        gameLoop = new(fpsCounter, myCanvas, p);
-    
+
+
+        animation = new(fpsCounter, myCanvas);
+
+
         Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
         quadTree = new(boundingBox, CAPACATY);
         PointRegionQuadtree.Count = 0;
 
+        CompositionTarget.Rendering += Render;
+        //particles = new List<Particle>();
+        //Random random = new();
 
-        particles = new List<Particle>();
-        Random random = new();
+        //for (int i = 0; i < 15; i++)
+        //{
+        //    var x = random.NextDouble() * WIDTH * 2.0;
+        //    var y = random.NextDouble() * HEIGHT * 2.0;
+        //    Particle pa = new(x, y, 15, myCanvas);
 
-        for (int i = 0; i < 15; i++)
-        {
-            var x = random.NextDouble() * WIDTH * 2.0;
-            var y = random.NextDouble() * HEIGHT * 2.0;
-            Particle pa = new(x, y, 15, myCanvas);
+        //    particles.Add(pa);
+        //}
 
-            particles.Add(pa);
-        }
+    }
+
+    private void Render(object? sender, EventArgs e)
+    {
+
+        //Canvas.SetLeft(animation.particle.Shape, animation.particle.X - animation.particle.Radius);
+        //Canvas.SetTop(animation.particle.Shape, animation.particle.Y - animation.particle.Radius);
+
+
+        animation?.particle.Shape.SetValue(Canvas.TopProperty, animation.particle.Y - animation.particle.Radius);
+        animation?.particle.Shape.SetValue(Canvas.LeftProperty, animation.particle.X - animation.particle.Radius);
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        Task.Factory.StartNew(gameLoop.Update);
+        for (double x = 0; x <= myCanvas.ActualWidth; x += 50)
+        {
+            Line line = new()
+            {
+                Stroke = System.Windows.Media.Brushes.Black,
+                X1 = x,
+                Y1 = 0,
+                X2 = x,
+                Y2 = myCanvas.ActualHeight,
+                StrokeThickness = 1
+            };
+            myCanvas.Children.Add(line);
+        }
+
+        for (double y = 0; y <= myCanvas.ActualHeight; y += 50)
+        {
+            Line line = new()
+            {
+                Stroke = System.Windows.Media.Brushes.Black,
+                X1 = 0,
+                Y1 = y,
+                X2 = myCanvas.ActualWidth,
+                Y2 = y,
+                StrokeThickness = 1
+            };
+            myCanvas.Children.Add(line);
+        }
+
+        //animation = new(fpsCounter, myCanvas);
+        //Task.Factory.StartNew(animation.Update);
     }
 
     private void Btn_Start_Click(object sender, RoutedEventArgs e)
     {
-        AddRandomPointsToTree(GROWINGRATE);
-        myCanvas.Children.Clear();
-        Draw(quadTree);
+        Task.Factory.StartNew(animation.Update);
+        //AddRandomPointsToTree(GROWINGRATE);
+        //myCanvas.Children.Clear();
+        //Draw(quadTree);
     }
 
     private void MyCanvas_LeftMouseDown(object sender, MouseButtonEventArgs e)
-    {        
-        DrawSearchwindowAtMousePosition(sender, e);
+    {
+        //DrawSearchwindowAtMousePosition(sender, e);
     }
 
     private void MyCanvas_RightMouseDown(object sender, MouseButtonEventArgs e)
     {
-        AddPointAtMousePositionToTree(sender, e);
+        //AddPointAtMousePositionToTree(sender, e);
     }
 
 
