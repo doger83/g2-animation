@@ -14,7 +14,7 @@ public static class Time
     { 
         get 
         {
-            if (Duration == 0)
+            if (Duration == 0) // should not happen. but I want to be save!
             {
                 return 0;
             }

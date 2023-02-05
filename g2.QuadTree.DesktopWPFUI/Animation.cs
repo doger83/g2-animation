@@ -19,7 +19,7 @@ public class Animation
 {
     private readonly Canvas canvas;
     private readonly FPSCounterViewModel fpsCounter;
-    public Particle particle;
+    private Particle particle;
 
     public Animation(FPSCounterViewModel fpsCounter, Canvas canvas)
     {
@@ -27,6 +27,8 @@ public class Animation
         this.canvas = canvas;
         this.particle = new(50, 50, 30, canvas);
     }
+
+    public Particle Particle { get { return particle; } private set { particle = value; } }
 
     public void Update()
     {
@@ -37,7 +39,7 @@ public class Animation
             fpsCounter.Draw();
             particle.Move();
             particle.Boundary();    
-
+            // ...
 
             Time.Stop();         
             Time.Duration = (double)Time.stopwatch.ElapsedTicks / (double)Stopwatch.Frequency * 1000.0;   

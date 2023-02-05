@@ -73,12 +73,12 @@ public partial class MainWindow : Window
     private void Render(object? sender, EventArgs e)
     {
 
-        //Canvas.SetLeft(animation.particle.Shape, animation.particle.X - animation.particle.Radius);
-        //Canvas.SetTop(animation.particle.Shape, animation.particle.Y - animation.particle.Radius);
+        //Canvas.SetLeft(animation.Particle.Shape, animation.Particle.X - animation.Particle.Radius);
+        //Canvas.SetTop(animation.Particle.Shape, animation.Particle.Y - animation.Particle.Radius);
 
 
-        animation?.particle.Shape.SetValue(Canvas.TopProperty, animation.particle.Y - animation.particle.Radius);
-        animation?.particle.Shape.SetValue(Canvas.LeftProperty, animation.particle.X - animation.particle.Radius);
+        animation.Particle.Shape.SetValue(Canvas.TopProperty, animation.Particle.Y - animation.Particle.Radius);
+        animation.Particle.Shape.SetValue(Canvas.LeftProperty, animation.Particle.X - animation.Particle.Radius);
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -118,6 +118,7 @@ public partial class MainWindow : Window
     private void Btn_Start_Click(object sender, RoutedEventArgs e)
     {
         Task.Factory.StartNew(animation.Update);
+        btn_Start.IsEnabled = false;
         //AddRandomPointsToTree(GROWINGRATE);
         //myCanvas.Children.Clear();
         //Draw(quadTree);
@@ -217,7 +218,7 @@ public partial class MainWindow : Window
         Canvas.SetLeft(circle, point.X - circle.Width / 2.0);
         Canvas.SetTop(circle, point.Y - circle.Height / 2.0);
         myCanvas.Children.Add(circle);
- 
+
     }
 
 
