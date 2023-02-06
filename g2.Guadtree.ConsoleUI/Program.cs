@@ -1,4 +1,6 @@
 ﻿
+using g2.Datastructures.Trees;
+
 const int WIDTH = 200;
 const int HEIGHT = 200;
 const int X = 200;

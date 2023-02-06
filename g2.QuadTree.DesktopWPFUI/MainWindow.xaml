@@ -5,21 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         
         mc:Ignorable="d"
-        Title="MainWindow" Height="768" Width="1024" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
-    <Grid Background="#FF1A1A1A">
-        <Canvas x:Name="myCanvas" Background="BEige" Width="500" Height="500" Margin="112,76,112,76" MouseLeftButtonDown="MyCanvas_LeftMouseDown" MouseRightButtonDown="MyCanvas_RightMouseDown"/>
-        <Button x:Name="btn_Start" Content="START" HorizontalAlignment="Left" Margin="667,31,0,0" VerticalAlignment="Top" Height="23" Width="112" Click="Btn_Start_Click"/>
+        Title="MainWindow" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" SizeToContent="WidthAndHeight" >
+    <Grid Height="500" Width="500" >
+        <Canvas x:Name="myCanvas" Width="500" Height="500" Margin="0,0,0,34" MouseLeftButtonDown="MyCanvas_LeftMouseDown" MouseRightButtonDown="MyCanvas_RightMouseDown">
+            <Canvas.Background>
+                <RadialGradientBrush MappingMode="RelativeToBoundingBox" SpreadMethod="Pad" RadiusX="0.7" RadiusY="0.7">
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FF454545" Offset="0"/>
+                </RadialGradientBrush>
+            </Canvas.Background>
+        </Canvas>
+        <Button x:Name="btn_Start" Content="START" HorizontalAlignment="Right" VerticalAlignment="Top" Height="25" Width="100" Click="Btn_Start_Click" BorderBrush="CornflowerBlue" Background="#FF383838" Foreground="White"/>
 
-        <Label x:Name="PositionText" Content="Total Points: {0} | Found Points: {1} | Visited Points: {2}" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="400"/>
-        <Label x:Name="MousPositionText" Content="Last click at X = {0}, Y = {1}" HorizontalAlignment="Center" Margin="0,41,0,0" VerticalAlignment="Top" Width="400"/>
+        <Label x:Name="PositionText" Content="Total Points: {0} | Found Points: {1} | Visited Points: {2}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="298" Foreground="#FFF1F1F1" HorizontalContentAlignment="Right"/>
+        <Label x:Name="MousPositionText" Content="Last click at X = {0}, Y = {1}" HorizontalAlignment="Left" Margin="2,0,0,0" VerticalAlignment="Bottom" Width="200" Foreground="#FFF1F1F1" VerticalContentAlignment="Bottom" Height="26"/>
 
 
-        <Label x:Name="FPSText" Content="{Binding Path=FPSCounter, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="112,10,0,0" VerticalAlignment="Top" Width="195" Height="26" Background="#FF4A4A4A" Foreground="White"/>
+        <Label x:Name="FPSText" Content="{Binding Path=FPSCounter, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="2,25,0,0" VerticalAlignment="Top" Width="195" Height="26" Foreground="White"/>
 
 
 
 
-        <Label x:Name="SekText" Content="{Binding Path=SekCounter, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="112,42,0,0" VerticalAlignment="Top" Width="195" Height="26" RenderTransformOrigin="0.484,2.786" Background="#FF4A4A4A" Foreground="White" />
+        <Label x:Name="SekText" Content="{Binding Path=SekCounter, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="0,-1,0,0" VerticalAlignment="Top" Width="195" Height="26" RenderTransformOrigin="0.484,2.786" Foreground="White" />
 
 
 

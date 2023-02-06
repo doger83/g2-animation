@@ -6,16 +6,15 @@ public class Animation
 {
     private readonly Canvas canvas;
     private readonly FPSCounterViewModel fpsCounter;
-    private Particle particle;
 
     public Animation(FPSCounterViewModel fpsCounter, Canvas canvas)
     {
         this.fpsCounter = fpsCounter;
         this.canvas = canvas;
-        particle = new(25, 25, 25, canvas);
+        Particle = new(25, 250, 25, canvas);
     }
 
-    public Particle Particle { get => particle; private set => particle = value; }
+    public Particle Particle { get; private set; }
 
     public void Update()
     {
@@ -24,10 +23,8 @@ public class Animation
             Time.Delta();
 
             fpsCounter.Draw();
-            particle.Move();
-            particle.Boundary();
-
-
+            Particle.Move();
+            Particle.Boundary();
         }
     }
 }

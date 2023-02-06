@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using g2.Quadtree;
 
-namespace g2.Quadtree;
+namespace g2.Datastructures.Trees;
 
 public class PointRegionQuadtree //: IQuadtree
 {
@@ -22,7 +15,7 @@ public class PointRegionQuadtree //: IQuadtree
 
     public Quadrant Boundary { get; }
     public int Capacity { get; }
-    public bool Divided { get; private set; } 
+    public bool Divided { get; private set; }
 
     public List<Point>? Points { get; private set; }
     public PointRegionQuadtree? NorthWest { get; private set; }
@@ -63,20 +56,13 @@ public class PointRegionQuadtree //: IQuadtree
 
     public Quadrants GetQuadrant(Point point)
     {
-        var xMidpoint = (Boundary.X - (Boundary.Width/2) + Boundary.X + (Boundary.Width/2)) / 2;
-        var yMidpoint = (Boundary.Y - (Boundary.Height/2) + Boundary.Y + (Boundary.Height / 2)) / 2;
+        double xMidpoint = (Boundary.X - (Boundary.Width / 2) + Boundary.X + (Boundary.Width / 2)) / 2;
+        double yMidpoint = (Boundary.Y - (Boundary.Height / 2) + Boundary.Y + (Boundary.Height / 2)) / 2;
 
-        var inNorth = point.Y >= xMidpoint;
-        var inWest = point.X < yMidpoint;
+        bool inNorth = point.Y >= xMidpoint;
+        bool inWest = point.X < yMidpoint;
 
-        if (inNorth)
-        {
-            return inWest ? Quadrants.NorthWest : Quadrants.NorthEast;
-        }
-        else
-        {
-            return inWest ? Quadrants.SouthWest : Quadrants.SouthEast;
-        }
+        return inNorth ? inWest ? Quadrants.NorthWest : Quadrants.NorthEast : inWest ? Quadrants.SouthWest : Quadrants.SouthEast;
     }
 
     public bool Insert(Point point)
@@ -94,23 +80,25 @@ public class PointRegionQuadtree //: IQuadtree
                 Points.Add(point);
                 return true;
             }
+
             Subdivide();
         }
 
         return // Todo: add Testcase in case this happens to throw Ex
-            (NorthEast!.Insert(point)) ||
-            (NorthWest!.Insert(point)) ||
-            (SouthEast!.Insert(point)) ||
-            (SouthWest!.Insert(point)) ;
+            NorthEast!.Insert(point) ||
+            NorthWest!.Insert(point) ||
+            SouthEast!.Insert(point) ||
+            SouthWest!.Insert(point);
     }
     public List<Point> Query(Quadrant searchWindow, List<Point>? foundPoints = null)
-    {  
+    {
         foundPoints ??= new List<Point>();
 
         if (!searchWindow.Intersects(Boundary))
         {
             return foundPoints;
         }
+
         if (Divided)
         {
             _ = NorthEast!.Query(searchWindow, foundPoints);
@@ -119,10 +107,11 @@ public class PointRegionQuadtree //: IQuadtree
             _ = SouthWest!.Query(searchWindow, foundPoints);
 
         }
+
         if (Points is not null)
         {
             // Todo: Points null?
-            foreach (var point in Points)
+            foreach (Point point in Points)
             {
                 Count++;
                 if (searchWindow.Contains(point))
@@ -131,6 +120,7 @@ public class PointRegionQuadtree //: IQuadtree
                 }
             }
         }
+
         return foundPoints;
     }
 
@@ -143,21 +133,21 @@ public class PointRegionQuadtree //: IQuadtree
 
     private void InitializeSubQuadrants()
     {
-        var x = Boundary.X;
-        var y = Boundary.Y;
-        var w = Boundary.Width;
-        var h = Boundary.Height;
+        double x = Boundary.X;
+        double y = Boundary.Y;
+        double w = Boundary.Width;
+        double h = Boundary.Height;
 
-        var ne = new Quadrant(x + w / 2.0, y - h / 2.0, w / 2.0, h / 2.0);
+        Quadrant ne = new(x + (w / 2.0), y - (h / 2.0), w / 2.0, h / 2.0);
         NorthEast = new(ne, Capacity);
 
-        var nw = new Quadrant(x - w / 2.0, y - h / 2.0, w / 2.0, h / 2.0);
+        Quadrant nw = new(x - (w / 2.0), y - (h / 2.0), w / 2.0, h / 2.0);
         NorthWest = new(nw, Capacity);
 
-        var se = new Quadrant(x + w / 2.0, y + h / 2.0, w / 2.0, h / 2.0);
+        Quadrant se = new(x + (w / 2.0), y + (h / 2.0), w / 2.0, h / 2.0);
         SouthEast = new(se, Capacity);
 
-        var sw = new Quadrant(x - w / 2.0, y + h / 2.0, w / 2.0, h / 2.0);
+        Quadrant sw = new(x - (w / 2.0), y + (h / 2.0), w / 2.0, h / 2.0);
         SouthWest = new(sw, Capacity);
         Divided = true;
     }
@@ -172,7 +162,7 @@ public class PointRegionQuadtree //: IQuadtree
         for (int i = 0; i < Points?.Count; i++)
         {
             Point p = Points[i];
-            var inserted =
+            bool inserted =
                 NorthWest!.Insert(p) ||
                 NorthEast!.Insert(p) ||
                 SouthEast!.Insert(p) ||
@@ -184,6 +174,7 @@ public class PointRegionQuadtree //: IQuadtree
                 throw new ArgumentOutOfRangeException("capacity must be greater than 0");
             }
         }
+
         Points = null;
     }
 }

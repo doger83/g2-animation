@@ -1,4 +1,5 @@
 ﻿using g2.Datastructures.DesktopWPFUI;
+using g2.Datastructures.Trees;
 using g2.Quadtree;
 using System;
 using System.Collections.Generic;
@@ -72,12 +73,14 @@ public partial class MainWindow : Window
             {
 
 
-                Stroke = System.Windows.Media.Brushes.Black,
+                Stroke = System.Windows.Media.Brushes.White,
                 X1 = x,
                 Y1 = 0,
                 X2 = x,
                 Y2 = myCanvas.ActualHeight,
-                StrokeThickness = 1
+                StrokeThickness = 0.25,
+                Opacity = 0.25,
+
             };
             _ = myCanvas.Children.Add(line);
         }
@@ -86,12 +89,13 @@ public partial class MainWindow : Window
         {
             Line line = new()
             {
-                Stroke = System.Windows.Media.Brushes.Black,
+                Stroke = System.Windows.Media.Brushes.White,
                 X1 = 0,
                 Y1 = y,
                 X2 = myCanvas.ActualWidth,
                 Y2 = y,
-                StrokeThickness = 1
+                StrokeThickness = 0.25,
+                Opacity = 0.25,
             };
             _ = myCanvas.Children.Add(line);
         }
@@ -101,8 +105,8 @@ public partial class MainWindow : Window
     {
         animation = new(fpsCounter, myCanvas);
         _ = myCanvas.Children.Add(animation.Particle.Shape);
-
         _ = Task.Factory.StartNew(animation.Update);
+
         btn_Start.IsEnabled = false;
         //AddRandomPointsToTree(GROWINGRATE);
         //myCanvas.Children.Clear();
@@ -192,6 +196,7 @@ public partial class MainWindow : Window
             Stroke = color,
             StrokeThickness = 3,
         };
+
         Canvas.SetLeft(circle, point.X - (circle.Width / 2.0));
         Canvas.SetTop(circle, point.Y - (circle.Height / 2.0));
         _ = myCanvas.Children.Add(circle);
