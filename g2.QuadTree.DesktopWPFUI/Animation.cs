@@ -25,13 +25,15 @@ public class Animation
     {
         this.fpsCounter = fpsCounter;
         this.canvas = canvas;
-        this.particle = new(50, 50, 25, canvas);
+        this.particle = new(25, 25, 25, canvas);
     }
 
     public Particle Particle { get { return particle; } private set { particle = value; } }
 
     public void Update()
     {
+
+
         while (true)
         {
             Time.Restart();
@@ -40,9 +42,10 @@ public class Animation
             particle.Move();
             particle.Boundary();
             // ...
-
+            //Thread.Sleep(10);
             Time.Stop();
             Time.Duration = TicksInMilliseconds();
+
         }
     }
 

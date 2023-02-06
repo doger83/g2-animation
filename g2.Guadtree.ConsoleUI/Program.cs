@@ -13,7 +13,7 @@ for (int i = 0; i < 50; i++)
 {
     int x = rnd.Next(WIDTH);
     int y = rnd.Next(HEIGHT);
-    var point = new Point(x, y);
+    Point point = new(x, y);
 
     qTree.Insert(point);
 }

@@ -113,10 +113,10 @@ public class PointRegionQuadtree //: IQuadtree
         }
         if (Divided)
         {
-            NorthEast!.Query(searchWindow, foundPoints);
-            NorthWest!.Query(searchWindow, foundPoints);
-            SouthEast!.Query(searchWindow, foundPoints);
-            SouthWest!.Query(searchWindow, foundPoints);
+            _ = NorthEast!.Query(searchWindow, foundPoints);
+            _ = NorthWest!.Query(searchWindow, foundPoints);
+            _ = SouthEast!.Query(searchWindow, foundPoints);
+            _ = SouthWest!.Query(searchWindow, foundPoints);
 
         }
         if (Points is not null)

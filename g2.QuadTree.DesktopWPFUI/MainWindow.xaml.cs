@@ -2,20 +2,11 @@
 using g2.Quadtree;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Point = g2.Quadtree.Point;
 
@@ -35,8 +26,8 @@ public partial class MainWindow : Window
 
     private readonly PointRegionQuadtree quadTree;
 
-    private Animation animation;
-    private List<Particle>? particles;
+    private Animation? animation;
+    //private List<Particle>? particles;
     private readonly FPSCounterViewModel fpsCounter;
 
     public MainWindow()
@@ -44,7 +35,7 @@ public partial class MainWindow : Window
         InitializeComponent();
 
         fpsCounter = new FPSCounterViewModel(myCanvas);
-        DataContext = fpsCounter;       
+        DataContext = fpsCounter;
 
 
         Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
@@ -66,6 +57,7 @@ public partial class MainWindow : Window
 
     }
 
+    // ToDo: Put Rendering in FixedUpdate? Or let the ui handle the frequent updates?s
     private void Render(object? sender, EventArgs e)
     {
         animation?.Particle.Shape.SetValue(Canvas.TopProperty, animation.Particle.Y - animation.Particle.Radius);
@@ -78,6 +70,8 @@ public partial class MainWindow : Window
         {
             Line line = new()
             {
+
+
                 Stroke = System.Windows.Media.Brushes.Black,
                 X1 = x,
                 Y1 = 0,
@@ -85,7 +79,7 @@ public partial class MainWindow : Window
                 Y2 = myCanvas.ActualHeight,
                 StrokeThickness = 1
             };
-            myCanvas.Children.Add(line);
+            _ = myCanvas.Children.Add(line);
         }
 
         for (double y = 0; y <= myCanvas.ActualHeight; y += 50)
@@ -99,15 +93,16 @@ public partial class MainWindow : Window
                 Y2 = y,
                 StrokeThickness = 1
             };
-            myCanvas.Children.Add(line);
+            _ = myCanvas.Children.Add(line);
         }
     }
 
     private void Btn_Start_Click(object sender, RoutedEventArgs e)
     {
         animation = new(fpsCounter, myCanvas);
-        //fpsCounter.animation = animation;
-        Task.Factory.StartNew(animation.Update);
+        _ = myCanvas.Children.Add(animation.Particle.Shape);
+
+        _ = Task.Factory.StartNew(animation.Update);
         btn_Start.IsEnabled = false;
         //AddRandomPointsToTree(GROWINGRATE);
         //myCanvas.Children.Clear();
@@ -153,10 +148,7 @@ public partial class MainWindow : Window
         PositionText.Content = string.Format("Total Points: {0} | Found Points: {1} | Visited Points: {2}", totalPoints, points.Count, PointRegionQuadtree.Count);
     }
 
-    private void DrawRectangleAtQuadrant(Quadrant quadrant)
-    {
-        DrawRectangleAtQuadrant(quadrant, Brushes.Red);
-    }
+    private void DrawRectangleAtQuadrant(Quadrant quadrant) => DrawRectangleAtQuadrant(quadrant, Brushes.Red);
 
     private void DrawRectangleAtQuadrant(Quadrant quadrant, SolidColorBrush color)
     {
@@ -172,12 +164,9 @@ public partial class MainWindow : Window
         };
         Canvas.SetLeft(rectangle, quadrant.X - quadrant.Width);
         Canvas.SetTop(rectangle, quadrant.Y - quadrant.Height);
-        myCanvas.Children.Add(rectangle);
+        _ = myCanvas.Children.Add(rectangle);
     }
-    private void DrawCircleAtPoints(List<Point>? points)
-    {
-        DrawCircleAtPoints(points, Brushes.Green);
-    }
+    private void DrawCircleAtPoints(List<Point>? points) => DrawCircleAtPoints(points, Brushes.Green);
 
     private void DrawCircleAtPoints(List<Point>? points, SolidColorBrush color)
     { // nullable List ? why ... now I know... its because the list of points in the tree node might be null because the points are in one of the children!
@@ -185,16 +174,14 @@ public partial class MainWindow : Window
         {
             return;
         }
-        foreach (var point in points)
+
+        foreach (Point point in points)
         {
             DrawCircleAtPoint(point, color);
         }
     }
 
-    private void DrawCircleAtPoint(Point point)
-    {
-        DrawCircleAtPoint(point, Brushes.Green);
-    }
+    private void DrawCircleAtPoint(Point point) => DrawCircleAtPoint(point, Brushes.Green);
 
     private void DrawCircleAtPoint(Point point, SolidColorBrush color)
     {
@@ -205,10 +192,9 @@ public partial class MainWindow : Window
             Stroke = color,
             StrokeThickness = 3,
         };
-        Canvas.SetLeft(circle, point.X - circle.Width / 2.0);
-        Canvas.SetTop(circle, point.Y - circle.Height / 2.0);
-        myCanvas.Children.Add(circle);
-
+        Canvas.SetLeft(circle, point.X - (circle.Width / 2.0));
+        Canvas.SetTop(circle, point.Y - (circle.Height / 2.0));
+        _ = myCanvas.Children.Add(circle);
     }
 
 
@@ -218,12 +204,13 @@ public partial class MainWindow : Window
 
         for (int i = 0; i < growingrate; i++)
         {
-            var x = random.NextDouble() * WIDTH * 2.0;
-            var y = random.NextDouble() * HEIGHT * 2.0;
+            double x = random.NextDouble() * WIDTH * 2.0;
+            double y = random.NextDouble() * HEIGHT * 2.0;
             Point point = new(x, y);
 
-            quadTree.Insert(point);
+            _ = quadTree.Insert(point);
         }
+
         totalPoints += growingrate;
     }
 
@@ -231,7 +218,7 @@ public partial class MainWindow : Window
     {
         System.Windows.Point p = e.GetPosition(myCanvas);
 
-        quadTree.Insert(new Point(p.X, p.Y));
+        _ = quadTree.Insert(new Point(p.X, p.Y));
 
         myCanvas.Children.Clear();
         Draw(quadTree);

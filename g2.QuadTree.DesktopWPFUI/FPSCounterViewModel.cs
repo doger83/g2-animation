@@ -1,26 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace g2.Datastructures.DesktopWPFUI;
 public class FPSCounterViewModel : INotifyPropertyChanged
 {
+    // ToDo: LastUpdate aus Time classe erhalten?
+    private DateTime lastUpdate;
+    private uint framesSinceLastUpdate;
+    private Canvas canvas;
 
-    DateTime lastUpdate;
-    uint framesSinceLastUpdate;
-    Canvas canvas;
-
+    // ToDo: Use Time class for messering FPS Counter. 
+    // ToTo: Use Ticks and GetTimestamp() continuesly for measuring time like her using frametime before and actual
     public FPSCounterViewModel(Canvas canvas)
     {
-        lastUpdate = DateTime.Now;
-        framesSinceLastUpdate = 0;
+        this.lastUpdate = DateTime.Now;
+        this.framesSinceLastUpdate = 0;
         this.canvas = canvas;
     }
 
@@ -28,31 +24,32 @@ public class FPSCounterViewModel : INotifyPropertyChanged
     private String fpsCounter = String.Empty;
     public String FPSCounter
     {
-        get { return fpsCounter; }
+        get { return this.fpsCounter; }
         set
         {
-            fpsCounter = value;
+            this.fpsCounter = value;
             NotifyPropertyChanged(nameof(FPSCounter));
             NotifyPropertyChanged(nameof(SekCounter));
         }
     }
-    
+
     public String SekCounter
     {
-        get { return DateTime.Now.ToString(); }       
+        get { return DateTime.Now.ToString(); }
     }
 
     public void Draw()
     {
-        framesSinceLastUpdate++;
-        if ((DateTime.Now - lastUpdate).TotalMilliseconds >= 1000)
+        // ToDo: Wenn Counter die UI Updated stottert es und es kann zu einem glitch kommen wenn dies genau im moment der Bande passierts. Auch wenn der FPS COunt nicht gezeichnet wird!
+        this.framesSinceLastUpdate++;
+        if ((DateTime.Now - this.lastUpdate).TotalMilliseconds >= 1000)
         {
-            fpsCounter = $"{framesSinceLastUpdate:n0} fps";
+            this.fpsCounter = $"{this.framesSinceLastUpdate:n0} fps";
 
-            framesSinceLastUpdate = 0;
-            lastUpdate = DateTime.Now;
+            this.framesSinceLastUpdate = 0;
+            this.lastUpdate = DateTime.Now;
 
-            FPSCounter = fpsCounter;
+            FPSCounter = this.fpsCounter;
         }
     }
 
@@ -63,8 +60,10 @@ public class FPSCounterViewModel : INotifyPropertyChanged
     {
         var handler = PropertyChanged;
         if (handler != null)
+        {
             handler(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
- 
+
 }
