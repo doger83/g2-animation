@@ -39,7 +39,7 @@ public struct Particle
         //Debug.WriteLine($"before: X: {X} XSpeed: {XSpeed} dt: {Time.DeltaTime.ToString("G25")}");
 
         Random random = new();
-        X += XSpeed * Time.DeltaTime; // xspeed; //random.Next(-5, 6);
+        X += XSpeed * Time.DT; // xspeed; //random.Next(-5, 6);
         //Y += YSpeed * Time.DeltaTime; // yspeed; //random.Next(-5, 6);
 
         //Debug.WriteLine($"after X: {X} XSpeed: {XSpeed} dt: {Time.DeltaTime.ToString("G25")}");
