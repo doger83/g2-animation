@@ -21,7 +21,7 @@ public class Particle
 
     public double X { get; set; }
     public double Y { get; set; }
-    public double XSpeed { get; set; } = 500; // in px/s
+    public double XSpeed { get; set; } = 1000; // in px/s
     public double YSpeed { get; set; } = 0; // in px/s
     public double Radius { get; set; }
     public Ellipse Shape { get; private set; }
