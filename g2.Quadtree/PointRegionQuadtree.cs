@@ -74,7 +74,6 @@ public class PointRegionQuadtree //: IQuadtree
 
         if (!Divided)
         {
-            // Todo: Points may be null here! 
             if ((Points ??= new()).Count < Capacity)
             {
                 Points.Add(point);
@@ -110,7 +109,6 @@ public class PointRegionQuadtree //: IQuadtree
 
         if (Points is not null)
         {
-            // Todo: Points null?
             foreach (Point point in Points)
             {
                 Count++;
@@ -128,7 +126,6 @@ public class PointRegionQuadtree //: IQuadtree
     {
         InitializeSubQuadrants();
         MovePointsToSubQuadrants();
-
     }
 
     private void InitializeSubQuadrants()
