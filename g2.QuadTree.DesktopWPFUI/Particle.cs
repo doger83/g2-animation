@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace g2.Datastructures.DesktopWPFUI;
-// ToDo: Particle Class or struct?
+
 public class Particle
 {
     // ToDo: Add Regions like WPF Samples
@@ -17,24 +16,13 @@ public class Particle
         // ToDo: Add Z for deepth calculations
         Radius = radius;
         this.canvas = canvas;
-        Shape = new()
-        {
-
-            Width = radius * 2,
-            Height = radius * 2,
-            Stroke = new SolidColorBrush(Color.FromArgb(255, 100, 100, 205)),
-            StrokeThickness = 1,
-        };
-        RadialGradientBrush gradientBrush = new();
-        gradientBrush.GradientStops.Add(new GradientStop(Colors.LightGray, 0));
-        gradientBrush.GradientStops.Add(new GradientStop(Colors.Black, 1));
-        Shape.Fill = gradientBrush;
+        Shape = ParticleShapes.CircleBasis(radius);
     }
 
     public double X { get; set; }
     public double Y { get; set; }
-    public double XSpeed { get; set; } = 100; // in px/s
-    public double YSpeed { get; set; } = 100; // in px/s
+    public double XSpeed { get; set; } = 500; // in px/s
+    public double YSpeed { get; set; } = 0; // in px/s
     public double Radius { get; set; }
     public Ellipse Shape { get; private set; }
 
@@ -47,10 +35,9 @@ public class Particle
         X += XSpeed * Time.DeltaTime; // xspeed; //random.Next(-5, 6);
         Y += YSpeed * Time.DeltaTime; // yspeed; //random.Next(-5, 6);
 
-        //Debug.WriteLine($"after X: {X} XSpeed: {XSpeed} dt: {Time.DeltaTime.ToString("G25")}");
+        //Debug.WriteLine($"after X: {X} XSpeed: {XSpeed} dt: {Time.DeltaTime:G25}");
     }
 
-    // ToDo: Maybe move this to UI to get rid of Canvas injection dependency
     public void Boundary()
     {
         if (X - Radius < 0)

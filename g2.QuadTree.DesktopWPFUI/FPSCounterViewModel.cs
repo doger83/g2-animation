@@ -12,11 +12,10 @@ public class FPSCounterViewModel : INotifyPropertyChanged
     private Canvas canvas;
 
     // ToDo: Use Time class for messering FPS Counter. 
-    // ToTo: Use Ticks and GetTimestamp() continuesly for measuring time like her using frametime before and actual
     public FPSCounterViewModel(Canvas canvas)
     {
-        this.lastUpdate = DateTime.Now;
-        this.framesSinceLastUpdate = 0;
+        lastUpdate = DateTime.Now;
+        framesSinceLastUpdate = 0;
         this.canvas = canvas;
     }
 
@@ -24,46 +23,34 @@ public class FPSCounterViewModel : INotifyPropertyChanged
     private String fpsCounter = String.Empty;
     public String FPSCounter
     {
-        get { return this.fpsCounter; }
+        get => fpsCounter;
         set
         {
-            this.fpsCounter = value;
+            fpsCounter = value;
             NotifyPropertyChanged(nameof(FPSCounter));
             NotifyPropertyChanged(nameof(SekCounter));
         }
     }
 
-    public String SekCounter
-    {
-        get { return DateTime.Now.ToString(); }
-    }
+    public String SekCounter => DateTime.Now.ToString();
 
     public void Draw()
     {
-        // ToDo: Wenn Counter die UI Updated stottert es und es kann zu einem glitch kommen wenn dies genau im moment der Bande passierts. Auch wenn der FPS COunt nicht gezeichnet wird!
-        this.framesSinceLastUpdate++;
-        if ((DateTime.Now - this.lastUpdate).TotalMilliseconds >= 1000)
+        // ToDo: Wenn Counter die UI Updated stottert es?
+        framesSinceLastUpdate++;
+        if ((DateTime.Now - lastUpdate).TotalMilliseconds >= 1000)
         {
-            this.fpsCounter = $"{this.framesSinceLastUpdate:n0} fps";
+            fpsCounter = $"{framesSinceLastUpdate:n0} fps";
 
-            this.framesSinceLastUpdate = 0;
-            this.lastUpdate = DateTime.Now;
+            framesSinceLastUpdate = 0;
+            lastUpdate = DateTime.Now;
 
-            FPSCounter = this.fpsCounter;
+            FPSCounter = fpsCounter;
         }
     }
 
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    protected virtual void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-    {
-        var handler = PropertyChanged;
-        if (handler != null)
-        {
-            handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
-
-
+    protected virtual void NotifyPropertyChanged([CallerMemberName] String propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }

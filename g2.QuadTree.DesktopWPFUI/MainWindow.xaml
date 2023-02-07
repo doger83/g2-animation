@@ -2,12 +2,34 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
+        mc:Ignorable="d"        
         
-        mc:Ignorable="d"
-        Title="MainWindow" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" SizeToContent="WidthAndHeight" >
-    <Grid Height="500" Width="500" >
-        <Canvas x:Name="myCanvas" Width="500" Height="500" Margin="0,0,0,34" MouseLeftButtonDown="MyCanvas_LeftMouseDown" MouseRightButtonDown="MyCanvas_RightMouseDown">
+        Title="MainWindow"          
+        x:Name="mainWIndow"
+        
+        WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight"
+        Loaded="mainWIndow_Loaded"
+        >
+    
+    <!--<Window.Resources>
+        <sys:String x:Key="CurrentDateTime">{0:G}</sys:String>
+        <local:DateTimeToStringConverter x:Key="DateTimeToStringConverter"/>
+    </Window.Resources>-->
+
+
+    <Grid x:Name="outerGrid"  >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+
+        </Grid.ColumnDefinitions>
+
+        <Canvas x:Name="mainCanvas" 
+                Grid.Row="0" Grid.Column="0" >
             <Canvas.Background>
                 <RadialGradientBrush MappingMode="RelativeToBoundingBox" SpreadMethod="Pad" RadiusX="0.7" RadiusY="0.7">
                     <GradientStop Color="Black" Offset="1"/>
@@ -15,21 +37,75 @@
                 </RadialGradientBrush>
             </Canvas.Background>
         </Canvas>
-        <Button x:Name="btn_Start" Content="START" HorizontalAlignment="Right" VerticalAlignment="Top" Height="25" Width="100" Click="Btn_Start_Click" BorderBrush="CornflowerBlue" Background="#FF383838" Foreground="White"/>
 
-        <Label x:Name="PositionText" Content="Total Points: {0} | Found Points: {1} | Visited Points: {2}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="298" Foreground="#FFF1F1F1" HorizontalContentAlignment="Right"/>
-        <Label x:Name="MousPositionText" Content="Last click at X = {0}, Y = {1}" HorizontalAlignment="Left" Margin="2,0,0,0" VerticalAlignment="Bottom" Width="200" Foreground="#FFF1F1F1" VerticalContentAlignment="Bottom" Height="26"/>
+        <Grid x:Name="innerGrid"
+              Grid.Row="0" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
+            <StackPanel x:Name="panelNW" 
+                        Grid.Row="0" Grid.Column="0" 
+                        Orientation="Vertical" 
+                        HorizontalAlignment="Left" VerticalAlignment="Top">
 
-        <Label x:Name="FPSText" Content="{Binding Path=FPSCounter, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="2,25,0,0" VerticalAlignment="Top" Width="195" Height="26" Foreground="White"/>
+                <Label x:Name="lblTime" 
+                       Foreground="#FFF1F1F1"
+                       Content="{Binding Path=SekCounter, 
+                                 FallbackValue='06.02.2023 19:55:32'}"/>
 
+                <Label x:Name="lblFPS"
+                       Foreground="#FFF1F1F1"
+                       Content="{Binding Path=FPSCounter, 
+                                 UpdateSourceTrigger=PropertyChanged, 
+                                 FallbackValue='XXX FPS' }"/>
 
+            </StackPanel>
 
+            <StackPanel x:Name="panelNE"  
+                        Grid.Row="0" Grid.Column="1" 
+                        Orientation="Horizontal" 
+                        HorizontalAlignment="Right" VerticalAlignment="Top">
 
-        <Label x:Name="SekText" Content="{Binding Path=SekCounter, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="0,-1,0,0" VerticalAlignment="Top" Width="195" Height="26" RenderTransformOrigin="0.484,2.786" Foreground="White" />
+                <Button x:Name="btnStart" 
+                        Width="150" Height="25"
+                        Content="START" 
+                        BorderBrush="CornflowerBlue" 
+                        Background="#FF383838" 
+                        Foreground="White"
+                        Click="btnStart_Click" />
 
+            </StackPanel>
 
+            <StackPanel x:Name="panelSW" 
+                        Grid.Row="1" Grid.Column="0" 
+                        Orientation="Vertical" 
+                        HorizontalAlignment="Left" VerticalAlignment="Bottom">
 
+                <Label x:Name="lblPosition"
+                       Foreground="#FFF1F1F1"
+                       Content="Last click at X = {0}, Y = {1}"/>
+
+            </StackPanel>
+
+            <StackPanel x:Name="panelSE" 
+                        Grid.Row="1" Grid.Column="1" 
+                        Orientation="Vertical" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Bottom">
+
+                <Label x:Name="lblPoints"
+                       Foreground="#FFF1F1F1"
+                       Content="Total Points: {0} | Found Points: {1} | Visited Points: {2}" />
+
+            </StackPanel>
+
+        </Grid>
 
     </Grid>
 </Window>
