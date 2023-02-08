@@ -21,7 +21,7 @@ public partial class MainWindow : Window
 
     ////private readonly PointRegionQuadtree quadTree;
 
-    private Animation? animation;
+    private AnimationBase? animation;
     private Task? mainLoop;
 
     //private List<Particle>? particles;
@@ -133,5 +133,8 @@ public partial class MainWindow : Window
 
         //Debug.WriteLine(animation?.Particle.X);
     }
-    private void mainWIndow_Loaded(object sender, RoutedEventArgs e) => CanvasShapes.AddGridLines(mainCanvas);
+    private void mainWIndow_Loaded(object sender, RoutedEventArgs e)
+    {
+        CanvasShapes.AddGridLines(mainCanvas);
+    }
 }

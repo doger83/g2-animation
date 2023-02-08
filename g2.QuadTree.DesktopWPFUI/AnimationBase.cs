@@ -1,14 +1,15 @@
-﻿using System.Windows.Controls;
+﻿using g2.Animation.DesktopWPFUI;
+using System.Windows.Controls;
 
 namespace g2.Datastructures.DesktopWPFUI;
 
-public class Animation
+public class AnimationBase
 {
     private readonly Canvas canvas;
     private readonly FPSCounterViewModel fpsCounter;
     private bool stopThread;
 
-    public Animation(FPSCounterViewModel fpsCounter, Canvas canvas)
+    public AnimationBase(FPSCounterViewModel fpsCounter, Canvas canvas)
     {
         this.fpsCounter = fpsCounter;
         this.canvas = canvas;

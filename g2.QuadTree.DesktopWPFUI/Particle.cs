@@ -1,8 +1,9 @@
-﻿using System;
+﻿using g2.Datastructures.DesktopWPFUI;
+using System;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 
-namespace g2.Datastructures.DesktopWPFUI;
+namespace g2.Animation.DesktopWPFUI;
 
 public class Particle
 {
@@ -19,12 +20,21 @@ public class Particle
         Shape = ParticleShapes.CircleBasis(radius);
     }
 
+    public Particle(double x, double y, double radius)
+    {
+        X = x;
+        Y = y;
+        // ToDo: Add Z for deepth calculations
+        Radius = radius;
+        Shape = null;
+    }
+
     public double X { get; set; }
     public double Y { get; set; }
     public double XSpeed { get; set; } = 1000; // in px/s
     public double YSpeed { get; set; } = 0; // in px/s
     public double Radius { get; set; }
-    public Ellipse Shape { get; private set; }
+    public Ellipse? Shape { get; set; }
 
     public void Move()
     {
@@ -40,7 +50,7 @@ public class Particle
 
     public void Boundary()
     {
-        if (X - Radius < 0)
+        if (X - Radius <= 0)
         {
             XSpeed *= -1;
             X = Radius;
@@ -49,7 +59,7 @@ public class Particle
             //Debug.WriteLine($"Boundary X: {X} XSpeed: {XSpeed} dt: {Time.DeltaTime.ToString("G25")}");
         }
 
-        if (X > canvas.ActualWidth - Radius)
+        if (X >= canvas.ActualWidth - Radius)
         {
             XSpeed *= -1;
             X = canvas.ActualWidth - Radius;
@@ -58,14 +68,14 @@ public class Particle
             //Debug.WriteLine($"Boundary X: {X} XSpeed: {XSpeed} dt: {Time.DeltaTime.ToString("G25")}");
         }
 
-        if (Y - Radius < 0)
+        if (Y - Radius <= 0)
         {
             YSpeed *= -1;
             Y = Radius;
 
         }
 
-        if (Y > canvas.ActualHeight - Radius)
+        if (Y >= canvas.ActualHeight - Radius)
         {
             YSpeed *= -1;
             Y = canvas.ActualHeight - Radius;
