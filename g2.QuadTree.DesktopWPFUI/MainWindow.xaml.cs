@@ -11,8 +11,8 @@ namespace g2.QuadTree.DesktopWPFUI;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private const double WIDTH = 500.0;
-    private const double HEIGHT = 500.0;
+    private const double WIDTH = 550.0;
+    private const double HEIGHT = 550.0;
     //private const double X = 50.0;
     //private const double Y = 50.0;
     //private const int CAPACATY = 4;

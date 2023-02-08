@@ -11,7 +11,7 @@ public class Particle
     private readonly Canvas canvas;
     private double x;
     private double y;
-    private double xSpeed = 1000;
+    private double xSpeed = 50;
     private double ySpeed = 0;
     private double radius;
     private Ellipse shape;

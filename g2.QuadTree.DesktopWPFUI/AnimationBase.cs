@@ -44,6 +44,10 @@ public class AnimationBase
                 fpsCounter.Draw();
                 particle.Move();
                 particle.Boundary();
+                for (int i = 0; i < 1_000_000; i++)
+                {
+                            
+                }
                 //Debug.WriteLine("Running");
             }
 

@@ -5,15 +5,15 @@ namespace g2.Animation.DesktopWPFUI;
 
 public static class Time
 {
-    private static long previous;
+    private static long previousTicks;
     private static Stopwatch? watch;
     private static double deltaTime;
 
 
     public static void Delta()
     {
-        deltaTime = (double)(watch!.ElapsedTicks - previous) / Stopwatch.Frequency;
-        previous = watch.ElapsedTicks;
+        deltaTime = (double)(watch!.ElapsedTicks - previousTicks) / Stopwatch.Frequency;
+        previousTicks = watch.ElapsedTicks;
     }
 
     private static double? TotalTicksInMilliseconds()
@@ -44,7 +44,7 @@ public static class Time
         {
             watch = new();
             watch.Start();
-            previous = watch.ElapsedTicks;
+            previousTicks = watch.ElapsedTicks;
         }
     }
 }
