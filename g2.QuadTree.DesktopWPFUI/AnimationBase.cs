@@ -1,18 +1,17 @@
-﻿using g2.Animation.DesktopWPFUI;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
-namespace g2.Datastructures.DesktopWPFUI;
+namespace g2.Animation.DesktopWPFUI;
 
 public class AnimationBase
 {
-    private readonly Canvas canvas;
+
     private readonly FPSCounterViewModel fpsCounter;
     private bool stopThread;
 
     public AnimationBase(FPSCounterViewModel fpsCounter, Canvas canvas)
     {
         this.fpsCounter = fpsCounter;
-        this.canvas = canvas;
+
         Particle = new(25, 250, 25, canvas);
     }
 
@@ -42,6 +41,9 @@ public class AnimationBase
 
 
     }
-    public void StopThread() => stopThread = true;
+    public void StopThread()
+    {
+        stopThread = true;
+    }
 }
 

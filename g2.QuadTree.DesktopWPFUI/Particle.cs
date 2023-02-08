@@ -20,21 +20,13 @@ public class Particle
         Shape = ParticleShapes.CircleBasis(radius);
     }
 
-    public Particle(double x, double y, double radius)
-    {
-        X = x;
-        Y = y;
-        // ToDo: Add Z for deepth calculations
-        Radius = radius;
-        Shape = null;
-    }
 
     public double X { get; set; }
     public double Y { get; set; }
     public double XSpeed { get; set; } = 1000; // in px/s
     public double YSpeed { get; set; } = 0; // in px/s
     public double Radius { get; set; }
-    public Ellipse? Shape { get; set; }
+    public Ellipse Shape { get; set; }
 
     public void Move()
     {

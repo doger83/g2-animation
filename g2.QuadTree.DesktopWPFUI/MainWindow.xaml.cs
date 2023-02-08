@@ -1,4 +1,5 @@
-﻿using g2.Datastructures.DesktopWPFUI;
+﻿using g2.Animation.DesktopWPFUI;
+using g2.Datastructures.DesktopWPFUI;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -31,7 +32,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        fpsCounter = new(mainCanvas);
+        fpsCounter = new();
         DataContext = fpsCounter;
         mainCanvas.MinWidth = WIDTH;
         mainCanvas.MinHeight = HEIGHT;

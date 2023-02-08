@@ -1,29 +1,32 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Controls;
 
-namespace g2.Datastructures.DesktopWPFUI;
+namespace g2.Animation.DesktopWPFUI;
 public class FPSCounterViewModel : INotifyPropertyChanged
 {
     // ToDo: LastUpdate aus Time classe erhalten?
     private DateTime lastUpdate;
     private uint framesSinceLastUpdate;
-    private Canvas canvas;
+
 
     // ToDo: Use Time class for messering FPS Counter. 
-    public FPSCounterViewModel(Canvas canvas)
+    public FPSCounterViewModel()
     {
         lastUpdate = DateTime.Now;
         framesSinceLastUpdate = 0;
-        this.canvas = canvas;
+
     }
 
 
-    private String fpsCounter = String.Empty;
-    public String FPSCounter
+    private string fpsCounter = string.Empty;
+    public string FPSCounter
     {
-        get => fpsCounter;
+        get
+        {
+            return fpsCounter;
+        }
+
         set
         {
             fpsCounter = value;
@@ -32,7 +35,13 @@ public class FPSCounterViewModel : INotifyPropertyChanged
         }
     }
 
-    public String SekCounter => DateTime.Now.ToString();
+    public string SekCounter
+    {
+        get
+        {
+            return DateTime.Now.ToString();
+        }
+    }
 
     public void Draw()
     {
@@ -52,5 +61,8 @@ public class FPSCounterViewModel : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    protected virtual void NotifyPropertyChanged([CallerMemberName] String propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
 }
