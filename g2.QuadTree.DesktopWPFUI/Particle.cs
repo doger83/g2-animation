@@ -9,24 +9,90 @@ public class Particle
 {
     // ToDo: Add Regions like WPF Samples
     private readonly Canvas canvas;
+    private double x;
+    private double y;
+    private double xSpeed = 1000;
+    private double ySpeed = 0;
+    private double radius;
+    private Ellipse shape;
 
     public Particle(double x, double y, double radius, Canvas canvas)
     {
-        X = x;
-        Y = y;
+        this.x = x;
+        this.y = y;
         // ToDo: Add Z for deepth calculations
-        Radius = radius;
+        this.radius = radius;
         this.canvas = canvas;
-        Shape = ParticleShapes.CircleBasis(radius);
+        this.shape = ParticleShapes.CircleBasis(radius);
     }
 
 
-    public double X { get; set; }
-    public double Y { get; set; }
-    public double XSpeed { get; set; } = 1000; // in px/s
-    public double YSpeed { get; set; } = 0; // in px/s
-    public double Radius { get; set; }
-    public Ellipse Shape { get; set; }
+    public double X
+    {
+        get
+        {
+            return x;
+        }
+        set
+        {
+            x = value;
+        }
+    }
+    public double Y
+    {
+        get
+        {
+            return y;
+        }
+        set
+        {
+            y = value;
+        }
+    }
+    public double XSpeed
+    {
+        get
+        {
+            return xSpeed;
+        }
+        set
+        {
+            xSpeed = value;
+        }
+    }
+    public double YSpeed
+    {
+        get
+        {
+            return ySpeed;
+        }
+        set
+        {
+            ySpeed = value;
+        }
+    }
+    public double Radius
+    {
+        get
+        {
+            return radius;
+        }
+        set
+        {
+            radius = value;
+        }
+    }
+    public Ellipse Shape
+    {
+        get
+        {
+            return shape;
+        }
+        set
+        {
+            shape = value;
+        }
+    }
 
     public void Move()
     {
@@ -34,43 +100,43 @@ public class Particle
         //Debug.WriteLine($"before: X: {X} XSpeed: {XSpeed} dt: {Time.DeltaTime.ToString("G25")}");
 
         Random random = new();
-        X += XSpeed * Time.DeltaTime; // xspeed; //random.Next(-5, 6);
-        Y += YSpeed * Time.DeltaTime; // yspeed; //random.Next(-5, 6);
+        x += xSpeed * Time.DeltaTime; // xspeed; //random.Next(-5, 6);
+        y += ySpeed * Time.DeltaTime; // yspeed; //random.Next(-5, 6);
 
         //Debug.WriteLine($"after X: {X} XSpeed: {XSpeed} dt: {Time.DeltaTime:G25}");
     }
 
     public void Boundary()
     {
-        if (X - Radius <= 0)
+        if (x - radius < 0)
         {
-            XSpeed *= -1;
-            X = Radius;
+            xSpeed *= -1;
+            x = radius;
 
             //Debug.WriteLine("----------Boundary-------------");
             //Debug.WriteLine($"Boundary X: {X} XSpeed: {XSpeed} dt: {Time.DeltaTime.ToString("G25")}");
         }
 
-        if (X >= canvas.ActualWidth - Radius)
+        if (x > canvas.ActualWidth - radius)
         {
-            XSpeed *= -1;
-            X = canvas.ActualWidth - Radius;
+            xSpeed *= -1;
+            x = canvas.ActualWidth - radius;
 
             //Debug.WriteLine("----------Boundary-------------");
             //Debug.WriteLine($"Boundary X: {X} XSpeed: {XSpeed} dt: {Time.DeltaTime.ToString("G25")}");
         }
 
-        if (Y - Radius <= 0)
+        if (y - radius < 0)
         {
-            YSpeed *= -1;
-            Y = Radius;
+            ySpeed *= -1;
+            y = radius;
 
         }
 
-        if (Y >= canvas.ActualHeight - Radius)
+        if (y > canvas.ActualHeight - radius)
         {
-            YSpeed *= -1;
-            Y = canvas.ActualHeight - Radius;
+            ySpeed *= -1;
+            y = canvas.ActualHeight - radius;
         }
     }
 }

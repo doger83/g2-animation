@@ -7,17 +7,30 @@ public static class Time
 {
     private static TimeSpan previous;
     private static Stopwatch? watch;
-    public static double DeltaTime { get; private set; }
+    private static double deltaTime;
+
 
     public static void Delta()
     {
-        DeltaTime = (watch!.Elapsed - previous).TotalSeconds;
+        deltaTime = (watch!.Elapsed - previous).TotalSeconds;
         previous = watch.Elapsed;
     }
 
     private static double? TotalTicksInMilliseconds()
     {
         return watch?.ElapsedTicks / Stopwatch.Frequency * 1000.0;
+    }
+
+    public static double DeltaTime
+    {
+        get
+        {
+            return deltaTime;
+        }
+        private set
+        {
+            deltaTime = value;
+        }
     }
 
     public static void Reset()

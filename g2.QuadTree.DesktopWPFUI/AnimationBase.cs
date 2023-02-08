@@ -8,15 +8,26 @@ public class AnimationBase
 
     private readonly FPSCounterViewModel fpsCounter;
     private bool stopThread;
+    private Particle particle;
 
     public AnimationBase(FPSCounterViewModel fpsCounter, Canvas canvas)
     {
         this.fpsCounter = fpsCounter;
 
-        Particle = new(25, 250, 25, canvas);
+        particle = new(25, 250, 25, canvas);
     }
 
-    public Particle Particle { get; private set; }
+    public Particle Particle
+    {
+        get
+        {
+            return particle;
+        }
+        private set
+        {
+            particle = value;
+        }
+    }
 
     public void RunUpdate()
     {
@@ -31,8 +42,8 @@ public class AnimationBase
                 Time.Delta();
 
                 fpsCounter.Draw();
-                Particle.Move();
-                Particle.Boundary();
+                particle.Move();
+                particle.Boundary();
                 //Debug.WriteLine("Running");
             }
 
