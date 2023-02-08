@@ -9,7 +9,7 @@
         x:Name="mainWIndow"
         
         WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight"
-        Loaded="mainWIndow_Loaded"
+        Loaded="MainWIndow_Loaded"
         >
     
     <!--<Window.Resources>
@@ -78,7 +78,7 @@
                         BorderBrush="CornflowerBlue" 
                         Background="#FF383838" 
                         Foreground="White"
-                        Click="btnStart_Click" />
+                        Click="BtnStart_Click" />
 
             </StackPanel>
 

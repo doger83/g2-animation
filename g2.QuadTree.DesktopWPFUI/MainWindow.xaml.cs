@@ -1,7 +1,6 @@
 ﻿using g2.Animation.DesktopWPFUI;
 using g2.Datastructures.DesktopWPFUI;
 using System;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -23,7 +22,7 @@ public partial class MainWindow : Window
     ////private readonly PointRegionQuadtree quadTree;
 
     private AnimationBase? animation;
-    private Task? mainLoop;
+    //private Task mainLoop;
 
     //private List<Particle>? particles;
     private readonly FPSCounterViewModel fpsCounter;
@@ -75,7 +74,7 @@ public partial class MainWindow : Window
     private double lastY;
     private double lastXSpeed;
     private double lastYSpeed;
-    private void btnStart_Click(object sender, RoutedEventArgs e)
+    private void BtnStart_Click(object sender, RoutedEventArgs e)
     {
         started = true;
         if (animation == null)
@@ -95,16 +94,16 @@ public partial class MainWindow : Window
         //Debug.WriteLine(animation!.Particle.X);
         //Debug.WriteLine(Canvas.GetLeft(animation!.Particle.Shape));
 
-        btnStart.Click -= btnStart_Click;
-        btnStart.Click += btnStop_Click;
+        btnStart.Click -= BtnStart_Click;
+        btnStart.Click += BtnStop_Click;
         btnStart.Content = "STOP";
 
 
         //Debug.WriteLine(animation?.Particle.X);
-        mainLoop = Task.Factory.StartNew(animation.Update);
+        animation.RunUpdate(); // Task.Factory.StartNew(animation.Update);
     }
 
-    private void btnStop_Click(object sender, RoutedEventArgs e)
+    private void BtnStop_Click(object sender, RoutedEventArgs e)
     {
         started = false;
         animation!.StopThread();
@@ -128,13 +127,13 @@ public partial class MainWindow : Window
         //Debug.WriteLine(Canvas.GetLeft(animation!.Particle.Shape));
 
 
-        btnStart.Click -= btnStop_Click;
-        btnStart.Click += btnStart_Click;
+        btnStart.Click -= BtnStop_Click;
+        btnStart.Click += BtnStart_Click;
         btnStart.Content = "START";
 
         //Debug.WriteLine(animation?.Particle.X);
     }
-    private void mainWIndow_Loaded(object sender, RoutedEventArgs e)
+    private void MainWIndow_Loaded(object sender, RoutedEventArgs e)
     {
         CanvasShapes.AddGridLines(mainCanvas);
     }

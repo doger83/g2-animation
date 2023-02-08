@@ -15,7 +15,6 @@ public class FPSCounterViewModel : INotifyPropertyChanged
     {
         lastUpdate = DateTime.Now;
         framesSinceLastUpdate = 0;
-
     }
 
 

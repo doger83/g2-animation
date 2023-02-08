@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace g2.Animation.DesktopWPFUI;
 
@@ -17,27 +18,27 @@ public class AnimationBase
 
     public Particle Particle { get; private set; }
 
-    public void Update()
+    public void RunUpdate()
     {
         stopThread = false;
 
-        //await Task.Run(() =>
-        //{
-        Time.Start();
-
-        while (!stopThread)
+        _ = Task.Run(() =>
         {
-            Time.Delta();
+            Time.Start();
 
-            fpsCounter.Draw();
-            Particle.Move();
-            Particle.Boundary();
-            //Debug.WriteLine("Running");
-        }
+            while (!stopThread)
+            {
+                Time.Delta();
 
-        Time.Reset();
+                fpsCounter.Draw();
+                Particle.Move();
+                Particle.Boundary();
+                //Debug.WriteLine("Running");
+            }
 
-        //});
+            Time.Reset();
+
+        });
 
 
     }
