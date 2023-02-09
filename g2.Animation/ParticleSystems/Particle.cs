@@ -3,7 +3,7 @@ using System;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 
-namespace g2.Animation.DesktopWPFUI;
+namespace g2.Animation.Core.ParticleSystems;
 
 public class Particle
 {
@@ -23,7 +23,7 @@ public class Particle
         // ToDo: Add Z for deepth calculations
         this.radius = radius;
         this.canvas = canvas;
-        this.shape = ParticleShapes.CircleBasis(radius);
+        shape = ParticleShapes.CircleBasis(radius);
     }
 
 
@@ -87,7 +87,7 @@ public class Particle
         get
         {
             return shape;
-        }         
+        }
     }
 
     public void Move()
@@ -103,11 +103,11 @@ public class Particle
 
     public void Boundary()
     {
-        bool LeftBoundary   = x - radius < 0;
-        bool RightBoundary  = x > canvas.ActualWidth - radius;
-        bool TopBoundary    = y - radius < 0;
+        bool LeftBoundary = x - radius < 0;
+        bool RightBoundary = x > canvas.ActualWidth - radius;
+        bool TopBoundary = y - radius < 0;
         bool BottomBoundary = y > canvas.ActualHeight - radius;
-        
+
         if (LeftBoundary)
         {
             xSpeed *= -1;

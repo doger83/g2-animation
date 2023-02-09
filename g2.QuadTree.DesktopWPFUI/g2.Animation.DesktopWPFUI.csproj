@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\g2.Animation\g2.Animation.Core.csproj" />
     <ProjectReference Include="..\g2.Quadtree\g2.Datastructures.Trees.csproj" />
   </ItemGroup>
 

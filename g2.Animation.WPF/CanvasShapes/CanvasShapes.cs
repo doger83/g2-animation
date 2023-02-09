@@ -4,7 +4,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace g2.Datastructures.DesktopWPFUI;
+namespace g2.Animation.UI.WPF.CanvasShapes;
 internal static class CanvasShapes
 {
     public static Canvas GetCanvas(double width, double height)
@@ -73,7 +73,7 @@ internal static class CanvasShapes
             {
 
 
-                Stroke = System.Windows.Media.Brushes.White,
+                Stroke = Brushes.White,
                 X1 = x,
                 Y1 = 0,
                 X2 = x,
@@ -89,7 +89,7 @@ internal static class CanvasShapes
         {
             Line line = new()
             {
-                Stroke = System.Windows.Media.Brushes.White,
+                Stroke = Brushes.White,
                 X1 = 0,
                 Y1 = y,
                 X2 = canvas.ActualWidth,

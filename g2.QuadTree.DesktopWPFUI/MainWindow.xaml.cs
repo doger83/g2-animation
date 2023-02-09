@@ -1,4 +1,5 @@
-﻿using g2.Animation.DesktopWPFUI;
+﻿using g2.Animation.Core;
+using g2.Animation.DesktopWPFUI;
 using g2.Datastructures.DesktopWPFUI;
 using System;
 using System.Threading.Tasks;

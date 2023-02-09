@@ -1,7 +1,7 @@
 ﻿using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace g2.Datastructures.DesktopWPFUI;
+namespace g2.Animation.UI.WPF.ParticleShapes;
 
 internal static class ParticleShapes
 {

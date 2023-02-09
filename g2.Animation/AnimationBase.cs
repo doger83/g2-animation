@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace g2.Animation.DesktopWPFUI;
+namespace g2.Animation.Core;
 
 public class AnimationBase
 {
@@ -32,7 +32,7 @@ public class AnimationBase
     {
         stopThread = false;
 
-        Time.Start();                                 
+        Time.Start();
 
         while (!stopThread)
         {

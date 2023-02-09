@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace g2.Animation.DesktopWPFUI;
+namespace g2.Animation.Core.Time;
 
 public static class Time
 {
