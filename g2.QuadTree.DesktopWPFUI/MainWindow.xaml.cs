@@ -1,6 +1,8 @@
 ﻿using g2.Animation.Core;
-using g2.Animation.DesktopWPFUI;
-using g2.Datastructures.DesktopWPFUI;
+using g2.Animation.Core.Timing;
+using g2.Animation.DesktopWPFUI.ViewModels;
+using g2.Animation.UI.WPF.CanvasShapes;
+using g2.Datastructures.Geometry;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,7 +29,8 @@ public partial class MainWindow : Window
     private Task? update;
 
     //private List<Particle>? particles;
-    private readonly FPSCounterViewModel fpsCounter;
+    private readonly FPSCounter fpsCounter;
+    private readonly ParticleViewModel particle;
 
     public MainWindow()
     {
@@ -37,6 +40,9 @@ public partial class MainWindow : Window
         DataContext = fpsCounter;
         mainCanvas.MinWidth = WIDTH;
         mainCanvas.MinHeight = HEIGHT;
+
+        particle = new(25,25, 25);
+
 
         CompositionTarget.Rendering += Render;
 
@@ -62,8 +68,10 @@ public partial class MainWindow : Window
     private bool started = false;
     private void Render(object? sender, EventArgs e)
     {
-        animation?.Particle.Shape.SetValue(Canvas.TopProperty, animation.Particle.Y - animation.Particle.Radius);
-        animation?.Particle.Shape.SetValue(Canvas.LeftProperty, animation.Particle.X - animation.Particle.Radius);
+        if (!started) { return; }
+
+        particle.Shape.SetValue(Canvas.TopProperty, animation?.Particle.Y - animation?.Particle.Radius);
+        particle.Shape.SetValue(Canvas.LeftProperty, animation?.Particle.X - animation?.Particle.Radius);
         //if (started)
         //{
 
@@ -80,8 +88,9 @@ public partial class MainWindow : Window
     {
         if (animation == null)
         {
-            animation = new(fpsCounter, mainCanvas);
-            _ = mainCanvas.Children.Add(animation.Particle.Shape);
+            Quadrant canvasBoundaries = new(0,0, WIDTH, HEIGHT);
+            animation = new(fpsCounter, canvasBoundaries);
+            _ = mainCanvas.Children.Add(particle.Shape);
         }
         else
         {

@@ -1,4 +1,4 @@
-﻿using g2.Quadtree;
+﻿using g2.Datastructures.Geometry;
 
 namespace g2.Datastructures.Trees;
 

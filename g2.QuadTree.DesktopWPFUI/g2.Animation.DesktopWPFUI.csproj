@@ -9,8 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\g2.Animation.WPF\g2.Animation.UI.WPF.csproj" />
     <ProjectReference Include="..\g2.Animation\g2.Animation.Core.csproj" />
-    <ProjectReference Include="..\g2.Quadtree\g2.Datastructures.Trees.csproj" />
+    <ProjectReference Include="..\g2.Quadtree\g2.Datastructures.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace g2.Quadtree;
+namespace g2.Datastructures.Geometry;
 
-public  class Quadrant // : Rectangle
+public class Quadrant // : Rectangle
 {
     public Quadrant(double x, double y, double width, double height)
     {
@@ -21,22 +21,22 @@ public  class Quadrant // : Rectangle
     public double Y { get; }
     public double Width { get; }
     public double Height { get; }
-  
+
     public bool Contains(Point point) =>
-    
-        point.X >= this.X - this.Width  &&
-        point.X <= this.X + this.Width  &&
-        point.Y >= this.Y - this.Height &&
-        point.Y <= this.Y + this.Height
+
+        point.X >= X - Width &&
+        point.X <= X + Width &&
+        point.Y >= Y - Height &&
+        point.Y <= Y + Height
     ;
 
 
     public bool Intersects(Quadrant searchWindow) => !
     (
-        searchWindow.X - searchWindow.Width  > this.X + this.Width  ||
-        searchWindow.X + searchWindow.Width  < this.X - this.Width  ||
-        searchWindow.Y - searchWindow.Height > this.Y + this.Height ||
-        searchWindow.Y + searchWindow.Height < this.Y - this.Height
+        searchWindow.X - searchWindow.Width > X + Width ||
+        searchWindow.X + searchWindow.Width < X - Width ||
+        searchWindow.Y - searchWindow.Height > Y + Height ||
+        searchWindow.Y + searchWindow.Height < Y - Height
     );
 }
 

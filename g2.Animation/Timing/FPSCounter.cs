@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace g2.Animation.DesktopWPFUI;
-public class FPSCounterViewModel : INotifyPropertyChanged
+namespace g2.Animation.Core.Timing;
+public class FPSCounter : INotifyPropertyChanged
 {
     // ToDo: LastUpdate aus Time classe erhalten?
     private DateTime lastUpdate;
@@ -11,25 +11,26 @@ public class FPSCounterViewModel : INotifyPropertyChanged
 
 
     // ToDo: Use Time class for messering FPS Counter. 
-    public FPSCounterViewModel()
+    public FPSCounter()
     {
         lastUpdate = DateTime.Now;
         framesSinceLastUpdate = 0;
     }
 
 
-    private string fpsCounter = string.Empty;
-    public string FPSCounter
+    private string fps = string.Empty;
+    public string FPS
     {
         get
         {
-            return fpsCounter;
+            return fps;
         }
 
         set
         {
-            fpsCounter = value;
-            NotifyPropertyChanged(nameof(FPSCounter));
+            fps = value;
+            // ToDo: put in wpf project only calculation here
+            NotifyPropertyChanged(nameof(FPS));
             NotifyPropertyChanged(nameof(SekCounter));
         }
     }
@@ -48,12 +49,12 @@ public class FPSCounterViewModel : INotifyPropertyChanged
         framesSinceLastUpdate++;
         if ((DateTime.Now - lastUpdate).TotalMilliseconds >= 1000)
         {
-            fpsCounter = $"{framesSinceLastUpdate:n0} fps";
+            fps = $"{framesSinceLastUpdate:n0} fps";
 
             framesSinceLastUpdate = 0;
             lastUpdate = DateTime.Now;
 
-            FPSCounter = fpsCounter;
+            FPS = fps;
         }
     }
 

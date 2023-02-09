@@ -1,19 +1,20 @@
-﻿using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using g2.Animation.Core.ParticleSystems;
+using g2.Animation.Core.Timing;
+using g2.Datastructures.Geometry;
 
 namespace g2.Animation.Core;
 
 public class AnimationBase
 {
-    private readonly FPSCounterViewModel fpsCounter;
+    private readonly FPSCounter fpsCounter;
+    private readonly Particle particle;
     private bool stopThread;
-    private Particle particle;
 
-    public AnimationBase(FPSCounterViewModel fpsCounter, Canvas canvas)
+    public AnimationBase(FPSCounter fpsCounter, Quadrant quadrant)
     {
         this.fpsCounter = fpsCounter;
 
-        particle = new(25, 250, 25, canvas);
+        particle = new(25, 250, 25, quadrant);
     }
 
     public Particle Particle
@@ -21,11 +22,7 @@ public class AnimationBase
         get
         {
             return particle;
-        }
-        private set
-        {
-            particle = value;
-        }
+        }         
     }
 
     public void Update()
@@ -41,10 +38,10 @@ public class AnimationBase
             fpsCounter.Draw();
             particle.Move();
             particle.Boundary();
-            //for (int i = 0; i < 1_000_000; i++)
-            //{
+            for (int i = 0; i < 1_000_000; i++)
+            {
 
-            //}
+            }
             //Debug.WriteLine("Running");
         }
 

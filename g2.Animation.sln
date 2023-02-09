@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.Datastructures.Trees", "g2.Quadtree\g2.Datastructures.Trees.csproj", "{32E1E178-262A-4522-9BE8-9DD87FA3E0E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.Datastructures", "g2.Quadtree\g2.Datastructures.csproj", "{32E1E178-262A-4522-9BE8-9DD87FA3E0E2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.Datastructures.ConsoleUI", "g2.Guadtree.ConsoleUI\g2.Datastructures.ConsoleUI.csproj", "{CD69A3D8-65D2-4BA0-A141-35026F937587}"
 EndProject

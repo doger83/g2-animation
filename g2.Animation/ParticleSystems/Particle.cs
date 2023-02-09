@@ -1,29 +1,26 @@
-﻿using g2.Datastructures.DesktopWPFUI;
-using System;
-using System.Windows.Controls;
-using System.Windows.Shapes;
+﻿using g2.Animation.Core.Timing;
+using g2.Datastructures.Geometry;
 
 namespace g2.Animation.Core.ParticleSystems;
 
 public class Particle
 {
+    private readonly Quadrant quadrant;
     // ToDo: Add Regions like WPF Samples
     private double x;
     private double y;
     private double radius;
     private double xSpeed = 1000;
     private double ySpeed = 0;
-    private readonly Ellipse shape;
-    private readonly Canvas canvas;
 
-    public Particle(double x, double y, double radius, Canvas canvas)
+
+    public Particle(double x, double y, double radius, Quadrant quadrant)
     {
         this.x = x;
         this.y = y;
         // ToDo: Add Z for deepth calculations
         this.radius = radius;
-        this.canvas = canvas;
-        shape = ParticleShapes.CircleBasis(radius);
+        this.quadrant = quadrant;          
     }
 
 
@@ -82,13 +79,7 @@ public class Particle
             radius = value;
         }
     }
-    public Ellipse Shape
-    {
-        get
-        {
-            return shape;
-        }
-    }
+                 
 
     public void Move()
     {
@@ -104,9 +95,9 @@ public class Particle
     public void Boundary()
     {
         bool LeftBoundary = x - radius < 0;
-        bool RightBoundary = x > canvas.ActualWidth - radius;
+        bool RightBoundary = x > quadrant.Width - radius;
         bool TopBoundary = y - radius < 0;
-        bool BottomBoundary = y > canvas.ActualHeight - radius;
+        bool BottomBoundary = y > quadrant.Height - radius;
 
         if (LeftBoundary)
         {
@@ -120,7 +111,7 @@ public class Particle
         if (RightBoundary)
         {
             xSpeed *= -1;
-            x = canvas.ActualWidth - radius;
+            x = quadrant.Width - radius;
             return;
             //Debug.WriteLine("----------Boundary-------------");
             //Debug.WriteLine($"Boundary X: {X} XSpeed: {XSpeed} dt: {Time.DeltaTime.ToString("G25")}");
@@ -136,7 +127,7 @@ public class Particle
         if (BottomBoundary)
         {
             ySpeed *= -1;
-            y = canvas.ActualHeight - radius;
+            y = quadrant.Height - radius;
             return;
         }
     }

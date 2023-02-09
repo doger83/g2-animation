@@ -5,7 +5,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace g2.Animation.UI.WPF.CanvasShapes;
-internal static class CanvasShapes
+public static class CanvasShapes
 {
     public static Canvas GetCanvas(double width, double height)
     {
@@ -37,7 +37,7 @@ internal static class CanvasShapes
         return canvas;
     }
 
-    internal static void SetCanvas(Canvas canvas, double width, double height)
+    public static void SetCanvas(Canvas canvas, double width, double height)
     {
         canvas.Width = width;
         canvas.Height = height;

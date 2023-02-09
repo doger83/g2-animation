@@ -3,9 +3,9 @@ using System.Windows.Shapes;
 
 namespace g2.Animation.UI.WPF.ParticleShapes;
 
-internal static class ParticleShapes
+public static class ParticleShapes
 {
-    internal static Ellipse CircleBasis(double radius)
+    public static Ellipse CircleBasis(double radius)
     {
         RadialGradientBrush gradientBrush = new();
         gradientBrush.GradientStops.Add(new GradientStop(Colors.LightGray, 0));
