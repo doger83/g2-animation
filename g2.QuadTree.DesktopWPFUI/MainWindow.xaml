@@ -61,7 +61,7 @@
 
                 <Label x:Name="lblFPS"
                        Foreground="#FFF1F1F1"
-                       Content="{Binding Path=FPSCounter, 
+                       Content="{Binding Path=FPS, 
                                  UpdateSourceTrigger=PropertyChanged, 
                                  FallbackValue='XXX FPS' }"/>
 

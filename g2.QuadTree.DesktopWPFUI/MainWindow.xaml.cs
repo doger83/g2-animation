@@ -46,6 +46,7 @@ public partial class MainWindow : Window
     private readonly FPSCounter fpsCounter;
     private readonly ParticleViewModel particle;
 
+
     public MainWindow()
     {
         InitializeComponent();
@@ -78,7 +79,7 @@ public partial class MainWindow : Window
 
     }
 
-    // ToDo: Put Rendering in FixedUpdate? Or let the ui handle the frequent updates? Glitch: when stoping via btn one frame delay after pressing. maybe cause the rendering lags behind calculationg pos
+    // ToDo: Put Rendering in FixedUpdate? or in seperate animation library class?
     private bool started = false;
     private void Render(object? sender, EventArgs e)
     {
@@ -144,8 +145,8 @@ public partial class MainWindow : Window
         animation!.Particle.XSpeed = 0;
         animation!.Particle.YSpeed = 0;
 
-        //mainLoop?.Dispose();
-        //mainLoop = null;
+        
+        
         //Debug.WriteLine("------------After stop thread-------------");
         //Debug.WriteLine(animation!.Particle.X);
         //Debug.WriteLine(Canvas.GetLeft(animation!.Particle.Shape));

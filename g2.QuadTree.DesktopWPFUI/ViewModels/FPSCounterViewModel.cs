@@ -1,20 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace g2.Animation.Core.Timing;
-public class FPSCounter : INotifyPropertyChanged
+namespace g2.Animation.WPFDesktopApp.ViewModels;
+internal class FPSCounterViewModel : INotifyPropertyChanged
 {
-    // ToDo: LastUpdate aus Time classe erhalten?
-    private DateTime lastUpdate;
-    private uint framesSinceLastUpdate;
-
-
-    // ToDo: Use Time class for messering FPS Counter. 
-    public FPSCounter()
+    public FPSCounterViewModel()
     {
-        lastUpdate = DateTime.Now;
-        framesSinceLastUpdate = 0;
     }
 
 
@@ -32,32 +28,25 @@ public class FPSCounter : INotifyPropertyChanged
             // ToDo: Make FPS Counter work and use Timer from Time class
             // ToDo: put in wpf project only calculation here
             NotifyPropertyChanged(nameof(FPS));
-            NotifyPropertyChanged(nameof(SekCounter));
         }
     }
 
+    private string sekCounter = string.Empty;
     public string SekCounter
     {
         get
         {
             return DateTime.Now.ToString();
         }
-    }
-
-    public void Draw()
-    {
-        // ToDo: Wenn Counter die UI Updated stottert es?
-        framesSinceLastUpdate++;
-        if ((DateTime.Now - lastUpdate).TotalMilliseconds >= 1000)
+        set
         {
-            fps = $"{framesSinceLastUpdate:n0} fps";
-
-            framesSinceLastUpdate = 0;
-            lastUpdate = DateTime.Now;
-
-            FPS = fps;
+            sekCounter = value;
+            NotifyPropertyChanged(nameof(SekCounter));
         }
     }
+
+
+
 
 
     public event PropertyChangedEventHandler? PropertyChanged;

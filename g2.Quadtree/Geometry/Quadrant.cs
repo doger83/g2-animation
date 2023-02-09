@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace g2.Datastructures.Geometry;
+﻿namespace g2.Datastructures.Geometry;
 
 // ToDo: Quadrant struct?
 public class Quadrant /// ToDo: Quadrant : AABB
 {
     // ToDo: make Quadrant resize dynamicly when resizing window
+    // ToDo: use fields!
     public Quadrant(double x, double y, double width, double height)
     {
         X = x;
