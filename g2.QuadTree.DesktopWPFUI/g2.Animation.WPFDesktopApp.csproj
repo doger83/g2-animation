@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <LangVersion>10</LangVersion>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\g2.Animation.WPF\g2.Animation.UI.WPFLibrary.csproj" />
+    <ProjectReference Include="..\g2.Animation\g2.Animation.CoreLibrary.csproj" />
+    <ProjectReference Include="..\g2.Quadtree\g2.DatastructuresLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Views\" />
+  </ItemGroup>
+
+</Project>

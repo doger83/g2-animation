@@ -1,7 +1,7 @@
 ﻿using g2.Animation.UI.WPF.ParticleShapes;
 using System.Windows.Shapes;
 
-namespace g2.Animation.DesktopWPFUI.ViewModels;
+namespace g2.Animation.WPFDesktopApp.ViewModels;
 internal class ParticleViewModel
 {
     private double x;

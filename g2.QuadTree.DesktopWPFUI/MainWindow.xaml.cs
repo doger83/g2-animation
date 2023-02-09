@@ -1,20 +1,32 @@
-﻿using g2.Animation.Core;
-using g2.Animation.Core.Timing;
-using g2.Animation.DesktopWPFUI.ViewModels;
-using g2.Animation.UI.WPF.CanvasShapes;
-using g2.Datastructures.Geometry;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace g2.QuadTree.DesktopWPFUI;
+
+using g2.Animation.Core.Timing;
+using g2.Animation.Core.AnimationSystems;
+using g2.Animation.UI.WPF.CanvasShapes;
+using g2.Animation.WPFDesktopApp.ViewModels;
+
+
+namespace g2.Animation.WPFDesktopApp;
+
+// ToDo: Add MVVM
+// ToDo: Add DI
+// ToDo: Add Logging
+// ToDo: Write more Tests!!!
+// ToDo: Make Mainwindow an animation reusable
+// ToDo: Move code to seperate classes...CLean IT!!!!
+// ToDo: Move Main usings to global (the main dependencies)
+
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
 public partial class MainWindow : Window
 {
+    // ToDo: Move to configuration (file) later make usable for templateanimations
     private const double WIDTH = 550.0;
     private const double HEIGHT = 550.0;
     //private const double X = 50.0;
@@ -29,6 +41,8 @@ public partial class MainWindow : Window
     private Task? update;
 
     //private List<Particle>? particles;
+
+    // ToDo: Move FPSCounter calculations dependency to animationsystem an only use a viewmodel here!
     private readonly FPSCounter fpsCounter;
     private readonly ParticleViewModel particle;
 
@@ -41,7 +55,7 @@ public partial class MainWindow : Window
         mainCanvas.MinWidth = WIDTH;
         mainCanvas.MinHeight = HEIGHT;
 
-        particle = new(25,25, 25);
+        particle = new(25, 25, 25);
 
 
         CompositionTarget.Rendering += Render;
@@ -80,16 +94,17 @@ public partial class MainWindow : Window
         //Debug.WriteLine(animation?.Particle.X);
     }
 
+    // ToDo: Move started, last -Position and -speed to Animation class
     private double lastX;
     private double lastY;
     private double lastXSpeed;
     private double lastYSpeed;
     private void BtnStart_Click(object sender, RoutedEventArgs e)
     {
+        // ToDo: Put stuff here to the classes it belongs and move on/off toggle an method?
         if (animation == null)
         {
-            Quadrant canvasBoundaries = new(0,0, WIDTH, HEIGHT);
-            animation = new(fpsCounter, canvasBoundaries);
+            animation = new(fpsCounter, WIDTH, HEIGHT);
             _ = mainCanvas.Children.Add(particle.Shape);
         }
         else

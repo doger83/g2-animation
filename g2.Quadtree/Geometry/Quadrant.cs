@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace g2.Datastructures.Geometry;
 
-public class Quadrant // : Rectangle
+// ToDo: Quadrant struct?
+public class Quadrant /// ToDo: Quadrant : AABB
 {
+    // ToDo: make Quadrant resize dynamicly when resizing window
     public Quadrant(double x, double y, double width, double height)
     {
         X = x;

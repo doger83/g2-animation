@@ -29,6 +29,7 @@ public class FPSCounter : INotifyPropertyChanged
         set
         {
             fps = value;
+            // ToDo: Make FPS Counter work
             // ToDo: put in wpf project only calculation here
             NotifyPropertyChanged(nameof(FPS));
             NotifyPropertyChanged(nameof(SekCounter));

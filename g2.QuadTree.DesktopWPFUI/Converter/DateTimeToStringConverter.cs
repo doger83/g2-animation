@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace g2.Datastructures.DesktopWPFUI;
+namespace g2.Animation.WPFDesktopApp.Converter;
 public class DateTimeToStringConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>

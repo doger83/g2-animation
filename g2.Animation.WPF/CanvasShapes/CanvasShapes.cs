@@ -7,6 +7,7 @@ using System.Windows.Shapes;
 namespace g2.Animation.UI.WPF.CanvasShapes;
 public static class CanvasShapes
 {
+    // ToDo: make Canvas resize dynamicly when resizing window
     public static Canvas GetCanvas(double width, double height)
     {
         Canvas canvas = new()
@@ -65,6 +66,7 @@ public static class CanvasShapes
 
     }
 
+    // ToDo: make Gridlines resize dynamicly when resizing window
     public static void AddGridLines(Canvas canvas)
     {
         for (double x = 0; x <= canvas.ActualWidth; x += 50)
