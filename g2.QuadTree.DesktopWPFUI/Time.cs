@@ -5,9 +5,9 @@ namespace g2.Animation.DesktopWPFUI;
 
 public static class Time
 {
-    private static long previousTicks;
     private static Stopwatch? watch;
     private static double deltaTime;
+    private static long previousTicks;
 
 
     public static void Delta()
@@ -35,7 +35,7 @@ public static class Time
 
     public static void Reset()
     {
-        watch = null; // (watch ??= new()).Reset();
+        watch = null;
     }
 
     public static void Start()

@@ -5,7 +5,6 @@ namespace g2.Animation.DesktopWPFUI;
 
 public class AnimationBase
 {
-
     private readonly FPSCounterViewModel fpsCounter;
     private bool stopThread;
     private Particle particle;
@@ -29,34 +28,30 @@ public class AnimationBase
         }
     }
 
-    public void RunUpdate()
+    public void Update()
     {
         stopThread = false;
 
-        _ = Task.Run(() =>
+        Time.Start();                                 
+
+        while (!stopThread)
         {
-            Time.Start();
+            Time.Delta();
 
-            while (!stopThread)
-            {
-                Time.Delta();
+            fpsCounter.Draw();
+            particle.Move();
+            particle.Boundary();
+            //for (int i = 0; i < 1_000_000; i++)
+            //{
 
-                fpsCounter.Draw();
-                particle.Move();
-                particle.Boundary();
-                for (int i = 0; i < 1_000_000; i++)
-                {
-                            
-                }
-                //Debug.WriteLine("Running");
-            }
+            //}
+            //Debug.WriteLine("Running");
+        }
 
-            Time.Reset();
-
-        });
-
+        Time.Reset();
 
     }
+
     public void StopThread()
     {
         stopThread = true;

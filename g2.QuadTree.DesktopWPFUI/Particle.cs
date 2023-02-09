@@ -8,13 +8,13 @@ namespace g2.Animation.DesktopWPFUI;
 public class Particle
 {
     // ToDo: Add Regions like WPF Samples
-    private readonly Canvas canvas;
     private double x;
     private double y;
-    private double xSpeed = 50;
-    private double ySpeed = 0;
     private double radius;
-    private Ellipse shape;
+    private double xSpeed = 1000;
+    private double ySpeed = 0;
+    private readonly Ellipse shape;
+    private readonly Canvas canvas;
 
     public Particle(double x, double y, double radius, Canvas canvas)
     {
@@ -87,11 +87,7 @@ public class Particle
         get
         {
             return shape;
-        }
-        set
-        {
-            shape = value;
-        }
+        }         
     }
 
     public void Move()
@@ -99,7 +95,6 @@ public class Particle
         //Debug.WriteLine("-----------------------");
         //Debug.WriteLine($"before: X: {X} XSpeed: {XSpeed} dt: {Time.DeltaTime.ToString("G25")}");
 
-        Random random = new();
         x += xSpeed * Time.DeltaTime; // xspeed; //random.Next(-5, 6);
         y += ySpeed * Time.DeltaTime; // yspeed; //random.Next(-5, 6);
 
@@ -108,35 +103,41 @@ public class Particle
 
     public void Boundary()
     {
-        if (x - radius < 0)
+        bool LeftBoundary   = x - radius < 0;
+        bool RightBoundary  = x > canvas.ActualWidth - radius;
+        bool TopBoundary    = y - radius < 0;
+        bool BottomBoundary = y > canvas.ActualHeight - radius;
+        
+        if (LeftBoundary)
         {
             xSpeed *= -1;
             x = radius;
-
+            return;
             //Debug.WriteLine("----------Boundary-------------");
             //Debug.WriteLine($"Boundary X: {X} XSpeed: {XSpeed} dt: {Time.DeltaTime.ToString("G25")}");
         }
 
-        if (x > canvas.ActualWidth - radius)
+        if (RightBoundary)
         {
             xSpeed *= -1;
             x = canvas.ActualWidth - radius;
-
+            return;
             //Debug.WriteLine("----------Boundary-------------");
             //Debug.WriteLine($"Boundary X: {X} XSpeed: {XSpeed} dt: {Time.DeltaTime.ToString("G25")}");
         }
 
-        if (y - radius < 0)
+        if (TopBoundary)
         {
             ySpeed *= -1;
             y = radius;
-
+            return;
         }
 
-        if (y > canvas.ActualHeight - radius)
+        if (BottomBoundary)
         {
             ySpeed *= -1;
             y = canvas.ActualHeight - radius;
+            return;
         }
     }
 }

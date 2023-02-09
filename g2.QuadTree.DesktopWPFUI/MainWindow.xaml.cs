@@ -1,6 +1,7 @@
 ﻿using g2.Animation.DesktopWPFUI;
 using g2.Datastructures.DesktopWPFUI;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -22,7 +23,7 @@ public partial class MainWindow : Window
     ////private readonly PointRegionQuadtree quadTree;
 
     private AnimationBase? animation;
-    //private Task mainLoop;
+    private Task? update;
 
     //private List<Particle>? particles;
     private readonly FPSCounterViewModel fpsCounter;
@@ -76,7 +77,6 @@ public partial class MainWindow : Window
     private double lastYSpeed;
     private void BtnStart_Click(object sender, RoutedEventArgs e)
     {
-        started = true;
         if (animation == null)
         {
             animation = new(fpsCounter, mainCanvas);
@@ -98,14 +98,13 @@ public partial class MainWindow : Window
         btnStart.Click += BtnStop_Click;
         btnStart.Content = "STOP";
 
-
         //Debug.WriteLine(animation?.Particle.X);
-        animation.RunUpdate(); // Task.Factory.StartNew(animation.Update);
+        update = Task.Factory.StartNew(animation.Update);  //animation.Update(); // Task.Factory.StartNew(animation.Update);
+        started = true;
     }
 
     private void BtnStop_Click(object sender, RoutedEventArgs e)
     {
-        started = false;
         animation!.StopThread();
         //Debug.WriteLine("------------Button Start-------------");
         //Debug.WriteLine("------------Before stop thread-------------");
@@ -132,6 +131,7 @@ public partial class MainWindow : Window
         btnStart.Content = "START";
 
         //Debug.WriteLine(animation?.Particle.X);
+        started = false;
     }
     private void MainWIndow_Loaded(object sender, RoutedEventArgs e)
     {
