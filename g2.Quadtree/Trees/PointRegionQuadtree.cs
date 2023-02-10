@@ -1,6 +1,6 @@
-﻿using g2.Datastructures.Geometry;
+﻿using g2.Datastructures.Library.Geometry;
 
-namespace g2.Datastructures.Trees;
+namespace g2.Datastructures.Library.Trees;
 
 public class PointRegionQuadtree //: IQuadtree
 {

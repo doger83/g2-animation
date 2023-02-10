@@ -1,4 +1,4 @@
-﻿namespace g2.Datastructures.Geometry;
+﻿namespace g2.Datastructures.Library.Geometry;
 
 // ToDo: Quadrant struct?
 public class Quadrant /// ToDo: Quadrant : AABB
@@ -18,22 +18,25 @@ public class Quadrant /// ToDo: Quadrant : AABB
     public double Width { get; }
     public double Height { get; }
 
-    public bool Contains(Point point) =>
-
-        point.X >= X - Width &&
+    public bool Contains(Point point)
+    {
+        return point.X >= X - Width &&
         point.X <= X + Width &&
         point.Y >= Y - Height &&
         point.Y <= Y + Height
     ;
+    }
 
-
-    public bool Intersects(Quadrant searchWindow) => !
+    public bool Intersects(Quadrant searchWindow)
+    {
+        return !
     (
         searchWindow.X - searchWindow.Width > X + Width ||
         searchWindow.X + searchWindow.Width < X - Width ||
         searchWindow.Y - searchWindow.Height > Y + Height ||
         searchWindow.Y + searchWindow.Height < Y - Height
     );
+    }
 }
 
 public enum Quadrants

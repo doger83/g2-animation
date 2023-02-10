@@ -1,7 +1,7 @@
-﻿using g2.Animation.Core.Timing;
-using g2.Datastructures.Geometry;
+﻿using g2.Animation.Core.Library.Timing;
+using g2.Datastructures.Library.Geometry;
 
-namespace g2.Animation.Core.ParticleSystems;
+namespace g2.Animation.Core.Library.ParticleSystems;
 
 public class Particle
 {
@@ -10,7 +10,7 @@ public class Particle
     private double x;
     private double y;
     private double radius;
-    private double xSpeed = 1000;
+    private double xSpeed = 50;
     private double ySpeed = 0;
 
 
@@ -20,7 +20,7 @@ public class Particle
         this.y = y;
         // ToDo: Add Z for deepth calculations
         this.radius = radius;
-        this.quadrant = quadrant;          
+        this.quadrant = quadrant;
     }
 
 
@@ -79,7 +79,7 @@ public class Particle
             radius = value;
         }
     }
-                 
+
 
     public void Move()
     {

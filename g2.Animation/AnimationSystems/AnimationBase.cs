@@ -1,8 +1,8 @@
-﻿using g2.Animation.Core.ParticleSystems;
-using g2.Animation.Core.Timing;
-using g2.Datastructures.Geometry;
+﻿using g2.Animation.Core.Library.ParticleSystems;
+using g2.Animation.Core.Library.Timing;
+using g2.Datastructures.Library.Geometry;
 
-namespace g2.Animation.Core.AnimationSystems;
+namespace g2.Animation.Core.Library.AnimationSystems;
 
 public class AnimationBase
 {
@@ -16,7 +16,7 @@ public class AnimationBase
     public AnimationBase(FPSCounter fpsCounter, double width, double height)
     {
         this.fpsCounter = fpsCounter;
-        this.quadrant = new(0,0,width, height);
+        quadrant = new(0, 0, width, height);
         // ToDo: Add Boundary for canvas maybe move chicking for boundaries in box like quadtree?  or BoundaryCheckc lass?
         particle = new(25, 250, 25, quadrant);
     }
@@ -40,7 +40,7 @@ public class AnimationBase
             Time.Delta();
 
             // ToDo: Make FPS Counter work
-            fpsCounter.Draw();
+            fpsCounter.UpdateContent();
             particle.Move();
             particle.Boundary();
             for (int i = 0; i < 1_000_000; i++)

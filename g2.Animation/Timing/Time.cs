@@ -1,7 +1,6 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
-namespace g2.Animation.Core.Timing;
+namespace g2.Animation.Core.Library.Timing;
 
 public static class Time
 {

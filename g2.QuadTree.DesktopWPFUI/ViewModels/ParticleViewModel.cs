@@ -1,4 +1,4 @@
-﻿using g2.Animation.UI.WPF.ParticleShapes;
+﻿using g2.Animation.UI.WPFLibrary.ParticleShapes;
 using System.Windows.Shapes;
 
 namespace g2.Animation.WPFDesktopApp.ViewModels;
@@ -100,7 +100,4 @@ internal class ParticleViewModel
             shape = value;
         }
     }
-
-
-
 }

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.DatastructuresLibrary", "g2.Quadtree\g2.DatastructuresLibrary.csproj", "{32E1E178-262A-4522-9BE8-9DD87FA3E0E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.Datastructures.Library", "g2.Quadtree\g2.Datastructures.Library.csproj", "{32E1E178-262A-4522-9BE8-9DD87FA3E0E2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.Datastructures.ConsoleUI", "g2.Guadtree.ConsoleUI\g2.Datastructures.ConsoleUI.csproj", "{CD69A3D8-65D2-4BA0-A141-35026F937587}"
 EndProject
@@ -17,9 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.Animation.WPFDesktopApp"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.Animation.Tests", "g2.Animation.Tests\g2.Animation.Tests.csproj", "{EC402BCE-70FE-4651-8C71-187F0CA55667}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.Animation.CoreLibrary", "g2.Animation\g2.Animation.CoreLibrary.csproj", "{AA1C6D1E-BF08-4D36-87AA-79988E06EE3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.Animation.Core.Library", "g2.Animation\g2.Animation.Core.Library.csproj", "{AA1C6D1E-BF08-4D36-87AA-79988E06EE3C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.Animation.UI.WPFLibrary", "g2.Animation.WPF\g2.Animation.UI.WPFLibrary.csproj", "{93CB798B-3151-4E2E-9DC6-3BC74FB3B6BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "g2.Animation.Models.Library", "g2.Animation.Models.Library\g2.Animation.Models.Library.csproj", "{5FF82F8B-21E0-4DB4-98E0-3C8DEBDB7268}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{93CB798B-3151-4E2E-9DC6-3BC74FB3B6BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93CB798B-3151-4E2E-9DC6-3BC74FB3B6BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93CB798B-3151-4E2E-9DC6-3BC74FB3B6BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FF82F8B-21E0-4DB4-98E0-3C8DEBDB7268}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FF82F8B-21E0-4DB4-98E0-3C8DEBDB7268}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FF82F8B-21E0-4DB4-98E0-3C8DEBDB7268}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FF82F8B-21E0-4DB4-98E0-3C8DEBDB7268}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

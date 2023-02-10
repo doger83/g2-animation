@@ -1,11 +1,6 @@
-﻿using g2.Datastructures.Geometry;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using g2.Datastructures.Library.Geometry;
 
-namespace g2.Datastructures.Trees;
+namespace g2.Datastructures.Library.Trees;
 
 public struct Node
 {

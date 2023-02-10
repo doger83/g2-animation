@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\g2.Quadtree\g2.DatastructuresLibrary.csproj" />
+    <ProjectReference Include="..\g2.Animation\g2.Animation.Core.Library.csproj" />
+    <ProjectReference Include="..\g2.Quadtree\g2.Datastructures.Library.csproj" />
   </ItemGroup>
 
 </Project>

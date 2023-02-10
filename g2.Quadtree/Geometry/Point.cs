@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace g2.Datastructures.Geometry;
+﻿namespace g2.Datastructures.Library.Geometry;
 
 public struct Point
 {

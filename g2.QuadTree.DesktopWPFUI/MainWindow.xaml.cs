@@ -1,14 +1,12 @@
-﻿using System;
+﻿using g2.Animation.Core.Library.AnimationSystems;
+using g2.Animation.Core.Library.Timing;
+using g2.Animation.UI.WPFLibrary.CanvasShapes;
+using g2.Animation.WPFDesktopApp.ViewModels;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-
-
-using g2.Animation.Core.Timing;
-using g2.Animation.Core.AnimationSystems;
-using g2.Animation.UI.WPF.CanvasShapes;
-using g2.Animation.WPFDesktopApp.ViewModels;
 
 
 namespace g2.Animation.WPFDesktopApp;
@@ -47,12 +45,15 @@ public partial class MainWindow : Window
     private readonly ParticleViewModel particle;
 
 
+    private readonly MainWindowViewModel viewModel;
+
     public MainWindow()
     {
         InitializeComponent();
+        viewModel = (MainWindowViewModel)DataContext;
 
-        fpsCounter = new();
-        DataContext = fpsCounter;
+        fpsCounter = viewModel.Lbl_FPSCounterUpdate;
+        //DataContext = new MainWindowViewModel();
         mainCanvas.MinWidth = WIDTH;
         mainCanvas.MinHeight = HEIGHT;
 
@@ -83,10 +84,14 @@ public partial class MainWindow : Window
     private bool started = false;
     private void Render(object? sender, EventArgs e)
     {
-        if (!started) { return; }
+        viewModel.Update();
+        if (started) // FPS Drop of 5 if not started? !!! ToDo: get rid of this rendering sh...t!
+        {
+            particle.Shape.SetValue(Canvas.TopProperty, animation?.Particle.Y - animation?.Particle.Radius);
+            particle.Shape.SetValue(Canvas.LeftProperty, animation?.Particle.X - animation?.Particle.Radius);
+        }
 
-        particle.Shape.SetValue(Canvas.TopProperty, animation?.Particle.Y - animation?.Particle.Radius);
-        particle.Shape.SetValue(Canvas.LeftProperty, animation?.Particle.X - animation?.Particle.Radius);
+
         //if (started)
         //{
 
@@ -94,6 +99,7 @@ public partial class MainWindow : Window
         //}
         //Debug.WriteLine(animation?.Particle.X);
     }
+
 
     // ToDo: Move started, last -Position and -speed to Animation class
     private double lastX;
@@ -145,8 +151,8 @@ public partial class MainWindow : Window
         animation!.Particle.XSpeed = 0;
         animation!.Particle.YSpeed = 0;
 
-        
-        
+
+
         //Debug.WriteLine("------------After stop thread-------------");
         //Debug.WriteLine(animation!.Particle.X);
         //Debug.WriteLine(Canvas.GetLeft(animation!.Particle.Shape));

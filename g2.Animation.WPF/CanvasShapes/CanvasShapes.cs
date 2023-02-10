@@ -4,7 +4,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace g2.Animation.UI.WPF.CanvasShapes;
+namespace g2.Animation.UI.WPFLibrary.CanvasShapes;
 public static class CanvasShapes
 {
     // ToDo: make Canvas resize dynamicly when resizing window
