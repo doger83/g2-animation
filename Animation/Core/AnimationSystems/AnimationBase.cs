@@ -33,19 +33,17 @@ public class AnimationBase
         {
             Time.Delta();
 
-            // ToDo: Make FPS Counter work
             fpsCounter.UpdateContent();
             particle.Move();
             particle.Boundary();
-            for (int i = 0; i < 1_000_000; i++)
+            for (int i = 0; i < 1_100_100; i++)
             {
-
+                // ToDo: Hack for simulating work during frames to prevent updating toooo fast an deltatime isnt exactly enough
             }
             //Debug.WriteLine("Running");
         }
 
         Time.Reset();
-
     }
 
     public void StopThread()
