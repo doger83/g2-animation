@@ -23,81 +23,39 @@ internal class ParticleViewModel
 
     public double X
     {
-        get
-        {
-            return x;
-        }
-        set
-        {
-            x = value;
-        }
+        get => x;
+        set => x = value;
     }
 
     public double Y
     {
-        get
-        {
-            return y;
-        }
-        set
-        {
-            y = value;
-        }
+        get => y;
+        set => y = value;
     }
     public double Z
     {
-        get
-        {
-            return z;
-        }
-        set
-        {
-            z = value;
-        }
+        get => z;
+        set => z = value;
     }
     public double Radius
     {
-        get
-        {
-            return radius;
-        }
-        set
-        {
-            radius = value;
-        }
+        get => radius;
+        set => radius = value;
     }
     public double XSpeed
     {
-        get
-        {
-            return xSpeed;
-        }
-        set
-        {
-            xSpeed = value;
-        }
+        get => xSpeed;
+        set => xSpeed = value;
     }
     public double YSpeed
     {
-        get
-        {
-            return ySpeed;
-        }
-        set
-        {
-            ySpeed = value;
-        }
+        get => ySpeed;
+        set => ySpeed = value;
     }
 
     public Ellipse Shape
     {
-        get
-        {
-            return shape;
-        }
-        set
-        {
-            shape = value;
-        }
+        get => shape;
+        set => shape = value;
     }
 }

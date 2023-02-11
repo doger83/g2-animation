@@ -7,7 +7,6 @@ public class MainWindowViewModel : ViewModelBase
     private FPSUIViewModel lbl_FPSCounterUI;
     private FPSCounter lbl_FPSCounterUpdate;
 
-
     public MainWindowViewModel() // ToDo: Inject ViewModels? Init in code behind and pass down everthing? Tooo many Viewmodels?
     {
         lbl_DateAndTime = new();
@@ -16,13 +15,9 @@ public class MainWindowViewModel : ViewModelBase
 
     }
 
-
     public DateAndTimeViewModel Lbl_DateAndTime
     {
-        get
-        {
-            return lbl_DateAndTime;
-        }
+        get => lbl_DateAndTime;
         set
         {
             if (lbl_DateAndTime != value)
@@ -35,10 +30,7 @@ public class MainWindowViewModel : ViewModelBase
 
     public FPSUIViewModel Lbl_FPSCounterUI
     {
-        get
-        {
-            return lbl_FPSCounterUI;
-        }
+        get => lbl_FPSCounterUI;
         set
         {
             if (lbl_FPSCounterUI != value)
@@ -51,10 +43,7 @@ public class MainWindowViewModel : ViewModelBase
 
     public FPSCounter Lbl_FPSCounterUpdate
     {
-        get
-        {
-            return lbl_FPSCounterUpdate;
-        }
+        get => lbl_FPSCounterUpdate;
         set
         {
             if (lbl_FPSCounterUpdate != value)
@@ -64,7 +53,6 @@ public class MainWindowViewModel : ViewModelBase
             }
         }
     }
-
 
     public void Update()
     {

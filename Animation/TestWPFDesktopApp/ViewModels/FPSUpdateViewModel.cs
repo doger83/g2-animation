@@ -9,7 +9,6 @@ public class FPSUpdateViewModel : FPSViewModel
     {
         framesSinceLastUpdate++;
 
-
         if ((DateTime.Now - lastUpdate).TotalMilliseconds >= 1000)
         {
             content = $"{framesSinceLastUpdate:n0} fps (Update)";

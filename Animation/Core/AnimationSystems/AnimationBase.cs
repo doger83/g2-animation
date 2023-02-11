@@ -21,13 +21,7 @@ public class AnimationBase
         particle = new(25, 250, 25, quadrant);
     }
 
-    public Particle Particle
-    {
-        get
-        {
-            return particle;
-        }
-    }
+    public Particle Particle => particle;
 
     public void Update()
     {

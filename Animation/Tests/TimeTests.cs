@@ -18,10 +18,8 @@
 //        // Assert
 //        Assert.Equal(Expected, Actual);
 
-
 //        double Delta()
 //        {
-
 
 //            //DeltaTime = ((watch ??= Stopwatch.StartNew()).Elapsed - previous).TotalSeconds;
 //            return (double)(actualTicks - previousTicks) / Stopwatch.Frequency;

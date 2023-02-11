@@ -63,7 +63,6 @@ public static class CanvasShapes
 
         //AddGridLines(canvas);
 
-
     }
 
     // ToDo: make Gridlines resize dynamicly when resizing window
@@ -73,7 +72,6 @@ public static class CanvasShapes
         {
             Line line = new()
             {
-
 
                 Stroke = Brushes.White,
                 X1 = x,
@@ -102,8 +100,6 @@ public static class CanvasShapes
             _ = canvas.Children.Add(line);
         }
     }
-
-
 
     #region Events
     private static void MyCanvas_LeftMouseDown(object sender, MouseButtonEventArgs e)
@@ -232,6 +228,5 @@ public static class CanvasShapes
         MousPositionText.Content = string.Format("Last click at X = {0}, Y = {1}", p.X, p.Y);
     }
     */
-
 
 }

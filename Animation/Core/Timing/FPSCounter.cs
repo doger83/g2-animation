@@ -9,7 +9,6 @@ public class FPSCounter : INotifyPropertyChanged
     private DateTime lastUpdate;
     private uint framesSinceLastUpdate;
 
-
     // ToDo: Use Time class for messering FPS Counter. 
     public FPSCounter()
     {
@@ -17,14 +16,10 @@ public class FPSCounter : INotifyPropertyChanged
         framesSinceLastUpdate = 0;
     }
 
-
     private string fps = "xxx fps (Update)";
     public string FPS
     {
-        get
-        {
-            return fps;
-        }
+        get => fps;
         set
         {
             fps = value;
@@ -33,7 +28,6 @@ public class FPSCounter : INotifyPropertyChanged
             NotifyPropertyChanged(nameof(FPS));
         }
     }
-
 
     public void UpdateContent()
     {
@@ -49,7 +43,6 @@ public class FPSCounter : INotifyPropertyChanged
             FPS = fps;
         }
     }
-
 
     public event PropertyChangedEventHandler? PropertyChanged;
 

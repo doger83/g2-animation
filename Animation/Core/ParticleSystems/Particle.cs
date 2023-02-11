@@ -13,7 +13,6 @@ public class Particle
     private double xSpeed = 1000;
     private double ySpeed = 0;
 
-
     public Particle(double x, double y, double radius, Quadrant quadrant)
     {
         this.x = x;
@@ -23,63 +22,31 @@ public class Particle
         this.quadrant = quadrant;
     }
 
-
     public double X
     {
-        get
-        {
-            return x;
-        }
-        set
-        {
-            x = value;
-        }
+        get => x;
+        set => x = value;
     }
     public double Y
     {
-        get
-        {
-            return y;
-        }
-        set
-        {
-            y = value;
-        }
+        get => y;
+        set => y = value;
     }
     public double XSpeed
     {
-        get
-        {
-            return xSpeed;
-        }
-        set
-        {
-            xSpeed = value;
-        }
+        get => xSpeed;
+        set => xSpeed = value;
     }
     public double YSpeed
     {
-        get
-        {
-            return ySpeed;
-        }
-        set
-        {
-            ySpeed = value;
-        }
+        get => ySpeed;
+        set => ySpeed = value;
     }
     public double Radius
     {
-        get
-        {
-            return radius;
-        }
-        set
-        {
-            radius = value;
-        }
+        get => radius;
+        set => radius = value;
     }
-
 
     public void Move()
     {

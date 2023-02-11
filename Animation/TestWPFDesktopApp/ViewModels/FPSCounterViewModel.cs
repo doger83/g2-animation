@@ -18,7 +18,6 @@
 //        framesSinceLastUpdate = 0;
 //    }
 
-
 //    private string fps_UI = string.Empty;
 //    public string FPS_UI
 //    {
@@ -67,7 +66,6 @@
 //        }
 //    }
 
-
 //    public void Update()
 //    {
 //        // ToDo: Wenn Counter die UI Updated stottert es?
@@ -87,7 +85,6 @@
 //                ;
 //        }
 //    }
-
 
 //    public event PropertyChangedEventHandler? PropertyChanged;
 

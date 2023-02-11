@@ -8,7 +8,6 @@ public static class Time
     private static double deltaTime;
     private static long previousTicks;
 
-
     public static void Delta()
     {
         deltaTime = (double)(watch!.ElapsedTicks - previousTicks) / Stopwatch.Frequency;
@@ -22,14 +21,8 @@ public static class Time
 
     public static double DeltaTime
     {
-        get
-        {
-            return deltaTime;
-        }
-        private set
-        {
-            deltaTime = value;
-        }
+        get => deltaTime;
+        private set => deltaTime = value;
     }
 
     public static void Reset()

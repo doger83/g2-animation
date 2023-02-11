@@ -8,7 +8,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-
 namespace g2.Animation.TestWPFDesktopApp;
 
 // ToDo: Add MVVM
@@ -44,7 +43,6 @@ public partial class MainWindow : Window
     private readonly FPSCounter fpsCounter;
     private readonly ParticleViewModel particle;
 
-
     private readonly MainWindowViewModel viewModel;
 
     public MainWindow()
@@ -58,7 +56,6 @@ public partial class MainWindow : Window
         mainCanvas.MinHeight = HEIGHT;
 
         particle = new(25, 25, 25);
-
 
         CompositionTarget.Rendering += Render;
 
@@ -91,7 +88,6 @@ public partial class MainWindow : Window
             particle.Shape.SetValue(Canvas.LeftProperty, animation?.Particle.X - animation?.Particle.Radius);
         }
     }
-
 
     // ToDo: Move started, last -Position and -speed to Animation class
     private double lastX;
@@ -143,12 +139,9 @@ public partial class MainWindow : Window
         animation!.Particle.XSpeed = 0;
         animation!.Particle.YSpeed = 0;
 
-
-
         //Debug.WriteLine("------------After stop thread-------------");
         //Debug.WriteLine(animation!.Particle.X);
         //Debug.WriteLine(Canvas.GetLeft(animation!.Particle.Shape));
-
 
         btnStart.Click -= BtnStop_Click;
         btnStart.Click += BtnStart_Click;

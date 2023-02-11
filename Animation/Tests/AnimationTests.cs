@@ -31,10 +31,8 @@
 //        Time.Reset();
 //        double Actual = particle.X;
 
-
 //        // Assert
 //        Assert.Equal(Expected, Actual);
-
 
 //        double TotalTicksInMilliseconds()
 //        {
