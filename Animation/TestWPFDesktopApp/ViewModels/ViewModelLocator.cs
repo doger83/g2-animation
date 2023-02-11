@@ -1,6 +1,8 @@
 ﻿namespace g2.Animation.TestWPFDesktopApp.ViewModels;
 public class ViewModelLocator
 {
-    public MainWindowViewModel MainWindowViewModel { get; } = new();
+    private readonly MainWindowViewModel mainWindowViewModel = new();
+
+    public MainWindowViewModel MainWindowViewModel => mainWindowViewModel;
 }
 

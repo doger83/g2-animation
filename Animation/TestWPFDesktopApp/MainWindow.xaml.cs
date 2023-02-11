@@ -82,7 +82,7 @@ public partial class MainWindow : Window
     private void Render(object? sender, EventArgs e)
     {
         viewModel.Update();
-        if (started) // FPS Drop of 5 if not started? !!! ToDo: get rid of this rendering sh...t!
+        if (started) // FPS Drop of 5 if not started? !!! ToDo: get rid of this rendering sh...t! Flackert ohne ende beim ziehen des Fensters
         {
             particle.Shape.SetValue(Canvas.TopProperty, animation?.Particle.Y - animation?.Particle.Radius);
             particle.Shape.SetValue(Canvas.LeftProperty, animation?.Particle.X - animation?.Particle.Radius);
