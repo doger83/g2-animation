@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 
 namespace g2.Animation.Core.Timing;
+
 public class FPSCounter : INotifyPropertyChanged
 {
     // ToDo: LastUpdate aus Time classe erhalten?
