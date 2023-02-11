@@ -9,7 +9,7 @@ public class AnimationBase
     private readonly FPSCounter fpsCounter;
 
     private readonly Quadrant quadrant;
-    private readonly Particle particle;
+    private Particle particle;
 
     private bool stopThread;
 
@@ -21,29 +21,39 @@ public class AnimationBase
         particle = new(25, 250, 25, quadrant);
     }
 
-    public Particle Particle => particle;
-
-    public void Update()
+    public Particle Particle
     {
-        stopThread = false;
+        get => particle;
+        set => particle = value;
+    }
 
-        Time.Start();
 
-        while (!stopThread)
+    public Task Update()
+    {
+        return Task.Run(() =>
         {
-            Time.Delta();
+            stopThread = false;
 
-            fpsCounter.UpdateContent();
-            particle.Move();
-            particle.Boundary();
-            for (int i = 0; i < 1_100_100; i++)
+            Time.Start();
+            while (!stopThread)
             {
-                // ToDo: Hack for simulating work during frames to prevent updating toooo fast an deltatime isnt exactly enough
-            }
-            //Debug.WriteLine("Running");
-        }
+                Time.Delta();
 
-        Time.Reset();
+                fpsCounter.UpdateContent();
+                particle.Move();
+                particle.Boundary();
+#if DEBUG
+                //for (int i = 0; i < 1_100_100; i++)
+                //{
+                //    // ToDo: Hack for simulating work during frames to prevent updating toooo fast an deltatime isnt exactly enough
+                //}
+                //Debug.WriteLine("Running");
+#endif
+            }
+
+            Time.Reset();
+        });
+
     }
 
     public void StopThread()
