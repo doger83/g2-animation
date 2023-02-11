@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>10</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Trees\bin\**" />
+    <Compile Remove="Trees\obj\**" />
+    <Compile Remove="Trees\TestDesktopWPFUI\**" />
+    <EmbeddedResource Remove="Trees\bin\**" />
+    <EmbeddedResource Remove="Trees\obj\**" />
+    <EmbeddedResource Remove="Trees\TestDesktopWPFUI\**" />
+    <None Remove="Trees\bin\**" />
+    <None Remove="Trees\obj\**" />
+    <None Remove="Trees\TestDesktopWPFUI\**" />
+  </ItemGroup>
+
+
+
+
+
+
+
+
+</Project>
