@@ -4,7 +4,7 @@ namespace g2.Datastructures.Trees;
 
 public class PointRegionQuadtree //: IQuadtree
 {
-    public static int Count;
+    //public static int Count;
     public PointRegionQuadtree(Quadrant boundary, int capacaty)
     {
         Boundary = boundary;
@@ -101,10 +101,10 @@ public class PointRegionQuadtree //: IQuadtree
 
         if (Divided)
         {
-            NorthEast!.Query(searchWindow, foundPoints);
-            NorthWest!.Query(searchWindow, foundPoints);
-            SouthEast!.Query(searchWindow, foundPoints);
-            SouthWest!.Query(searchWindow, foundPoints);
+            _ = NorthEast!.Query(searchWindow, foundPoints);
+            _ = NorthWest!.Query(searchWindow, foundPoints);
+            _ = SouthEast!.Query(searchWindow, foundPoints);
+            _ = SouthWest!.Query(searchWindow, foundPoints);
 
         }
 
@@ -113,7 +113,7 @@ public class PointRegionQuadtree //: IQuadtree
             // Todo: Points null?
             foreach (Point point in Points)
             {
-                Count++;
+                //Count++;
                 if (searchWindow.Contains(point))
                 {
                     foundPoints.Add(point);
