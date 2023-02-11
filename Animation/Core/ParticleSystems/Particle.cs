@@ -3,14 +3,14 @@ using g2.Datastructures.Geometry;
 
 namespace g2.Animation.Core.ParticleSystems;
 
-public class Particle
+public struct Particle
 {
     private readonly Quadrant quadrant;
     // ToDo: Add Regions like WPF Samples
     private double x;
     private double y;
     private double radius;
-    private double xSpeed = 1000;
+    private double xSpeed = 50;
     private double ySpeed = 0;
 
     public Particle(double x, double y, double radius, Quadrant quadrant)

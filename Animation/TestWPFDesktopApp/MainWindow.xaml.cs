@@ -1,8 +1,11 @@
 ﻿using g2.Animation.Core.AnimationSystems;
+using g2.Animation.Core.ParticleSystems;
 using g2.Animation.Core.Timing;
 using g2.Animation.TestWPFDesktopApp.ViewModels;
 using g2.Animation.UI.WPF.Shapes.Library.CanvasShapes;
+using g2.Datastructures.Geometry;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -42,6 +45,8 @@ public partial class MainWindow : Window
     // ToDo: Move FPSCounter calculations dependency to animationsystem an only use a viewmodel here!
     private readonly FPSCounter fpsCounter;
     private readonly ParticleViewModel particle;
+    private List<Particle> particles;
+    private Quadrant quadrant;
 
     private readonly MainWindowViewModel viewModel;
 
@@ -63,30 +68,21 @@ public partial class MainWindow : Window
         //quadTree = new(boundingBox, CAPACATY);
         //PointRegionQuadtree.Count = 0;
 
-        //particles = new List<Particle>();
-        //Random random = new();
-
-        //for (int i = 0; i < 15; i++)
-        //{
-        //    var x = random.NextDouble() * WIDTH * 2.0;
-        //    var y = random.NextDouble() * HEIGHT * 2.0;
-        //    Particle pa = new(x, y, 15, myCanvas);
-
-        //    particles.Add(pa);
-        //}
-
+        particles = new();
+        quadrant = new(0, 0, Width, HEIGHT);
     }
 
     // ToDo: Put Rendering in FixedUpdate? or in seperate animation library class?
     private bool started = false;
     private void Render(object? sender, EventArgs e)
     {
-        viewModel.Update();
         if (started) // FPS Drop of 5 if not started? !!! ToDo: get rid of this rendering sh...t! Flackert ohne ende beim ziehen des Fensters
         {
-            particle.Shape.SetValue(Canvas.TopProperty, animation?.Particle.Y - animation?.Particle.Radius);
             particle.Shape.SetValue(Canvas.LeftProperty, animation?.Particle.X - animation?.Particle.Radius);
+            particle.Shape.SetValue(Canvas.TopProperty, animation?.Particle.Y - animation?.Particle.Radius);
         }
+
+        viewModel.Update();
     }
 
     // ToDo: Move started, last -Position and -speed to Animation class
@@ -104,10 +100,11 @@ public partial class MainWindow : Window
         }
         else
         {
-            animation.Particle.X = lastX;
-            animation.Particle.Y = lastY;
-            animation.Particle.XSpeed = lastXSpeed;
-            animation.Particle.YSpeed = lastYSpeed;
+            Particle p2 = animation.Particle with { X = lastX, Y = lastY, XSpeed = lastXSpeed, YSpeed = lastYSpeed };
+            animation.Particle = p2;
+            //animation.Particle.Y = lastY;
+            //animation.Particle.XSpeed = lastXSpeed;
+            //animation.Particle.YSpeed = lastYSpeed;
         }
 
         //Debug.WriteLine("------------Button Start-------------");
@@ -126,6 +123,9 @@ public partial class MainWindow : Window
     private void BtnStop_Click(object sender, RoutedEventArgs e)
     {
         animation!.StopThread();
+        //update?.Dispose();
+        //update = null;
+
         //Debug.WriteLine("------------Button Start-------------");
         //Debug.WriteLine("------------Before stop thread-------------");
         //Debug.WriteLine(animation!.Particle.X);
@@ -135,9 +135,11 @@ public partial class MainWindow : Window
         lastXSpeed = animation.Particle.XSpeed;
         lastY = animation.Particle.Y;
         lastX = animation.Particle.X;
+        Particle p2 = animation.Particle with { X = lastX, Y = lastY, XSpeed = lastXSpeed, YSpeed = lastYSpeed };
+        animation.Particle = p2;
 
-        animation!.Particle.XSpeed = 0;
-        animation!.Particle.YSpeed = 0;
+        animation!.Particle = p2;
+        //animation!.Particle.YSpeed = 0;
 
         //Debug.WriteLine("------------After stop thread-------------");
         //Debug.WriteLine(animation!.Particle.X);
