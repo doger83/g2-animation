@@ -5,12 +5,11 @@ namespace g2.Animation.Core.Timing;
 public static class Time
 {
     private static Stopwatch? watch;
-    private static double deltaTime;
     private static long previousTicks;
 
     public static void Delta()
     {
-        deltaTime = (double)(watch!.ElapsedTicks - previousTicks) / Stopwatch.Frequency;
+        DeltaTime = (double)(watch!.ElapsedTicks - previousTicks) / Stopwatch.Frequency;
         previousTicks = watch.ElapsedTicks;
     }
 
@@ -19,11 +18,7 @@ public static class Time
         return watch?.ElapsedTicks / Stopwatch.Frequency * 1000.0;
     }
 
-    public static double DeltaTime
-    {
-        get => deltaTime;
-        private set => deltaTime = value;
-    }
+    public static double DeltaTime { get; private set; }
 
     public static void Reset()
     {

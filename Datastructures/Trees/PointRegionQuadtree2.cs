@@ -4,7 +4,7 @@ namespace g2.Datastructures.Trees;
 
 public class PointRegionQuadtree2 //: IQuadtree
 {
-    private static int count;
+    //private const int hALLO = 5;
 
     public PointRegionQuadtree2(Quadrant boundary, int capacaty)
     {
@@ -23,7 +23,6 @@ public class PointRegionQuadtree2 //: IQuadtree
     public PointRegionQuadtree2? NorthEast { get; private set; }
     public PointRegionQuadtree2? SouthEast { get; private set; }
     public PointRegionQuadtree2? SouthWest { get; private set; }
-
 
     //public bool InsertChatgpt(Point point)
     //{
@@ -112,7 +111,7 @@ public class PointRegionQuadtree2 //: IQuadtree
         {
             foreach (Point point in Points)
             {
-                count++;
+                //count++;
                 if (searchWindow.Contains(point))
                 {
                     foundPoints.Add(point);
