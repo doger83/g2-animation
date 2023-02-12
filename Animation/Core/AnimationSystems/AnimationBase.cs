@@ -18,13 +18,32 @@ public class AnimationBase
         this.fpsCounter = fpsCounter;
         quadrant = new(0, 0, width, height);
         // ToDo: Add Boundary for canvas maybe move chicking for boundaries in box like quadtree?  or BoundaryCheckc lass?
-        particle = new(25, 250, 25, quadrant);
+        //particle = new(25, 250, 25, quadrant);
+        particles = new();
+
+        Random random = new();
+        for (int i = 0; i < 1; i++)
+        {
+            double x = 250; // random.NextDouble() * width * 2.0;
+            double y = 250; // random.NextDouble() * height * 2.0;
+            Particle p = new(x, y, 15, quadrant);
+
+            particles.Add(p);
+        }
     }
 
     public Particle Particle
     {
         get => particle;
         set => particle = value;
+    }
+
+    private List<Particle> particles;
+
+    public List<Particle> Particles
+    {
+        get => particles;
+        set => particles = value;
     }
 
 
@@ -40,8 +59,12 @@ public class AnimationBase
                 Time.Delta();
 
                 fpsCounter.UpdateContent();
-                particle.Move();
-                particle.Boundary();
+
+                foreach (Particle particle in particles)
+                {
+                    particle.Move();
+                    particle.Boundary();
+                }
 #if DEBUG
                 //for (int i = 0; i < 1_100_100; i++)
                 //{
