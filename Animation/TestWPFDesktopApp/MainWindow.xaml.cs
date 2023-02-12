@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace g2.Animation.TestWPFDesktopApp;
 
@@ -79,15 +78,8 @@ public partial class MainWindow : Window
     {
         if (started) // FPS Drop of 5 if not started? !!! ToDo: get rid of this rendering sh...t! Flackert ohne ende beim ziehen des Fensters
         {
-            foreach (UIElement particle in mainCanvas.Children)
-            {
-                if (particle is Ellipse)
-                {
-
-                    particle.SetValue(Canvas.LeftProperty, animation?.Particle.X - animation?.Particle.Radius);
-                    particle.SetValue(Canvas.TopProperty, animation?.Particle.Y - animation?.Particle.Radius);
-                }
-            }
+            particle.Shape.SetValue(Canvas.LeftProperty, animation?.Particle.X - animation?.Particle.Radius);
+            particle.Shape.SetValue(Canvas.TopProperty, animation?.Particle.Y - animation?.Particle.Radius);
         }
 
         viewModel.Update();
@@ -104,22 +96,12 @@ public partial class MainWindow : Window
         if (animation == null)
         {
             animation = new(fpsCounter, WIDTH, HEIGHT);
-
-            foreach (Particle particle in animation.Particles)
-            {
-                _ = mainCanvas.Children.Add(new ParticleViewModel(particle.X, particle.Y, particle.Radius).Shape);
-
-            }
+            _ = mainCanvas.Children.Add(particle.Shape);
         }
         else
         {
-            foreach (Particle particle in animation.Particles)
-            {
-                Particle p2 = animation.Particle with { X = lastX, Y = lastY, XSpeed = lastXSpeed, YSpeed = lastYSpeed };
-                animation.Particle = p2;
-
-            }
-
+            Particle p2 = animation.Particle with { X = lastX, Y = lastY, XSpeed = lastXSpeed, YSpeed = lastYSpeed };
+            animation.Particle = p2;
             //animation.Particle.Y = lastY;
             //animation.Particle.XSpeed = lastXSpeed;
             //animation.Particle.YSpeed = lastYSpeed;
@@ -149,19 +131,15 @@ public partial class MainWindow : Window
         //Debug.WriteLine(animation!.Particle.X);
         //Debug.WriteLine(Canvas.GetLeft(animation!.Particle.Shape));
 
-        foreach (Particle particle in animation.Particles)
-        {
-            lastYSpeed = animation.Particle.YSpeed;
-            lastXSpeed = animation.Particle.XSpeed;
-            lastY = animation.Particle.Y;
-            lastX = animation.Particle.X;
-            Particle p2 = animation.Particle with { X = lastX, Y = lastY, XSpeed = lastXSpeed, YSpeed = lastYSpeed };
-            animation.Particle = p2;
+        lastYSpeed = animation.Particle.YSpeed;
+        lastXSpeed = animation.Particle.XSpeed;
+        lastY = animation.Particle.Y;
+        lastX = animation.Particle.X;
+        Particle p2 = animation.Particle with { X = lastX, Y = lastY, XSpeed = lastXSpeed, YSpeed = lastYSpeed };
+        animation.Particle = p2;
 
-        }
-
-
-
+        animation!.Particle = p2;
+        //animation!.Particle.YSpeed = 0;
 
         //Debug.WriteLine("------------After stop thread-------------");
         //Debug.WriteLine(animation!.Particle.X);
