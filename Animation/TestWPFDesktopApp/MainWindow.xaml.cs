@@ -44,8 +44,8 @@ public partial class MainWindow : Window
 
     // ToDo: Move FPSCounter calculations dependency to animationsystem an only use a viewmodel here!
     private readonly FPSCounter fpsCounter;
-    private readonly ParticleViewModel particle;
-    private List<Particle> particles;
+    private List<ParticleViewModel> canvasParticles;
+    //private List<Particle> animationParticles;
     private Quadrant quadrant;
 
     private readonly MainWindowViewModel viewModel;
@@ -60,7 +60,7 @@ public partial class MainWindow : Window
         mainCanvas.MinWidth = WIDTH;
         mainCanvas.MinHeight = HEIGHT;
 
-        particle = new(25, 25, 25);
+        //particle = new(25, 25, 25);
 
         CompositionTarget.Rendering += Render;
 
@@ -68,7 +68,8 @@ public partial class MainWindow : Window
         //quadTree = new(boundingBox, CAPACATY);
         //PointRegionQuadtree.Count = 0;
 
-        particles = new();
+        //animationParticles = new();
+        canvasParticles = new();
         quadrant = new(0, 0, Width, HEIGHT);
     }
 
@@ -76,35 +77,68 @@ public partial class MainWindow : Window
     private bool started = false;
     private void Render(object? sender, EventArgs e)
     {
-        if (started) // FPS Drop of 5 if not started? !!! ToDo: get rid of this rendering sh...t! Flackert ohne ende beim ziehen des Fensters
+        //if (started) // FPS Drop of 5 if not started? !!! ToDo: get rid of this rendering sh...t! Flackert ohne ende beim ziehen des Fensters
+        //{
+        //    foreach (Particle particle in animation!.Particles)
+        //    {
+        //        ParticleViewModel p = new(particle.X, particle.Y, particle.Radius);
+        //        p.Shape.SetValue(Canvas.LeftProperty, particle.X - particle.Radius);
+        //        p.Shape.SetValue(Canvas.TopProperty, particle.Y - particle.Radius);
+        //    }
+
+        //    //particle.Shape.SetValue(Canvas.LeftProperty, animation?.Particle.X - animation?.Particle.Radius);
+        //    //particle.Shape.SetValue(Canvas.TopProperty, animation?.Particle.Y - animation?.Particle.Radius);
+        //}
+        if (started)
         {
-            particle.Shape.SetValue(Canvas.LeftProperty, animation?.Particle.X - animation?.Particle.Radius);
-            particle.Shape.SetValue(Canvas.TopProperty, animation?.Particle.Y - animation?.Particle.Radius);
+            for (int i = 0; i < canvasParticles.Count; i++)
+            {
+                canvasParticles[i].Shape.SetValue(Canvas.LeftProperty, animation.Particles[i].X - animation.Particles[i].Radius);
+                canvasParticles[i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Radius);
+            }
         }
 
         viewModel.Update();
     }
 
-    // ToDo: Move started, last -Position and -speed to Animation class
-    private double lastX;
-    private double lastY;
-    private double lastXSpeed;
-    private double lastYSpeed;
+
     private void BtnStart_Click(object sender, RoutedEventArgs e)
     {
         // ToDo: Put stuff here to the classes it belongs and move on/off toggle an method?
         if (animation == null)
         {
             animation = new(fpsCounter, WIDTH, HEIGHT);
-            _ = mainCanvas.Children.Add(particle.Shape);
+
+            for (int i = 0; i < animation.Particles.Count; i++)
+            {
+                Particle animationParticle = animation.Particles[i];
+
+                ParticleViewModel particleVM = new(animationParticle.X, animationParticle.Y, animationParticle.Radius);
+
+
+                particleVM.Shape.SetValue(Canvas.LeftProperty, animationParticle.X - animationParticle.Radius);
+                particleVM.Shape.SetValue(Canvas.TopProperty, animationParticle.Y - animationParticle.Radius);
+
+                canvasParticles.Add(particleVM);
+                animationParticle.Index = mainCanvas.Children.Add(particleVM.Shape);
+            }
         }
         else
         {
-            Particle p2 = animation.Particle with { X = lastX, Y = lastY, XSpeed = lastXSpeed, YSpeed = lastYSpeed };
-            animation.Particle = p2;
-            //animation.Particle.Y = lastY;
-            //animation.Particle.XSpeed = lastXSpeed;
-            //animation.Particle.YSpeed = lastYSpeed;
+            for (int i = 0; i < animation.Particles.Count; i++)
+            {
+                animation.Particles[i].Reset();
+                //Particle particle = animation.Particles[i] with { X = animation.Particles[i].LastX, Y = animation.Particles[i].LastY, XSpeed = animation.Particles[i].LastXSpeed, YSpeed = animation.Particles[i].LastYSpeed };
+                //animation.Particles[i] = particle;
+            }
+
+
+            //Particle p2 = animation.Particle with { X = lastX, Y = lastY, XSpeed = lastXSpeed, YSpeed = lastYSpeed };
+            //animation.Particle = p2;
+
+            ////animation.Particle.Y = lastY;
+            ////animation.Particle.XSpeed = lastXSpeed;
+            ////animation.Particle.YSpeed = lastYSpeed;
         }
 
         //Debug.WriteLine("------------Button Start-------------");
@@ -131,15 +165,20 @@ public partial class MainWindow : Window
         //Debug.WriteLine(animation!.Particle.X);
         //Debug.WriteLine(Canvas.GetLeft(animation!.Particle.Shape));
 
-        lastYSpeed = animation.Particle.YSpeed;
-        lastXSpeed = animation.Particle.XSpeed;
-        lastY = animation.Particle.Y;
-        lastX = animation.Particle.X;
-        Particle p2 = animation.Particle with { X = lastX, Y = lastY, XSpeed = lastXSpeed, YSpeed = lastYSpeed };
-        animation.Particle = p2;
 
-        animation!.Particle = p2;
-        //animation!.Particle.YSpeed = 0;
+        for (int i = 0; i < animation.Particles.Count; i++)
+        {
+            animation.Particles[i].Pause();
+        }
+        //lastYSpeed = animation.Particle.YSpeed;
+        //lastXSpeed = animation.Particle.XSpeed;
+        //lastY = animation.Particle.Y;
+        //lastX = animation.Particle.X;
+        //Particle p2 = animation.Particle with { X = lastX, Y = lastY, XSpeed = lastXSpeed, YSpeed = lastYSpeed };
+        //animation.Particle = p2;
+
+        //animation!.Particle = p2;
+        ////animation!.Particle.YSpeed = 0;
 
         //Debug.WriteLine("------------After stop thread-------------");
         //Debug.WriteLine(animation!.Particle.X);
