@@ -42,16 +42,8 @@ public class Particle
     }
 
 
-    public double X
-    {
-        get => x;
-        set => x = value;
-    }
-    public double Y
-    {
-        get => y;
-        set => y = value;
-    }
+    public double X => x;
+    public double Y => y;
     public double XSpeed
     {
         get => xSpeed;
