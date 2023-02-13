@@ -33,7 +33,7 @@ public static class CanvasShapes
 
         canvas.Background = brush;
 
-        AddGridLines(canvas);
+        //AddGridLines(canvas);
 
         return canvas;
     }

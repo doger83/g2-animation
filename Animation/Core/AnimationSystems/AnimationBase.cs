@@ -25,9 +25,19 @@ public class AnimationBase
 
         particles = new List<Particle>();
 
-        for (int i = 0; i < 5; i++)
+        Random random = new();
+
+        for (int i = 0; i < 1000; i++)
         {
-            particles.Add(new Particle(26, 50 + (i * 100), 25, quadrant));
+            double x = random.NextDouble() * width;
+            double y = random.NextDouble() * height;
+            Particle particle = new(x, y, 25, quadrant)
+            {
+                XSpeed = 1000,//(random.NextDouble() * 1000) - 500,
+                YSpeed = 0//(random.NextDouble() * 1000) - 500
+            };
+
+            particles.Add(particle);
         }
     }
 

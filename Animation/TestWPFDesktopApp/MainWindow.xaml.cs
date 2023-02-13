@@ -2,7 +2,6 @@
 using g2.Animation.Core.ParticleSystems;
 using g2.Animation.Core.Timing;
 using g2.Animation.TestWPFDesktopApp.ViewModels;
-using g2.Animation.UI.WPF.Shapes.Library.CanvasShapes;
 using g2.Datastructures.Geometry;
 using System;
 using System.Collections.Generic;
@@ -28,7 +27,7 @@ public partial class MainWindow : Window
 {
     // ToDo: Move to configuration (file) later make usable for templateanimations
     private const double WIDTH = 550.0;
-    private const double HEIGHT = 550.0;
+    private const double HEIGHT = 1550.0;
     //private const double X = 50.0;
     //private const double Y = 50.0;
     //private const int CAPACATY = 4;
@@ -193,6 +192,6 @@ public partial class MainWindow : Window
     }
     private void MainWIndow_Loaded(object sender, RoutedEventArgs e)
     {
-        CanvasShapes.AddGridLines(mainCanvas);
+        //CanvasShapes.AddGridLines(mainCanvas);
     }
 }
