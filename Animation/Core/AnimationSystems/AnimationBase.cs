@@ -1,6 +1,7 @@
 ﻿using g2.Animation.Core.ParticleSystems;
 using g2.Animation.Core.Timing;
 using g2.Datastructures.Geometry;
+using System.Diagnostics;
 
 namespace g2.Animation.Core.AnimationSystems;
 
@@ -24,14 +25,14 @@ public class AnimationBase
 
         Random random = new();
 
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 3000; i++)
         {
             double x = random.NextDouble() * width;
             double y = random.NextDouble() * height;
-            Particle particle = new(x, y, 25, quadrant)
+            Particle particle = new(x, y, 5, quadrant)
             {
-                XSpeed = (random.NextDouble() * 1000) - 500,
-                YSpeed = (random.NextDouble() * 1000) - 500
+                XSpeed = 50,// (random.NextDouble() * 1000) - 500,
+                YSpeed = 0// (random.NextDouble() * 1000) - 500
             };
 
             particles.Add(particle);
@@ -44,8 +45,9 @@ public class AnimationBase
     {
         return Task.Run(() =>
         {
-            Time.Start();
-
+            Time.StartWatch();
+            //Time.StartTimer(); // start the timer with an interval of 100 milliseconds
+            //Time.TimerTick += DebugIt();
             stopThread = false;
 
             while (!stopThread)
@@ -70,10 +72,16 @@ public class AnimationBase
 #endif
             }
 
-            Time.Reset();
+            Time.ResetWatch();
         });
 
     }
+
+    private static EventHandler<EventArgs> DebugIt()
+    {
+        return (sender, e) => Debug.WriteLine(DateTime.Now.Millisecond.ToString());
+    }
+
 
     public void StopThread()
     {

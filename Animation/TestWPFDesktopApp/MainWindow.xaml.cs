@@ -55,28 +55,62 @@ public partial class MainWindow : Window
         mainCanvas.MinWidth = WIDTH;
         mainCanvas.MinHeight = HEIGHT;
 
+        canvasParticles = new();
 
         CompositionTarget.Rendering += Render;
-
+        Time.TimerTick += TimerCallback;
+        Time.StartTimer(1000 / 50);
         //Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
         //quadTree = new(boundingBox, CAPACATY);
         //PointRegionQuadtree.Count = 0;
 
-        canvasParticles = new();
     }
+
+    private void TimerCallback(object? sender, EventArgs e)
+    {
+        if (started)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                //Debug.WriteLine("In TimerCallback: " + DateTime.Now.ToString("O"));
+                for (int i = 0; i < canvasParticles.Count; i++)
+                {
+                    canvasParticles[i].Shape.SetValue(Canvas.LeftProperty, animation!.Particles[i].X - animation.Particles[i].Radius);
+                    canvasParticles[i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Radius);
+                    InvalidateVisual();
+
+                }
+            });
+        }
+    }
+
+    //private void TimerCallback(object? sender, ElapsedEventArgs e)
+    //{
+    //    Debug.WriteLine("In TimerCallback: " + DateTime.Now.Millisecond);
+    //    //if (started)
+    //    //{
+    //    //    for (int i = 0; i < canvasParticles.Count; i++)
+    //    //    {
+    //    //        canvasParticles[i].Shape.SetValue(Canvas.LeftProperty, animation!.Particles[i].X - animation.Particles[i].Radius);
+    //    //        canvasParticles[i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Radius);
+    //    //    }
+    //    //}
+    //}
+
+
 
     // ToDo: Put Rendering in FixedUpdate? or in seperate animation library class?
     private bool started = false;
     private void Render(object? sender, EventArgs e)
     {
-        if (started)
-        {
-            for (int i = 0; i < canvasParticles.Count; i++)
-            {
-                canvasParticles[i].Shape.SetValue(Canvas.LeftProperty, animation!.Particles[i].X - animation.Particles[i].Radius);
-                canvasParticles[i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Radius);
-            }
-        }
+        //if (started)
+        //{
+        //    for (int i = 0; i < canvasParticles.Count; i++)
+        //    {
+        //        canvasParticles[i].Shape.SetValue(Canvas.LeftProperty, animation!.Particles[i].X - animation.Particles[i].Radius);
+        //        canvasParticles[i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Radius);
+        //    }
+        //}
 
         viewModel.Update();
     }
@@ -118,6 +152,7 @@ public partial class MainWindow : Window
         btnStart.Click -= BtnStart_Click;
         btnStart.Click += BtnStop_Click;
         btnStart.Content = "STOP";
+
 
         //Debug.WriteLine(animation?.Particle.X);
         update = Task.Factory.StartNew(animation.Update);  //animation.Update(); // Task.Factory.StartNew(animation.Update);
