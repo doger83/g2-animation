@@ -3,7 +3,7 @@ using g2.Datastructures.Geometry;
 
 namespace g2.Animation.Core.ParticleSystems;
 
-public struct Particle
+public class Particle
 {
     private readonly Quadrant quadrant;
     // ToDo: Add Regions like WPF Samples
