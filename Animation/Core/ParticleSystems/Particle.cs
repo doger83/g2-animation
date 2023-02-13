@@ -5,13 +5,20 @@ namespace g2.Animation.Core.ParticleSystems;
 
 public class Particle
 {
+    private int index = -1;
     private readonly Quadrant quadrant;
     // ToDo: Add Regions like WPF Samples
     private double x;
     private double y;
     private double radius;
-    private double xSpeed = 50;
+    private double xSpeed = 1000;
     private double ySpeed = 0;
+
+
+    private double lastX;
+    private double lastY;
+    private double lastXSpeed;
+    private double lastYSpeed;
 
     public Particle(double x, double y, double radius, Quadrant quadrant)
     {
@@ -20,7 +27,20 @@ public class Particle
         // ToDo: Add Z for deepth calculations
         this.radius = radius;
         this.quadrant = quadrant;
+
+        lastX = x;
+        lastY = y;
+        lastXSpeed = xSpeed;
+        lastYSpeed = ySpeed;
     }
+
+
+    public int Index
+    {
+        get => index;
+        set => index = value;
+    }
+
 
     public double X
     {
@@ -48,6 +68,11 @@ public class Particle
         set => radius = value;
     }
 
+    public double LastX { get => lastX; set => lastX = value; }
+    public double LastY { get => lastY; set => lastY = value; }
+    public double LastXSpeed { get => lastXSpeed; set => lastXSpeed = value; }
+    public double LastYSpeed { get => lastYSpeed; set => lastYSpeed = value; }
+
     public void Move()
     {
         //Debug.WriteLine("-----------------------");
@@ -56,7 +81,24 @@ public class Particle
         x += xSpeed * Time.DeltaTime; // xspeed; //random.Next(-5, 6);
         y += ySpeed * Time.DeltaTime; // yspeed; //random.Next(-5, 6);
 
-        //Debug.WriteLine($"after X: {X} XSpeed: {XSpeed} dt: {Time.DeltaTime:G25}");
+        //Debug.WriteLine($"after X: {x} XSpeed: {XSpeed} dt: {Time.DeltaTime:G25}");
+    }
+
+    public void Pause()
+    {
+        lastX = x;
+        lastY = y;
+        lastXSpeed = xSpeed;
+        lastYSpeed = ySpeed;
+
+    }
+
+    public void Reset()
+    {
+        x = lastX;
+        y = lastY;
+        xSpeed = lastXSpeed;
+        ySpeed = lastYSpeed;
     }
 
     public void Boundary()
