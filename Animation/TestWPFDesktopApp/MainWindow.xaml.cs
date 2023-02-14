@@ -71,17 +71,12 @@ public partial class MainWindow : Window
         viewModel.Update();
         if (started)
         {
-
             Dispatcher.Invoke(() =>
             {
-
-                //Debug.WriteLine("In TimerCallback: " + DateTime.Now.ToString("O"));
                 for (int i = 0; i < canvasParticles.Count; i++)
                 {
                     canvasParticles[i].Shape.SetValue(Canvas.LeftProperty, animation!.Particles[i].X - animation.Particles[i].Radius);
                     canvasParticles[i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Radius);
-                    InvalidateVisual();
-
                 }
             });
         }
