@@ -1,7 +1,6 @@
 ﻿using g2.Animation.Core.ParticleSystems;
 using g2.Animation.Core.Timing;
 using g2.Datastructures.Geometry;
-using System.Diagnostics;
 
 namespace g2.Animation.Core.AnimationSystems;
 
@@ -48,8 +47,7 @@ public class AnimationBase
         return Task.Run(() =>
         {
             Time.StartWatch();
-            //Time.StartTimer(); // start the timer with an interval of 100 milliseconds
-            //Time.TimerTick += DebugIt();
+
             stopThread = false;
 
             while (!stopThread)
@@ -66,7 +64,7 @@ public class AnimationBase
 
                 //Debug.WriteLine("---------------------------------");
 #if DEBUG
-                //for (int i = 0; i < 1_100_100; i++)
+                //for (int i = 0; i < 10_100_100; i++)
                 //{
                 //    // ToDo: Hack for simulating work during frames to prevent updating toooo fast an deltatime isnt exactly enough
                 //}
@@ -78,12 +76,6 @@ public class AnimationBase
         });
 
     }
-
-    private static EventHandler<EventArgs> DebugIt()
-    {
-        return (sender, e) => Debug.WriteLine(DateTime.Now.Millisecond.ToString());
-    }
-
 
     public void StopThread()
     {

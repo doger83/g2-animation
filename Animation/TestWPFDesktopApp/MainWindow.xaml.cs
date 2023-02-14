@@ -82,21 +82,6 @@ public partial class MainWindow : Window
         }
     }
 
-    //private void TimerCallback(object? sender, ElapsedEventArgs e)
-    //{
-    //    Debug.WriteLine("In TimerCallback: " + DateTime.Now.Millisecond);
-    //    //if (started)
-    //    //{
-    //    //    for (int i = 0; i < canvasParticles.Count; i++)
-    //    //    {
-    //    //        canvasParticles[i].Shape.SetValue(Canvas.LeftProperty, animation!.Particles[i].X - animation.Particles[i].Radius);
-    //    //        canvasParticles[i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Radius);
-    //    //    }
-    //    //}
-    //}
-
-
-
     // ToDo: Put Rendering in FixedUpdate? or in seperate animation library class?
     private bool started = false;
     private void Render(object? sender, EventArgs e)
@@ -112,7 +97,6 @@ public partial class MainWindow : Window
         viewModel.Update();
 
     }
-
 
     private void BtnStart_Click(object sender, RoutedEventArgs e)
     {
@@ -184,6 +168,7 @@ public partial class MainWindow : Window
         //Debug.WriteLine(animation?.Particle.X);
         started = false;
     }
+
     private void MainWIndow_Loaded(object sender, RoutedEventArgs e)
     {
         CanvasShapes.AddGridLines(mainCanvas);

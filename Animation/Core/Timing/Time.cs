@@ -43,7 +43,6 @@ public static class Time
         }
     }
 
-
     public static event EventHandler<EventArgs>? TimerTick;
 
     private static void OnTimerElapsed(object sender, ElapsedEventArgs e)
@@ -58,7 +57,6 @@ public static class Time
         timer.AutoReset = true;
         timer.Enabled = true;
     }
-
 
     public static void StopTimer()
     {
