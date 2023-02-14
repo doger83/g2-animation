@@ -25,11 +25,11 @@ public class AnimationBase
 
         Random random = new();
 
-        for (int i = 0; i < 5000; i++)
+        for (int i = 0; i < 1000; i++)
         {
             double x = random.NextDouble() * width;
             double y = random.NextDouble() * height;
-            Particle particle = new(x, y, 2, quadrant)
+            Particle particle = new(x, y, 5, quadrant)
             {
                 XSpeed = (random.NextDouble() * 100) - 50,
                 YSpeed = (random.NextDouble() * 100) - 50
@@ -43,6 +43,8 @@ public class AnimationBase
 
     public Task Update()
     {
+
+        // ToDo: Make tis a thread? return?
         return Task.Run(() =>
         {
             Time.StartWatch();

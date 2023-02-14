@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace g2.Animation.TestWPFDesktopApp;
 
@@ -57,7 +56,7 @@ public partial class MainWindow : Window
 
         canvasParticles = new();
 
-        CompositionTarget.Rendering += Render;
+        //CompositionTarget.Rendering += Render;
         Time.TimerTick += TimerCallback;
         Time.StartTimer(1000 / 50);
         //Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
@@ -68,7 +67,8 @@ public partial class MainWindow : Window
 
     private void TimerCallback(object? sender, EventArgs e)
     {
-        //viewModel.Update();
+        // ToDo: UI is a bit laggy. make this async
+        viewModel.Update();
         if (started)
         {
 
