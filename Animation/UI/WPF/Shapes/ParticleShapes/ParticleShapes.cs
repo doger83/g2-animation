@@ -5,11 +5,18 @@ namespace g2.Animation.UI.WPF.Shapes.Library.ParticleShapes;
 
 public static class ParticleShapes
 {
+    private static readonly RadialGradientBrush gradientBrush = new()
+    {
+        GradientStops = { new GradientStop(Colors.LightGray, 0), new GradientStop(Colors.Black, 1) },
+
+
+    };
     public static Ellipse CircleBasis(double radius)
     {
-        RadialGradientBrush gradientBrush = new();
-        gradientBrush.GradientStops.Add(new GradientStop(Colors.LightGray, 0));
-        gradientBrush.GradientStops.Add(new GradientStop(Colors.Black, 1));
+
+        gradientBrush.Freeze();
+
+
         return new()
         {
             Width = radius * 2,
