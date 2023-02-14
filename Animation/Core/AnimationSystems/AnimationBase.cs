@@ -18,20 +18,21 @@ public class AnimationBase
         this.fpsCounter = fpsCounter;
         quadrant = new(0, 0, width, height);
 
-        // ToDo: Add Boundary for canvas maybe move chicking for boundaries in box like quadtree?  or BoundaryCheckc lass?
+        // ToDo: Add Boundary for canvas maybe move chicking for boundaries in box like quadtree?  or BoundaryCheckc class?  efficiant boundary checks (k d tree?)
+
 
         particles = new List<Particle>();
 
         Random random = new();
 
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 5; i++)
         {
-            double x = random.NextDouble() * width;
-            double y = random.NextDouble() * height;
-            Particle particle = new(x, y, 5, quadrant)
+            double x = 250;               // random.NextDouble() * width;
+            double y = 250; //  50 + (i * 100);   // random.NextDouble() * height;
+            Particle particle = new(x, y, 25, quadrant)
             {
-                XSpeed = (random.NextDouble() * 100) - 50,
-                YSpeed = (random.NextDouble() * 100) - 50
+                XSpeed = 100, // (random.NextDouble() * 100) - 50,
+                YSpeed = 100, // (random.NextDouble() * 100) - 50
             };
 
             particles.Add(particle);
@@ -64,10 +65,10 @@ public class AnimationBase
 
                 //Debug.WriteLine("---------------------------------");
 #if DEBUG
-                //for (int i = 0; i < 10_100_100; i++)
-                //{
-                //    // ToDo: Hack for simulating work during frames to prevent updating toooo fast an deltatime isnt exactly enough
-                //}
+                for (int i = 0; i < 1_100_100; i++)
+                {
+                    // ToDo: Hack for simulating work during frames to prevent updating toooo fast an deltatime isnt exactly enough
+                }
                 //Debug.WriteLine("Running");
 #endif
             }

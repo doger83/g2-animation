@@ -2,12 +2,12 @@
 using g2.Animation.Core.ParticleSystems;
 using g2.Animation.Core.Timing;
 using g2.Animation.TestWPFDesktopApp.ViewModels;
-using g2.Animation.UI.WPF.Shapes.Library.CanvasShapes;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace g2.Animation.TestWPFDesktopApp;
 
@@ -65,20 +65,27 @@ public partial class MainWindow : Window
 
     }
 
+    private Ellipse? callbackShape;
     private void TimerCallback(object? sender, EventArgs e)
     {
-        // ToDo: UI is a bit laggy. make this async
+        // ToDo: UI is a bit laggy. make this async ?
         viewModel.Update();
+
         if (started)
         {
-            Dispatcher.Invoke(() =>
+            for (int i = 0; i < canvasParticles.Count; i++)
             {
-                for (int i = 0; i < canvasParticles.Count; i++)
+                callbackShape = canvasParticles[i].Shape;
+
+                Dispatcher.Invoke(() =>
                 {
-                    canvasParticles[i].Shape.SetValue(Canvas.LeftProperty, animation!.Particles[i].X - animation.Particles[i].Radius);
-                    canvasParticles[i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Radius);
-                }
-            });
+                    //Canvas.SetLeft(callbackShape, animation!.Particles[i].X - animation.Particles[i].Radius);
+                    //Canvas.SetTop(callbackShape, animation.Particles[i].Y - animation.Particles[i].Radius);
+
+                    callbackShape.SetValue(Canvas.LeftProperty, animation!.Particles[i].X - animation.Particles[i].Radius);
+                    callbackShape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Radius);
+                });
+            }
         }
     }
 
@@ -104,13 +111,13 @@ public partial class MainWindow : Window
         if (animation == null)
         {
             animation = new(fpsCounter, WIDTH, HEIGHT);
+            Particle animationParticle;
+            ParticleViewModel particleVM;
 
             for (int i = 0; i < animation.Particles.Count; i++)
             {
-                Particle animationParticle = animation.Particles[i];
-
-                ParticleViewModel particleVM = new(animationParticle.X, animationParticle.Y, animationParticle.Radius);
-
+                animationParticle = animation.Particles[i];
+                particleVM = new(animationParticle.X, animationParticle.Y, animationParticle.Radius);
 
                 particleVM.Shape.SetValue(Canvas.LeftProperty, animationParticle.X - animationParticle.Radius);
                 particleVM.Shape.SetValue(Canvas.TopProperty, animationParticle.Y - animationParticle.Radius);
@@ -171,13 +178,13 @@ public partial class MainWindow : Window
 
     private void MainWIndow_Loaded(object sender, RoutedEventArgs e)
     {
-        CanvasShapes.AddGridLines(mainCanvas);
+        //CanvasShapes.AddGridLines(mainCanvas);
     }
 
     private void MainWIndow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
         started = false;
-        animation!.StopThread();
+        animation?.StopThread();
         update?.Dispose();
         update = null;
         Time.StopTimer();
