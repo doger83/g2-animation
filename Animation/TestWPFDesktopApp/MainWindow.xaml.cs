@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace g2.Animation.TestWPFDesktopApp;
 
@@ -57,7 +56,7 @@ public partial class MainWindow : Window
 
         canvasParticles = new();
 
-        CompositionTarget.Rendering += Render;
+        //CompositionTarget.Rendering += Render;
         Time.TimerTick += TimerCallback;
         Time.StartTimer(1000 / 50);
         //Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
@@ -70,8 +69,10 @@ public partial class MainWindow : Window
     {
         if (started)
         {
+
             Dispatcher.Invoke(() =>
             {
+
                 //Debug.WriteLine("In TimerCallback: " + DateTime.Now.ToString("O"));
                 for (int i = 0; i < canvasParticles.Count; i++)
                 {
@@ -82,6 +83,8 @@ public partial class MainWindow : Window
                 }
             });
         }
+
+        viewModel.Update();
     }
 
     //private void TimerCallback(object? sender, ElapsedEventArgs e)
@@ -111,8 +114,8 @@ public partial class MainWindow : Window
         //        canvasParticles[i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Radius);
         //    }
         //}
+        //viewModel.Update();
 
-        viewModel.Update();
     }
 
 
@@ -189,5 +192,15 @@ public partial class MainWindow : Window
     private void MainWIndow_Loaded(object sender, RoutedEventArgs e)
     {
         CanvasShapes.AddGridLines(mainCanvas);
+    }
+
+    private void MainWIndow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    {
+        started = false;
+        animation!.StopThread();
+        update?.Dispose();
+        update = null;
+        Time.StopTimer();
+
     }
 }

@@ -10,7 +10,7 @@
         x:Name="mainWIndow"
         WindowStartupLocation="CenterScreen"
         SizeToContent="WidthAndHeight"
-        Loaded="MainWIndow_Loaded"
+        Loaded="MainWIndow_Loaded"  Closing="MainWIndow_Closing"
         d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
         
         >
