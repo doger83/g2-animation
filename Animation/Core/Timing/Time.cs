@@ -52,7 +52,7 @@ public static class Time
 
     public static void StartTimer(double interval)
     {
-        timer = new Timer(interval);
+        timer ??= new Timer(interval);
         timer.Elapsed += OnTimerElapsed!;
         timer.AutoReset = true;
         timer.Enabled = true;
@@ -64,6 +64,7 @@ public static class Time
         {
             timer.Elapsed -= OnTimerElapsed!;
             timer.Enabled = false;
+            timer.Dispose();
             timer = null;
         }
     }

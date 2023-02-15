@@ -114,6 +114,9 @@ public partial class MainWindow : Window
 
     private void BtnStart_Click(object sender, RoutedEventArgs e)
     {
+        started = true;
+
+
         // ToDo: Put stuff here to the classes it belongs and move on/off toggle an method?
         if (animation == null)
         {
@@ -152,12 +155,14 @@ public partial class MainWindow : Window
 
         //Debug.WriteLine(animation?.Particle.X);
         update = Task.Factory.StartNew(animation.Update);  //animation.Update(); // Task.Factory.StartNew(animation.Update);
-        started = true;
+
     }
 
     private void BtnStop_Click(object sender, RoutedEventArgs e)
     {
-        animation!.StopThread();
+        started = false;
+        animation?.StopThread();
+        update?.Dispose();
         update = null;
 
         //Debug.WriteLine("------------Button Start-------------");
@@ -179,7 +184,6 @@ public partial class MainWindow : Window
         btnStart.Content = "START";
 
         //Debug.WriteLine(animation?.Particle.X);
-        started = false;
     }
 
     private void MainWIndow_Loaded(object sender, RoutedEventArgs e)
@@ -191,9 +195,9 @@ public partial class MainWindow : Window
     {
         started = false;
         animation?.StopThread();
-        //update?.Dispose();
-        update = null;
         Time.StopTimer();
+        update?.Dispose();
+        update = null;
 
     }
 
