@@ -62,6 +62,7 @@ public static class Time
     {
         if (timer != null)
         {
+            timer.Elapsed -= OnTimerElapsed!;
             timer.Enabled = false;
             timer = null;
         }
