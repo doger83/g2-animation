@@ -68,25 +68,32 @@ public partial class MainWindow : Window
     private Ellipse? callbackShape;
     private void TimerCallback(object? sender, EventArgs e)
     {
+        if (Application.Current == null || Application.Current.Dispatcher == null)
+        {
+            return;
+        }
         // ToDo: UI is a bit laggy. make this async ?
         viewModel.Update();
 
-        if (started)
+        if (!started)
         {
-            for (int i = 0; i < canvasParticles.Count; i++)
+            return;
+        }
+
+        Dispatcher.Invoke(() =>
+        {
+            for (int i = 0; i < animation?.Particles.Count; i++)
             {
                 callbackShape = canvasParticles[i].Shape;
+                //Canvas.SetLeft(callbackShape, animation!.Particles[i].X - animation.Particles[i].Radius);
+                //Canvas.SetTop(callbackShape, animation.Particles[i].Y - animation.Particles[i].Radius);
 
-                Dispatcher.Invoke(() =>
-                {
-                    //Canvas.SetLeft(callbackShape, animation!.Particles[i].X - animation.Particles[i].Radius);
-                    //Canvas.SetTop(callbackShape, animation.Particles[i].Y - animation.Particles[i].Radius);
+                callbackShape?.SetValue(Canvas.LeftProperty, animation?.Particles[i].X - animation?.Particles[i].Radius);
+                callbackShape?.SetValue(Canvas.TopProperty, animation?.Particles[i].Y - animation?.Particles[i].Radius);
 
-                    callbackShape.SetValue(Canvas.LeftProperty, animation!.Particles[i].X - animation.Particles[i].Radius);
-                    callbackShape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Radius);
-                });
+                callbackShape = null;
             }
-        }
+        });
     }
 
     // ToDo: Put Rendering in FixedUpdate? or in seperate animation library class?
@@ -151,7 +158,6 @@ public partial class MainWindow : Window
     private void BtnStop_Click(object sender, RoutedEventArgs e)
     {
         animation!.StopThread();
-        update?.Dispose();
         update = null;
 
         //Debug.WriteLine("------------Button Start-------------");
@@ -185,9 +191,40 @@ public partial class MainWindow : Window
     {
         started = false;
         animation?.StopThread();
-        update?.Dispose();
+        //update?.Dispose();
         update = null;
         Time.StopTimer();
 
     }
+
+    //private void MainWIndow_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    //{
+
+    //    switch (e.Key)
+    //    {
+    //        case System.Windows.Input.Key.Right:
+
+    //            if (started)
+    //            {
+    //                for (int i = 0; i < animation?.Particles.Count; i++)
+    //                {
+    //                    animation.Particles[i].X += 50;
+    //                }
+    //            }
+
+    //            break;
+    //        case System.Windows.Input.Key.Left:
+
+    //            if (started)
+    //            {
+    //                for (int i = 0; i < animation?.Particles.Count; i++)
+    //                {
+    //                    animation.Particles[i].X -= 50;
+    //                }
+    //            }
+
+    //            break;
+    //        default: break;
+    //    }
+    //}
 }
