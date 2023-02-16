@@ -1,10 +1,14 @@
 ﻿using g2.Animation.Core.Timing;
 using g2.Datastructures.Geometry;
+using NetTopologySuite.Mathematics;
 
 namespace g2.Animation.Core.ParticleSystems;
 
 public class Particle
 {
+    private Vector2D position;
+    private Vector2D speed;
+
     private int index = -1;
     private readonly Quadrant quadrant;
     // ToDo: Add Regions like WPF Samples
@@ -22,6 +26,8 @@ public class Particle
 
     public Particle(double x, double y, double radius, Quadrant quadrant)
     {
+        position = new Vector2D(x, y);
+
         this.x = x;
         this.y = y;
         // ToDo: Add Z for deepth calculations
@@ -64,14 +70,15 @@ public class Particle
     public double LastY { get => lastY; set => lastY = value; }
     public double LastXSpeed { get => lastXSpeed; set => lastXSpeed = value; }
     public double LastYSpeed { get => lastYSpeed; set => lastYSpeed = value; }
+    public Vector2D Position { get => position; set => position = value; }
+    public Vector2D Speed { get => speed; set => speed = value; }
 
     public void Move()
     {
         //Debug.WriteLine("-----------------------");
         //Debug.WriteLine($"before: X: {X} XSpeed: {XSpeed} dt: {Time.DeltaTime.ToString("G25")}");
 
-        x += xSpeed * Time.DeltaTime; // xspeed; //random.Next(-5, 6);
-        y += ySpeed * Time.DeltaTime; // yspeed; //random.Next(-5, 6);
+        position += speed * Time.DeltaTime; //new Vector2((float)Time.DeltaTime, (float)Time.DeltaTime); // yspeed; //random.Next(-5, 6);
 
         //Debug.WriteLine($"after X: {x} XSpeed: {XSpeed} dt: {Time.DeltaTime:G25}");
     }
@@ -93,43 +100,43 @@ public class Particle
         ySpeed = lastYSpeed;
     }
 
+    private const double negOne = -1;
+    private const double one = 1;
+    private readonly Vector2D oppositeX = new(negOne, one);
+    private readonly Vector2D oppositeY = new(one, negOne);
+
     public void Boundary()
     {
-        bool LeftBoundary = x - radius < 0;
-        bool RightBoundary = x > quadrant.Width - radius;
-        bool TopBoundary = y - radius < 0;
-        bool BottomBoundary = y > quadrant.Height - radius;
+        bool LeftBoundary = position.X - radius < 0;
+        bool RightBoundary = position.X > quadrant.Width - radius;
+        bool TopBoundary = position.Y - radius < 0;
+        bool BottomBoundary = position.Y > quadrant.Height - radius;
+
+
+
 
         if (LeftBoundary)
         {
-            xSpeed *= -1;
-            x = radius;
-            return;
-            //Debug.WriteLine("----------Boundary-------------");
-            //Debug.WriteLine($"Boundary X: {X} XSpeed: {XSpeed} dt: {Time.DeltaTime.ToString("G25")}");
+            speed *= oppositeX;
+            position = new Vector2D(Radius, position.Y);
         }
 
         if (RightBoundary)
         {
-            xSpeed *= -1;
-            x = quadrant.Width - radius;
-            return;
-            //Debug.WriteLine("----------Boundary-------------");
-            //Debug.WriteLine($"Boundary X: {X} XSpeed: {XSpeed} dt: {Time.DeltaTime.ToString("G25")}");
+            speed *= oppositeX;
+            position = new Vector2D(quadrant.Width - Radius, position.Y);
         }
 
         if (TopBoundary)
         {
-            ySpeed *= -1;
-            y = radius;
-            return;
+            speed *= oppositeY;
+            position = new Vector2D(position.X, Radius);
         }
 
         if (BottomBoundary)
         {
-            ySpeed *= -1;
-            y = quadrant.Height - radius;
-            return;
+            speed *= oppositeY;
+            position = new Vector2D(position.X, quadrant.Height - Radius);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using g2.Animation.Core.ParticleSystems;
 using g2.Animation.Core.Timing;
 using g2.Datastructures.Geometry;
+using NetTopologySuite.Mathematics;
 
 namespace g2.Animation.Core.AnimationSystems;
 
@@ -27,12 +28,14 @@ public class AnimationBase
 
         for (int i = 0; i < 5; i++)
         {
-            double x = 250;               // random.NextDouble() * width;
-            double y = 250; //  50 + (i * 100);   // random.NextDouble() * height;
+            double x = random.NextDouble() * width;
+            double y = random.NextDouble() * height;
             Particle particle = new(x, y, 25, quadrant)
             {
-                XSpeed = 100, // (random.NextDouble() * 100) - 50,
-                YSpeed = 100, // (random.NextDouble() * 100) - 50
+                Speed = new Vector2D((random.NextDouble() * 150) - 75, (random.NextDouble() * 100) - 75)
+
+                //Speed = new Vector2(50, 0)
+
             };
 
             particles.Add(particle);
