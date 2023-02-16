@@ -4,10 +4,11 @@ using g2.Animation.Core.Timing;
 using g2.Animation.TestWPFDesktopApp.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace g2.Animation.TestWPFDesktopApp;
 
@@ -37,6 +38,7 @@ public partial class MainWindow : Window
 
     private AnimationBase? animation;
     private Task? update;
+    private DispatcherTimer timer;
 
 
     // ToDo: Move FPSCounter calculations dependency to animationsystem an only use a viewmodel here!
@@ -57,15 +59,22 @@ public partial class MainWindow : Window
         canvasParticles = new();
 
         //CompositionTarget.Rendering += Render;
-        Time.TimerTick += TimerCallback;
-        Time.StartTimer(1000 / 50);
+        //Time.TimerTick += TimerCallback;
+        //Time.StartTimer(1000 / 50);
+
+        timer = new()
+        {
+            Interval = TimeSpan.FromMilliseconds(20)
+        };
+        timer.Tick += TimerCallback;
+        Dispatcher.Invoke(() => timer.Start());
         //Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
         //quadTree = new(boundingBox, CAPACATY);
         //PointRegionQuadtree.Count = 0;
 
     }
 
-    private Ellipse? callbackShape;
+    //private Ellipse callbackShape;
     private void TimerCallback(object? sender, EventArgs e)
     {
         if (Application.Current == null || Application.Current.Dispatcher == null)
@@ -79,21 +88,22 @@ public partial class MainWindow : Window
         {
             return;
         }
-
-        Dispatcher.Invoke(() =>
+        // ToDo: causes this the ammount of gc ?
+        //Dispatcher.Invoke(() =>
+        //{
+        for (int i = 0; i < animation?.Particles.Count; i++)
         {
-            for (int i = 0; i < animation?.Particles.Count; i++)
-            {
-                callbackShape = canvasParticles[i].Shape;
-                //Canvas.SetLeft(callbackShape, animation!.Particles[i].X - animation.Particles[i].Radius);
-                //Canvas.SetTop(callbackShape, animation.Particles[i].Y - animation.Particles[i].Radius);
+            //callbackShape = canvasParticles[i].Shape;
+            Canvas.SetLeft(canvasParticles[i].Shape, animation!.Particles[i].Position.X - animation.Particles[i].Radius);
+            Canvas.SetTop(canvasParticles[i].Shape, animation.Particles[i].Position.Y - animation.Particles[i].Radius);
 
-                callbackShape?.SetValue(Canvas.LeftProperty, animation?.Particles[i].X - animation?.Particles[i].Radius);
-                callbackShape?.SetValue(Canvas.TopProperty, animation?.Particles[i].Y - animation?.Particles[i].Radius);
+            //canvasParticles[i].Shape.SetValue(Canvas.LeftProperty, animation?.Particles[i].Position.X - animation?.Particles[i].Radius);
+            //canvasParticles[i].Shape.SetValue(Canvas.TopProperty, animation?.Particles[i].Position.Y - animation?.Particles[i].Radius);
 
-                callbackShape = null;
-            }
-        });
+
+        }
+        //});
+        Thread.Sleep(2);
     }
 
     // ToDo: Put Rendering in FixedUpdate? or in seperate animation library class?
@@ -155,6 +165,7 @@ public partial class MainWindow : Window
 
         //Debug.WriteLine(animation?.Particle.X);
         update = Task.Factory.StartNew(animation.Update);  //animation.Update(); // Task.Factory.StartNew(animation.Update);
+
 
     }
 
