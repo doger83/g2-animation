@@ -9,6 +9,7 @@ public static class ParticleShapes
     private static readonly RadialGradientBrush gradientBrush = new()
     {
         GradientStops = { new GradientStop(Colors.LightGray, 0), new GradientStop(Colors.Black, 1) },
+
     };
 
     private static readonly SolidColorBrush strokeBrush = new(Color.FromArgb(255, 100, 100, 205));
@@ -19,15 +20,17 @@ public static class ParticleShapes
         strokeBrush.Freeze();
     }
 
+
     public static Ellipse CircleBasis(double radius)
     {
-        return new()
+        Ellipse shape = new()
         {
             Width = radius * 2,
             Height = radius * 2,
             Stroke = strokeBrush,
-            StrokeThickness = 1,
-            Fill = gradientBrush,
+            StrokeThickness = 0.5,
+            Fill = gradientBrush
         };
+        return shape;
     }
 }

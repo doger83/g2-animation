@@ -3,11 +3,10 @@ using g2.Animation.Core.ParticleSystems;
 using g2.Animation.Core.Timing;
 using g2.Animation.TestWPFDesktopApp.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace g2.Animation.TestWPFDesktopApp;
@@ -26,8 +25,8 @@ namespace g2.Animation.TestWPFDesktopApp;
 public partial class MainWindow : Window
 {
     // ToDo: Move to configuration (file) later make usable for templateanimations
-    private const double WIDTH = 550.0;
-    private const double HEIGHT = 550.0;
+    private const double WIDTH = 1550.0;
+    private const double HEIGHT = 650.0;
     //private const double X = 50.0;
     //private const double Y = 50.0;
     //private const int CAPACATY = 4;
@@ -43,38 +42,28 @@ public partial class MainWindow : Window
 
     // ToDo: Move FPSCounter calculations dependency to animationsystem an only use a viewmodel here!
     private readonly FPSCounter fpsCounter;
-    private readonly List<ParticleViewModel> canvasParticles;
+    private ParticleViewModel[] canvasParticles;
 
     private readonly MainWindowViewModel viewModel;
 
     public MainWindow()
     {
         InitializeComponent();
+
         viewModel = (MainWindowViewModel)DataContext;
 
         fpsCounter = viewModel.Lbl_FPSCounterUpdate;
+
         mainCanvas.MinWidth = WIDTH;
         mainCanvas.MinHeight = HEIGHT;
 
-        canvasParticles = new();
+        CompositionTarget.Rendering += TimerCallback;
 
-        //CompositionTarget.Rendering += Render;
-        //Time.TimerTick += TimerCallback;
-        //Time.StartTimer(1000 / 50);
-
-        timer = new()
-        {
-            Interval = TimeSpan.FromMilliseconds(20)
-        };
-        timer.Tick += TimerCallback;
-        Dispatcher.Invoke(() => timer.Start());
         //Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
         //quadTree = new(boundingBox, CAPACATY);
         //PointRegionQuadtree.Count = 0;
-
     }
 
-    //private Ellipse callbackShape;
     private void TimerCallback(object? sender, EventArgs e)
     {
         if (Application.Current == null || Application.Current.Dispatcher == null)
@@ -91,34 +80,24 @@ public partial class MainWindow : Window
         // ToDo: causes this the ammount of gc ?
         //Dispatcher.Invoke(() =>
         //{
-        for (int i = 0; i < animation?.Particles.Count; i++)
+        for (int i = 0; i < animation?.Particles.Length; i++)
         {
-            //callbackShape = canvasParticles[i].Shape;
-            Canvas.SetLeft(canvasParticles[i].Shape, animation!.Particles[i].Position.X - animation.Particles[i].Radius);
-            Canvas.SetTop(canvasParticles[i].Shape, animation.Particles[i].Position.Y - animation.Particles[i].Radius);
+            //Canvas.SetLeft(canvasParticles[i].Shape, animation!.Particles[i].Position.X - animation.Particles[i].Radius);
+            //Canvas.SetTop(canvasParticles[i].Shape, animation.Particles[i].Position.Y - animation.Particles[i].Radius);
 
-            //canvasParticles[i].Shape.SetValue(Canvas.LeftProperty, animation?.Particles[i].Position.X - animation?.Particles[i].Radius);
-            //canvasParticles[i].Shape.SetValue(Canvas.TopProperty, animation?.Particles[i].Position.Y - animation?.Particles[i].Radius);
-
-
+            canvasParticles[i].Shape.SetValue(Canvas.LeftProperty, animation?.Particles[i].Position.X - animation?.Particles[i].Radius);
+            canvasParticles[i].Shape.SetValue(Canvas.TopProperty, animation?.Particles[i].Position.Y - animation?.Particles[i].Radius);
         }
         //});
-        Thread.Sleep(2);
     }
 
     // ToDo: Put Rendering in FixedUpdate? or in seperate animation library class?
     private bool started = false;
     private void Render(object? sender, EventArgs e)
     {
-        //if (started)
-        //{
-        //    for (int i = 0; i < canvasParticles.Count; i++)
-        //    {
-        //        canvasParticles[i].Shape.SetValue(Canvas.LeftProperty, animation!.Particles[i].X - animation.Particles[i].Radius);
-        //        canvasParticles[i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Radius);
-        //    }
-        //}
-        viewModel.Update();
+
+
+
 
     }
 
@@ -126,15 +105,15 @@ public partial class MainWindow : Window
     {
         started = true;
 
-
         // ToDo: Put stuff here to the classes it belongs and move on/off toggle an method?
         if (animation == null)
         {
             animation = new(fpsCounter, WIDTH, HEIGHT);
+            canvasParticles = new ParticleViewModel[animation.Particles.Length];
             Particle animationParticle;
             ParticleViewModel particleVM;
 
-            for (int i = 0; i < animation.Particles.Count; i++)
+            for (int i = 0; i < animation.Particles.Length; i++)
             {
                 animationParticle = animation.Particles[i];
                 particleVM = new(animationParticle.X, animationParticle.Y, animationParticle.Radius);
@@ -142,13 +121,13 @@ public partial class MainWindow : Window
                 particleVM.Shape.SetValue(Canvas.LeftProperty, animationParticle.X - animationParticle.Radius);
                 particleVM.Shape.SetValue(Canvas.TopProperty, animationParticle.Y - animationParticle.Radius);
 
-                canvasParticles.Add(particleVM);
+                canvasParticles[i] = particleVM;
                 animationParticle.Index = mainCanvas.Children.Add(particleVM.Shape);
             }
         }
         else
         {
-            for (int i = 0; i < animation.Particles.Count; i++)
+            for (int i = 0; i < animation.Particles.Length; i++)
             {
                 animation.Particles[i].Reset();
             }
@@ -181,7 +160,7 @@ public partial class MainWindow : Window
         //Debug.WriteLine(animation!.Particle.X);
         //Debug.WriteLine(Canvas.GetLeft(animation!.Particle.Shape));
 
-        for (int i = 0; i < animation.Particles.Count; i++)
+        for (int i = 0; i < animation?.Particles.Length; i++)
         {
             animation.Particles[i].Pause();
         }

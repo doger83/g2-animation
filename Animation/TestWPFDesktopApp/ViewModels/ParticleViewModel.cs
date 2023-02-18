@@ -8,7 +8,6 @@ internal class ParticleViewModel
 
     public ParticleViewModel(double x, double y, double radius)
     {
-
         shape = ParticleShapes.CircleBasis(radius);
     }
 
