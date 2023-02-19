@@ -25,8 +25,8 @@ namespace g2.Animation.TestWPFDesktopApp;
 public partial class MainWindow : Window
 {
     // ToDo: Move to configuration (file) later make usable for templateanimations
-    private const double WIDTH = 1550.0;
-    private const double HEIGHT = 650.0;
+    private const double WIDTH = 550.0;
+    private const double HEIGHT = 550.0;
     //private const double X = 50.0;
     //private const double Y = 50.0;
     //private const int CAPACATY = 4;
@@ -49,6 +49,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
 
         viewModel = (MainWindowViewModel)DataContext;
 
@@ -58,7 +59,12 @@ public partial class MainWindow : Window
         mainCanvas.MinHeight = HEIGHT;
 
         CompositionTarget.Rendering += TimerCallback;
-
+        //timer = new()
+        //{
+        //    Interval = TimeSpan.FromMilliseconds(20)
+        //};
+        //timer.Tick += TimerCallback;
+        //timer.Start();
         //Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
         //quadTree = new(boundingBox, CAPACATY);
         //PointRegionQuadtree.Count = 0;
@@ -80,6 +86,8 @@ public partial class MainWindow : Window
         // ToDo: causes this the ammount of gc ?
         //Dispatcher.Invoke(() =>
         //{
+        //mainCanvas.Visibility = Visibility.Collapsed;
+
         for (int i = 0; i < animation?.Particles.Length; i++)
         {
             //Canvas.SetLeft(canvasParticles[i].Shape, animation!.Particles[i].Position.X - animation.Particles[i].Radius);
@@ -88,6 +96,8 @@ public partial class MainWindow : Window
             canvasParticles[i].Shape.SetValue(Canvas.LeftProperty, animation?.Particles[i].Position.X - animation?.Particles[i].Radius);
             canvasParticles[i].Shape.SetValue(Canvas.TopProperty, animation?.Particles[i].Position.Y - animation?.Particles[i].Radius);
         }
+
+        //mainCanvas.Visibility = Visibility.Visible;
         //});
     }
 

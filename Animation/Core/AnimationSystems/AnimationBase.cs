@@ -9,7 +9,7 @@ public class AnimationBase
     private readonly FPSCounter fpsCounter;
     private readonly Quadrant quadrant;
     private readonly Particle[] particles;
-    private int particlesCount = 1000;
+    private int particlesCount = 5000;
 
     private bool stopThread;
 
@@ -31,9 +31,9 @@ public class AnimationBase
             double y = random.NextDouble() * height;
             Particle particle = new(x, y, 2, quadrant)
             {
-                Speed = new Vector2D((random.NextDouble() * 150) - 75, (random.NextDouble() * 150) - 75)
+                //Speed = new Vector2D((random.NextDouble() * 150) - 75, (random.NextDouble() * 150) - 75)
 
-                //Speed = new Vector2D(200, 0)
+                Speed = new Vector2D(50, 0)
             };
 
             particles[i] = particle;
