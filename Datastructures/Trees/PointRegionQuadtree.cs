@@ -17,7 +17,6 @@ public class PointRegionQuadtree //: IQuadtree
     public int Capacity { get; }
     public bool Divided { get; private set; }
 
-
     public List<Point>? Points { get; private set; }
     public PointRegionQuadtree? NorthWest { get; private set; }
     public PointRegionQuadtree? NorthEast { get; private set; }

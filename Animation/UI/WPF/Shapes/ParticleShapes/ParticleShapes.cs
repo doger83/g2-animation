@@ -20,7 +20,6 @@ public static class ParticleShapes
         strokeBrush.Freeze();
     }
 
-
     public static Ellipse CircleBasis(double radius)
     {
         Ellipse shape = new()

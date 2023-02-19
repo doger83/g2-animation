@@ -39,7 +39,6 @@ public partial class MainWindow : Window
     private AnimationBase? animation;
     private ParticleViewModel[]? canvasParticles;
 
-
     // ToDo: Move FPSCounter calculations dependency to animationsystem an only use a viewmodel here!
     private readonly FPSCounter fpsCounter;
     private readonly MainWindowViewModel viewModel;
@@ -66,7 +65,7 @@ public partial class MainWindow : Window
     private bool started = false;
     private void Update(object? sender, EventArgs e)
     {
-        viewModel.Update();
+        //viewModel.Update();
 
         if (!started)
         {

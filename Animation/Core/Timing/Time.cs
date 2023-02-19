@@ -24,8 +24,15 @@ public static class Time
 
     public static double DeltaTime
     {
-        get => deltaTime;
-        private set => deltaTime = value;
+        get
+        {
+            return deltaTime;
+        }
+
+        private set
+        {
+            deltaTime = value;
+        }
     }
 
     public static void ResetWatch()

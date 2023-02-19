@@ -9,10 +9,8 @@ public class Particle
 {
     private int index = -1;
     private double radius;
-
     private Vector2D position;
     private Vector2D speed;
-
     private readonly Quadrant quadrant;
 
     public Particle(double x, double y, double radius, Quadrant quadrant)
@@ -25,17 +23,72 @@ public class Particle
         this.quadrant = quadrant;
     }
 
+    public int Index
+    {
+        get
+        {
+            return index;
+        }
 
-    public int Index { get => index; set => index = value; }
+        set
+        {
+            index = value;
+        }
+    }
 
-    public double X => position.X;
+    public double X
+    {
+        get
+        {
+            return position.X;
+        }
+    }
 
-    public double Y => position.Y;
+    public double Y
+    {
+        get
+        {
+            return position.Y;
+        }
+    }
 
-    public double Radius { get => radius; set => radius = value; }
+    public double Radius
+    {
+        get
+        {
+            return radius;
+        }
 
-    public Vector2D Position { get => position; set => position = value; }
-    public Vector2D Speed { get => speed; set => speed = value; }
+        set
+        {
+            radius = value;
+        }
+    }
+
+    public Vector2D Position
+    {
+        get
+        {
+            return position;
+        }
+
+        set
+        {
+            position = value;
+        }
+    }
+    public Vector2D Speed
+    {
+        get
+        {
+            return speed;
+        }
+
+        set
+        {
+            speed = value;
+        }
+    }
 
     public void Move()
     {
@@ -44,20 +97,19 @@ public class Particle
         //Debug.WriteLine($"Move X:\t{position.X}\tXSpeed:\t{xSpeed}\tdt:\t{Time.DeltaTime:G65}");
     }
 
-
-    private bool crossendTopBoundary;
+    private bool crossedTopBoundary;
     private bool crossedRightBoundary;
     private bool crossedBottomBoundary;
     private bool crossedLeftBoundary;
 
     public void Boundary()
     {
-        crossendTopBoundary = position.Y - radius < 0;
+        crossedTopBoundary = position.Y - radius < 0;
         crossedRightBoundary = position.X > quadrant.Width - radius;
         crossedBottomBoundary = position.Y > quadrant.Height - radius;
         crossedLeftBoundary = position.X - radius < 0;
 
-        if (!(crossedLeftBoundary || crossedRightBoundary || crossendTopBoundary || crossedBottomBoundary))
+        if (!(crossedLeftBoundary || crossedRightBoundary || crossedTopBoundary || crossedBottomBoundary))
         {
             // No boundary conditions are met, so early
             return;
@@ -77,7 +129,7 @@ public class Particle
             return;
         }
 
-        if (crossendTopBoundary)
+        if (crossedTopBoundary)
         {
             speed.Y *= -1;
             position.Y = Radius;

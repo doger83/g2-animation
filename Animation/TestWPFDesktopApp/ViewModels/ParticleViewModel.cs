@@ -11,5 +11,11 @@ internal class ParticleViewModel
         shape = ParticleShapes.CircleBasis(radius);
     }
 
-    public Ellipse Shape => shape;
+    public Ellipse Shape
+    {
+        get
+        {
+            return shape;
+        }
+    }
 }

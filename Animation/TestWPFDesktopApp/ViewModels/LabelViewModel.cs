@@ -4,7 +4,10 @@ public abstract class LabelViewModel : ViewModelBase
     protected string content = string.Empty;
     public string Content
     {
-        get => content;
+        get
+        {
+            return content;
+        }
 
         set
         {

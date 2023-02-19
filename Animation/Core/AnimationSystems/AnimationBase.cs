@@ -39,7 +39,13 @@ public class AnimationBase
         }
     }
 
-    public Particle[] Particles => particles;
+    public Particle[] Particles
+    {
+        get
+        {
+            return particles;
+        }
+    }
 
     public Task Update()
     {
