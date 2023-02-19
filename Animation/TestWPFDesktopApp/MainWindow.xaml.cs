@@ -65,7 +65,7 @@ public partial class MainWindow : Window
     private bool started = false;
     private void Update(object? sender, EventArgs e)
     {
-        //viewModel.Update();
+        viewModel.Update();
 
         if (!started)
         {
@@ -140,7 +140,6 @@ public partial class MainWindow : Window
         Time.StopTimer();
         update?.Dispose();
         update = null;
-
     }
 
     //private void MainWIndow_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)

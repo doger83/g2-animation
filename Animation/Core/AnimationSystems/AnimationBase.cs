@@ -59,7 +59,7 @@ public class AnimationBase
             {
                 Time.Delta();
 
-                fpsCounter.UpdateContent();
+                fpsCounter.Update();
 
                 for (int i = 0; i < particles.Length; i++)
                 {

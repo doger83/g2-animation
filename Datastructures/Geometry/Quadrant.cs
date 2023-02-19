@@ -20,11 +20,11 @@ public class Quadrant /// ToDo: Quadrant : AABB
 
     public bool Contains(Point point)
     {
-        return point.X >= X - Width &&
-        point.X <= X + Width &&
-        point.Y >= Y - Height &&
-        point.Y <= Y + Height
-    ;
+        return
+            point.X >= X - Width &&
+            point.X <= X + Width &&
+            point.Y >= Y - Height &&
+            point.Y <= Y + Height;
     }
 
     public bool Intersects(Quadrant searchWindow)
@@ -38,12 +38,3 @@ public class Quadrant /// ToDo: Quadrant : AABB
     );
     }
 }
-
-public enum Quadrants
-{
-    NorthWest,
-    NorthEast,
-    SouthWest,
-    SouthEast
-}
-

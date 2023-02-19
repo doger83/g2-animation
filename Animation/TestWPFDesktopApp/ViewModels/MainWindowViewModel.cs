@@ -27,7 +27,7 @@ public class MainWindowViewModel : ViewModelBase
             if (lbl_DateAndTime != value)
             {
                 lbl_DateAndTime = value;
-                RaisePropertyChanged();
+                NotifyPropertyChanged();
             }
         }
     }
@@ -44,7 +44,7 @@ public class MainWindowViewModel : ViewModelBase
             if (lbl_FPSCounterUI != value)
             {
                 lbl_FPSCounterUI = value;
-                RaisePropertyChanged();
+                NotifyPropertyChanged();
             }
         }
     }
@@ -61,7 +61,7 @@ public class MainWindowViewModel : ViewModelBase
             if (lbl_FPSCounterUpdate != value)
             {
                 lbl_FPSCounterUpdate = value;
-                RaisePropertyChanged();
+                NotifyPropertyChanged();
             }
         }
     }

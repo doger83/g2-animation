@@ -12,7 +12,7 @@ public abstract class LabelViewModel : ViewModelBase
         set
         {
             content = value;
-            RaisePropertyChanged();
+            NotifyPropertyChanged();
         }
     }
 

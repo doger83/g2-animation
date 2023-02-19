@@ -33,7 +33,7 @@ public class FPSCounter : INotifyPropertyChanged
         }
     }
 
-    public void UpdateContent()
+    public void Update()
     {
         // ToDo: Wenn Counter die UI Updated stottert es?
         framesSinceLastUpdate++;
