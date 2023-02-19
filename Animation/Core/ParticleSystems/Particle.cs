@@ -45,44 +45,48 @@ public class Particle
     }
 
 
-    private readonly Vector2D oppositeX = new(-1, 1);
-    private readonly Vector2D oppositeY = new(1, -1);
-    private bool leftBoundary;
-    private bool rightBoundary;
-    private bool topBoundary;
-    private bool bottomBoundary;
+    private bool crossendTopBoundary;
+    private bool crossedRightBoundary;
+    private bool crossedBottomBoundary;
+    private bool crossedLeftBoundary;
 
     public void Boundary()
     {
-        leftBoundary = position.X - radius < 0;
-        rightBoundary = position.X > quadrant.Width - radius;
-        topBoundary = position.Y - radius < 0;
-        bottomBoundary = position.Y > quadrant.Height - radius;
+        crossendTopBoundary = position.Y - radius < 0;
+        crossedRightBoundary = position.X > quadrant.Width - radius;
+        crossedBottomBoundary = position.Y > quadrant.Height - radius;
+        crossedLeftBoundary = position.X - radius < 0;
 
-        if (leftBoundary)
+        if (!(crossedLeftBoundary || crossedRightBoundary || crossendTopBoundary || crossedBottomBoundary))
         {
-            speed *= oppositeX;
+            // No boundary conditions are met, so early
+            return;
+        }
+
+        if (crossedLeftBoundary)
+        {
+            speed.X *= -1;
             position.X = Radius;
             return;
         }
 
-        if (rightBoundary)
+        if (crossedRightBoundary)
         {
-            speed *= oppositeX;
+            speed.X *= -1;
             position.X = quadrant.Width - Radius;
             return;
         }
 
-        if (topBoundary)
+        if (crossendTopBoundary)
         {
-            speed *= oppositeY;
+            speed.Y *= -1;
             position.Y = Radius;
             return;
         }
 
-        if (bottomBoundary)
+        if (crossedBottomBoundary)
         {
-            speed *= oppositeY;
+            speed.Y *= -1;
             position.Y = quadrant.Height - Radius;
             return;
         }
