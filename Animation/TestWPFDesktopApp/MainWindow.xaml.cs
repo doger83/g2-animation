@@ -2,12 +2,12 @@
 using g2.Animation.Core.ParticleSystems;
 using g2.Animation.Core.Timing;
 using g2.Animation.TestWPFDesktopApp.ViewModels;
+using g2.Animation.UI.WPF.Shapes.Library.CanvasShapes;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace g2.Animation.TestWPFDesktopApp;
 
@@ -35,15 +35,13 @@ public partial class MainWindow : Window
 
     ////private readonly PointRegionQuadtree quadTree;
 
-    private AnimationBase? animation;
     private Task? update;
-    private DispatcherTimer timer;
+    private AnimationBase? animation;
+    private ParticleViewModel[]? canvasParticles;
 
 
     // ToDo: Move FPSCounter calculations dependency to animationsystem an only use a viewmodel here!
     private readonly FPSCounter fpsCounter;
-    private ParticleViewModel[] canvasParticles;
-
     private readonly MainWindowViewModel viewModel;
 
     public MainWindow()
@@ -58,63 +56,37 @@ public partial class MainWindow : Window
         mainCanvas.MinWidth = WIDTH;
         mainCanvas.MinHeight = HEIGHT;
 
-        CompositionTarget.Rendering += TimerCallback;
-        //timer = new()
-        //{
-        //    Interval = TimeSpan.FromMilliseconds(20)
-        //};
-        //timer.Tick += TimerCallback;
-        //timer.Start();
+        CompositionTarget.Rendering += Update;
+
         //Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
         //quadTree = new(boundingBox, CAPACATY);
         //PointRegionQuadtree.Count = 0;
     }
 
-    private void TimerCallback(object? sender, EventArgs e)
+    private bool started = false;
+    private void Update(object? sender, EventArgs e)
     {
-        if (Application.Current == null || Application.Current.Dispatcher == null)
-        {
-            return;
-        }
-        // ToDo: UI is a bit laggy. make this async ?
         viewModel.Update();
 
         if (!started)
         {
             return;
         }
-        // ToDo: causes this the ammount of gc ?
-        //Dispatcher.Invoke(() =>
-        //{
-        //mainCanvas.Visibility = Visibility.Collapsed;
 
-        for (int i = 0; i < animation?.Particles.Length; i++)
+        for (int i = 0; i < animation!.Particles.Length; i++)
         {
             //Canvas.SetLeft(canvasParticles[i].Shape, animation!.Particles[i].Position.X - animation.Particles[i].Radius);
             //Canvas.SetTop(canvasParticles[i].Shape, animation.Particles[i].Position.Y - animation.Particles[i].Radius);
 
-            canvasParticles[i].Shape.SetValue(Canvas.LeftProperty, animation?.Particles[i].Position.X - animation?.Particles[i].Radius);
-            canvasParticles[i].Shape.SetValue(Canvas.TopProperty, animation?.Particles[i].Position.Y - animation?.Particles[i].Radius);
+            canvasParticles![i].Shape.SetValue(Canvas.LeftProperty, animation.Particles[i].Position.X - animation.Particles[i].Radius);
+            canvasParticles![i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Position.Y - animation.Particles[i].Radius);
+
+            //Debug.WriteLine($"UI X:\t{animation?.Particles[i].Position.X}\tXSpeed:\t{animation?.Particles[i].XSpeed}\tdt:\t{Time.DeltaTime:G65}");
         }
-
-        //mainCanvas.Visibility = Visibility.Visible;
-        //});
-    }
-
-    // ToDo: Put Rendering in FixedUpdate? or in seperate animation library class?
-    private bool started = false;
-    private void Render(object? sender, EventArgs e)
-    {
-
-
-
-
     }
 
     private void BtnStart_Click(object sender, RoutedEventArgs e)
     {
-        started = true;
-
         // ToDo: Put stuff here to the classes it belongs and move on/off toggle an method?
         if (animation == null)
         {
@@ -135,27 +107,14 @@ public partial class MainWindow : Window
                 animationParticle.Index = mainCanvas.Children.Add(particleVM.Shape);
             }
         }
-        else
-        {
-            for (int i = 0; i < animation.Particles.Length; i++)
-            {
-                animation.Particles[i].Reset();
-            }
-        }
 
-        //Debug.WriteLine("------------Button Start-------------");
-        //Debug.WriteLine(animation!.Particle.X);
-        //Debug.WriteLine(Canvas.GetLeft(animation!.Particle.Shape));
+        update = Task.Factory.StartNew(animation.Update);
+
+        started = true;
 
         btnStart.Click -= BtnStart_Click;
         btnStart.Click += BtnStop_Click;
         btnStart.Content = "STOP";
-
-
-        //Debug.WriteLine(animation?.Particle.X);
-        update = Task.Factory.StartNew(animation.Update);  //animation.Update(); // Task.Factory.StartNew(animation.Update);
-
-
     }
 
     private void BtnStop_Click(object sender, RoutedEventArgs e)
@@ -165,30 +124,14 @@ public partial class MainWindow : Window
         update?.Dispose();
         update = null;
 
-        //Debug.WriteLine("------------Button Start-------------");
-        //Debug.WriteLine("------------Before stop thread-------------");
-        //Debug.WriteLine(animation!.Particle.X);
-        //Debug.WriteLine(Canvas.GetLeft(animation!.Particle.Shape));
-
-        for (int i = 0; i < animation?.Particles.Length; i++)
-        {
-            animation.Particles[i].Pause();
-        }
-
-        //Debug.WriteLine("------------After stop thread-------------");
-        //Debug.WriteLine(animation!.Particle.X);
-        //Debug.WriteLine(Canvas.GetLeft(animation!.Particle.Shape));
-
         btnStart.Click -= BtnStop_Click;
         btnStart.Click += BtnStart_Click;
         btnStart.Content = "START";
-
-        //Debug.WriteLine(animation?.Particle.X);
     }
 
     private void MainWIndow_Loaded(object sender, RoutedEventArgs e)
     {
-        //CanvasShapes.AddGridLines(mainCanvas);
+        CanvasShapes.AddGridLines(mainCanvas);
     }
 
     private void MainWIndow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

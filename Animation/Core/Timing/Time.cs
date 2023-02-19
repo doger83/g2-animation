@@ -35,12 +35,9 @@ public static class Time
 
     public static void StartWatch()
     {
-        if (watch == null)
-        {
-            watch = new();
-            watch.Start();
-            previousTicks = watch.ElapsedTicks;
-        }
+        (watch ??= new()).Start(); ;
+
+        previousTicks = watch.ElapsedTicks;
     }
 
     public static event EventHandler<EventArgs>? TimerTick;
