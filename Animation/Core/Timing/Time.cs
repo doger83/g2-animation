@@ -6,10 +6,14 @@ namespace g2.Animation.Core.Timing;
 
 public static class Time
 {
+    private static HighResolutionTimer? timer;
     private static Stopwatch? watch;
     private static double deltaTime;
     private static long previousTicks;
-    private static Timer? timer;
+
+    private static double fixedDeltaTime;
+    private static DateTime previousFixedUpdate;
+    private static DateTime actualFixedUpdate;
 
     public static void Delta()
     {
@@ -17,16 +21,34 @@ public static class Time
         previousTicks = watch.ElapsedTicks;
     }
 
+    internal static void FixedDelta()
+    {
+        actualFixedUpdate = DateTime.Now;
+        fixedDeltaTime = (actualFixedUpdate - previousFixedUpdate).TotalSeconds;
+        previousFixedUpdate = actualFixedUpdate;
+    }
+
     private static double? TotalTicksInMilliseconds()
     {
         return watch?.ElapsedTicks / Stopwatch.Frequency * 1000.0;
     }
+    public static double FixedDeltaTime
+    {
+        get
+        {
+            return fixedDeltaTime;
+        }
 
+        private set
+        {
+            fixedDeltaTime = value;
+        }
+    }
     public static double DeltaTime
     {
         get
         {
-            return deltaTime;
+            return deltaTime * 1000;
         }
 
         private set
@@ -49,28 +71,36 @@ public static class Time
 
     public static event EventHandler<EventArgs>? TimerTick;
 
-    private static void OnTimerElapsed(object sender, ElapsedEventArgs e)
+    //private static void OnTimerElapsed(object sender, ElapsedEventArgs e)
+    //{
+    //    TimerTick?.Invoke(sender, e);
+    //}
+
+    public static void StartTimer(float interval)
+    {
+        timer ??= new(interval);
+        timer.UseHighPriorityThread = false;
+        timer.Elapsed += OnTimerElapsed;
+        timer.Start();
+
+        //timer.AutoReset = true;
+        //timer.Enabled = true;
+    }
+
+    private static void OnTimerElapsed(object? sender, HighResolutionTimerElapsedEventArgs e)
     {
         TimerTick?.Invoke(sender, e);
     }
 
-    public static void StartTimer(double interval)
-    {
-        timer ??= new Timer(interval);
-        timer.Elapsed += OnTimerElapsed!;
-        timer.AutoReset = true;
-        timer.Enabled = true;
-    }
-
-    public static void StopTimer()
-    {
-        if (timer != null)
-        {
-            timer.Elapsed -= OnTimerElapsed!;
-            timer.Enabled = false;
-            timer.Dispose();
-            timer = null;
-        }
-    }
+    //public static void StopTimer()
+    //{
+    //    if (Timer != null)
+    //    {
+    //        Timer.Elapsed -= OnTimerElapsed!;
+    //        Timer.Enabled = false;
+    //        Timer.Dispose();
+    //        Timer = null;
+    //    }
+    //}
 }
 
