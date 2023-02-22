@@ -107,7 +107,7 @@ public partial class MainWindow : Window
             }
         }
 
-        update = Task.Factory.StartNew(animation.Update);
+        update = Task.Factory.StartNew(animation.FixedUpdate);
 
         started = true;
 

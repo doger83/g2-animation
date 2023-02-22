@@ -52,13 +52,20 @@ public class AnimationBase
     {
         Time.StartWatch();
         Time.TimerTick += fixedUpdate;
-        Time.StartTimer(500);
+        Time.StartTimer(1000);
     }
 
+    private static string filePath = "C:\\Users\\CC-Student\\Desktop\\Delta.txt";
     private void fixedUpdate(object? sender, EventArgs e)
     {
         Time.Delta();
-        Debug.WriteLine($"FixedUpdate: {DateTime.Now:O} \t Detlatatime: {Time.DeltaTime}");
+
+        fpsCounter.Update();
+
+        using (StreamWriter writer = new(filePath, true))
+        {
+            writer.WriteLine($"{Time.DeltaTime:G25}");
+        }
     }
 
     //private async Task fixedUpdate()
