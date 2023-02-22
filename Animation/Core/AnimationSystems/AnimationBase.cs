@@ -52,7 +52,7 @@ public class AnimationBase
     {
         Time.StartWatch();
         Time.TimerTick += fixedUpdate;
-        Time.StartTimer(20);
+        Time.StartTimer(500);
     }
 
     private void fixedUpdate(object? sender, EventArgs e)
@@ -94,7 +94,7 @@ public class AnimationBase
                     particles[i].Boundary();
                 }
 
-                //Debug.WriteLine("---------------------------------");
+                Debug.WriteLine("---------------------------------");
 #if DEBUG
                 for (int i = 0; i < 1_100_100; i++)
                 {

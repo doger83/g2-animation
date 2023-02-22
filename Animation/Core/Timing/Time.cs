@@ -48,7 +48,7 @@ public static class Time
     {
         get
         {
-            return deltaTime * 1000;
+            return deltaTime;
         }
 
         private set

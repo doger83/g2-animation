@@ -55,7 +55,7 @@ public partial class MainWindow : Window
         mainCanvas.MinWidth = WIDTH;
         mainCanvas.MinHeight = HEIGHT;
 
-        //CompositionTarget.Rendering += Update;
+        CompositionTarget.Rendering += Update;
 
         //Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
         //quadTree = new(boundingBox, CAPACATY);
@@ -107,7 +107,7 @@ public partial class MainWindow : Window
             }
         }
 
-        update = Task.Factory.StartNew(animation.FixedUpdate);
+        update = Task.Factory.StartNew(animation.Update);
 
         started = true;
 
