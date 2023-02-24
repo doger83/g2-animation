@@ -8,13 +8,14 @@ namespace g2.Animation.Core.AnimationSystems;
 
 public class AnimationBase
 {
-    private const int PARTICLESCOUNT = 1000;
+    private const int PARTICLESCOUNT = 5000;
 
     private readonly FPSCounter fpsCounter;
     private readonly Quadrant quadrant;
     private readonly Particle[] particles;
 
-    private bool stopThread;
+    private bool updateRunning;
+    private bool fixedUpdateRunning;
 
     public AnimationBase(FPSCounter fpsCounter, double width, double height)
     {
@@ -33,7 +34,7 @@ public class AnimationBase
             {
                 //Speed = new Vector2D((random.NextDouble() * 150) - 75, (random.NextDouble() * 150) - 75)
 
-                Speed = new Vector2D(50, 0)
+                Speed = new Vector2D(100, 0)
             };
 
             particles[i] = particle;
@@ -48,48 +49,46 @@ public class AnimationBase
         }
     }
 
-    public void FixedUpdate()
+    public void StartAnimation()
     {
-        Time.StartWatch();
-        Time.TimerTick += fixedUpdate;
-        Time.StartTimer(1000);
+        _ = Update();
+        //_ = FixedUpdate();
     }
 
-    private static string filePath = "C:\\Users\\CC-Student\\Desktop\\Delta.txt";
-    private void fixedUpdate(object? sender, EventArgs e)
+    private async Task FixedUpdate()
     {
-        Time.Delta();
 
-        fpsCounter.Update();
-
-        using (StreamWriter writer = new(filePath, true))
-        {
-            writer.WriteLine($"{Time.DeltaTime:G25}");
-        }
+        await PeriodicUpdate();
     }
 
-    //private async Task fixedUpdate()
-    //{
-    //    Time.StartWatch();
-
-    //    //while (await Time.timer.WaitForNextTickAsync())
-    //    //{
-    //    //    //Time.FixedDelta();
-    //    //    Time.Delta();
-    //    //    //fpsCounter.Update();
-    //    //    Debug.WriteLine($"FixedUpdate: {DateTime.Now:O} \t Detlatatime: {Time.DeltaTime}");
-    //    //}
-    //}
-
-    public Task Update()
+    private Task PeriodicUpdate()
     {
-        return Task.Run(() =>
+        fixedUpdateRunning = true;
+        Time.StarPeriodicTimer(20);
+
+        return Task.Run(async () =>
         {
-            Time.StartWatch();
+            while (await Time.PeriodicTimer.WaitForNextTickAsync() && fixedUpdateRunning)
+            {
+                Time.FixedDelta();
+                fpsCounter.Update();
+                for (int i = 0; i < particles.Length; i++)
+                {
+                    particles[i].Move();
+                    particles[i].Boundary();
+                }
+                //Debug.WriteLine($"FixedUpdate: {DateTime.Now:O} \t FixedDetlatatime: {Time.FixedDeltaTime:G35}");
+            }
+        });
+    }
 
-            stopThread = false;
+    private async Task Update()
+    {
+        updateRunning = true;
 
-            while (!stopThread)
+        await Task.Run(() =>
+        {
+            while (updateRunning)
             {
                 Time.Delta();
 
@@ -101,7 +100,7 @@ public class AnimationBase
                     particles[i].Boundary();
                 }
 
-                Debug.WriteLine("---------------------------------");
+                //Debug.WriteLine("---------------------------------");
 #if DEBUG
                 for (int i = 0; i < 1_100_100; i++)
                 {
@@ -110,14 +109,13 @@ public class AnimationBase
                 //Debug.WriteLine("Running");
 #endif
             }
-
-            Time.ResetWatch();
         });
     }
 
-    public void StopThread()
+    public void Pause()
     {
-        stopThread = true;
+        updateRunning = false;
+        fixedUpdateRunning = false;
     }
 }
 

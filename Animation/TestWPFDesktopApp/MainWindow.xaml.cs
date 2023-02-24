@@ -35,7 +35,7 @@ public partial class MainWindow : Window
 
     ////private readonly PointRegionQuadtree quadTree;
 
-    private Task? update;
+    private Task? animationLoop;
     private AnimationBase? animation;
     private ParticleViewModel[]? canvasParticles;
 
@@ -55,15 +55,15 @@ public partial class MainWindow : Window
         mainCanvas.MinWidth = WIDTH;
         mainCanvas.MinHeight = HEIGHT;
 
-        CompositionTarget.Rendering += Update;
+        CompositionTarget.Rendering += UpdateUI;
 
         //Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
         //quadTree = new(boundingBox, CAPACATY);
         //PointRegionQuadtree.Count = 0;
     }
 
-    private bool started = false;
-    private void Update(object? sender, EventArgs e)
+    private bool started;
+    private void UpdateUI(object? sender, EventArgs e)
     {
         viewModel.Update();
 
@@ -107,21 +107,24 @@ public partial class MainWindow : Window
             }
         }
 
-        update = Task.Factory.StartNew(animation.FixedUpdate);
-
+        Time.Start();
         started = true;
+        animationLoop = Task.Factory.StartNew(animation.StartAnimation);
 
         btnStart.Click -= BtnStart_Click;
         btnStart.Click += BtnStop_Click;
         btnStart.Content = "STOP";
     }
 
+
+
     private void BtnStop_Click(object sender, RoutedEventArgs e)
     {
         started = false;
-        animation?.StopThread();
-        update?.Dispose();
-        update = null;
+        animation?.Pause();
+        animationLoop?.Dispose();
+        animationLoop = null;
+        Time.Reset();
 
         btnStart.Click -= BtnStop_Click;
         btnStart.Click += BtnStart_Click;
@@ -135,11 +138,11 @@ public partial class MainWindow : Window
 
     private void MainWIndow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
-        started = false;
-        animation?.StopThread();
-        //Time.StopTimer();
-        update?.Dispose();
-        update = null;
+        //started = false;
+        //animation?.Pause();
+        //animationLoop?.Dispose();
+        //animationLoop = null;
+        //Time.Reset();
     }
 
     //private void MainWIndow_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)

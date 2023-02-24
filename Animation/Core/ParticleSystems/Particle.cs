@@ -1,5 +1,6 @@
 ﻿using g2.Animation.Core.Timing;
 using g2.Datastructures.Geometry;
+using System.Diagnostics;
 using Vector2D = g2.Datastructures.Geometry.Vector2D;
 
 namespace g2.Animation.Core.ParticleSystems;
@@ -92,22 +93,17 @@ public class Particle
 
     public void Move()
     {
-        position += speed * Time.DeltaTime; //new Vector2((float)Time.DeltaTime, (float)Time.DeltaTime); // yspeed; //random.Next(-5, 6);
+        position.Add(speed * Time.DeltaTime);
 
-        //Debug.WriteLine($"Move X:\t{position.X}\tXSpeed:\t{xSpeed}\tdt:\t{Time.DeltaTime:G65}");
+        //Debug.WriteLine($"Move X:\t{position.X}\tXSpeed:\t{speed.X}\tdt:\t{Time.FixedDeltaTime:G65}\tdt:\t{Time.DeltaTime:G65}");
     }
-
-    private bool crossedTopBoundary;
-    private bool crossedRightBoundary;
-    private bool crossedBottomBoundary;
-    private bool crossedLeftBoundary;
 
     public void Boundary()
     {
-        crossedTopBoundary = position.Y - radius < 0;
-        crossedRightBoundary = position.X > quadrant.Width - radius;
-        crossedBottomBoundary = position.Y > quadrant.Height - radius;
-        crossedLeftBoundary = position.X - radius < 0;
+        bool crossedTopBoundary = position.Y - radius < 0;
+        bool crossedRightBoundary = position.X > quadrant.Width - radius;
+        bool crossedBottomBoundary = position.Y > quadrant.Height - radius;
+        bool crossedLeftBoundary = position.X - radius < 0;
 
         if (!(crossedLeftBoundary || crossedRightBoundary || crossedTopBoundary || crossedBottomBoundary))
         {

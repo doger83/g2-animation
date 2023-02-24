@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using g2.Animation.Core._EventArgs;
+using System.Diagnostics;
 using System.Timers;
 using Timer = System.Timers.Timer;
 
@@ -6,32 +7,33 @@ namespace g2.Animation.Core.Timing;
 
 public static class Time
 {
-    private static HighResolutionTimer? timer;
     private static Stopwatch? watch;
+    private static Timer? systemTimer;
+    private static PeriodicTimer? periodicTimer;
+
     private static double deltaTime;
-    private static long previousTicks;
+    private static long previousUpdateTicks;
 
     private static double fixedDeltaTime;
-    private static DateTime previousFixedUpdate;
-    private static DateTime actualFixedUpdate;
+    private static long previousFixedUpdateTicks;
 
     public static void Delta()
     {
-        deltaTime = (double)(watch!.ElapsedTicks - previousTicks) / Stopwatch.Frequency;
-        previousTicks = watch.ElapsedTicks;
+        deltaTime = (double)(watch!.ElapsedTicks - previousUpdateTicks) / Stopwatch.Frequency;
+        previousUpdateTicks = watch.ElapsedTicks;
     }
 
     internal static void FixedDelta()
     {
-        actualFixedUpdate = DateTime.Now;
-        fixedDeltaTime = (actualFixedUpdate - previousFixedUpdate).TotalSeconds;
-        previousFixedUpdate = actualFixedUpdate;
+        fixedDeltaTime = (double)(watch!.ElapsedTicks - previousFixedUpdateTicks) / Stopwatch.Frequency;
+        previousFixedUpdateTicks = watch.ElapsedTicks;
     }
 
     private static double? TotalTicksInMilliseconds()
     {
         return watch?.ElapsedTicks / Stopwatch.Frequency * 1000.0;
     }
+
     public static double FixedDeltaTime
     {
         get
@@ -44,6 +46,7 @@ public static class Time
             fixedDeltaTime = value;
         }
     }
+
     public static double DeltaTime
     {
         get
@@ -57,50 +60,59 @@ public static class Time
         }
     }
 
-    public static void ResetWatch()
+    public static void Start()
     {
-        watch = null;
+        StartWatch(); ;
+        //StartSystemTimer(1000);
     }
 
-    public static void StartWatch()
+    public static void Reset()
     {
-        (watch ??= new()).Start(); ;
+        watch = null;
+        periodicTimer = null;
+        systemTimer = null;
+    }
 
-        previousTicks = watch.ElapsedTicks;
+    private static void StartWatch()
+    {
+        (watch ??= new()).Start();
+        previousUpdateTicks = watch!.ElapsedTicks;
+        previousFixedUpdateTicks = previousUpdateTicks;
+    }
+
+    public static void StartSystemTimer(float interval)
+    {
+        systemTimer ??= new(interval);
+        //timer.UseHighPriorityThread = false;
+        systemTimer.Elapsed += OnTimerElapsed;
+        systemTimer.AutoReset = true;
+        systemTimer.Enabled = true;
+        systemTimer.Start();
+    }
+
+    public static PeriodicTimer PeriodicTimer { get { return periodicTimer!; } }
+
+
+    public static void StarPeriodicTimer(float interval)
+    {
+        periodicTimer ??= new(TimeSpan.FromMilliseconds(interval));
     }
 
     public static event EventHandler<EventArgs>? TimerTick;
 
-    //private static void OnTimerElapsed(object sender, ElapsedEventArgs e)
-    //{
-    //    TimerTick?.Invoke(sender, e);
-    //}
-
-    public static void StartTimer(float interval)
+    private static void OnTimerElapsed(object? sender, ElapsedEventArgs e)
     {
-        timer ??= new(interval);
-        timer.UseHighPriorityThread = false;
-        timer.Elapsed += OnTimerElapsed;
-        timer.Start();
+        TimerTick?.Invoke(sender, e);
+    }
 
-        //timer.AutoReset = true;
-        //timer.Enabled = true;
+    private static void OnTimerElapsed(object? sender, HiResTimerElapsedEventArgs e)
+    {
+        TimerTick?.Invoke(sender, e);
     }
 
     private static void OnTimerElapsed(object? sender, HighResolutionTimerElapsedEventArgs e)
     {
         TimerTick?.Invoke(sender, e);
     }
-
-    //public static void StopTimer()
-    //{
-    //    if (Timer != null)
-    //    {
-    //        Timer.Elapsed -= OnTimerElapsed!;
-    //        Timer.Enabled = false;
-    //        Timer.Dispose();
-    //        Timer = null;
-    //    }
-    //}
 }
 

@@ -159,10 +159,10 @@ public struct Vector2D : ICloneable
     /// Adds <paramref name="v"/> to this vector instance.
     /// </summary>
     /// <param name="v">The vector to add</param>
-    /// <returns>The result vector</returns>
-    public Vector2D Add(Vector2D v)
+    public void Add(Vector2D v)
     {
-        return Create(x + v.x, y + v.y);
+        x += v.x;
+        y += v.y;
     }
 
     /// <summary>
