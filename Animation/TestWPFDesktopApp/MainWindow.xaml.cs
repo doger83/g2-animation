@@ -55,15 +55,17 @@ public partial class MainWindow : Window
         mainCanvas.MinWidth = WIDTH;
         mainCanvas.MinHeight = HEIGHT;
 
-        CompositionTarget.Rendering += UpdateUI;
+        CompositionTarget.Rendering += OnCompositionTargetRendering;
 
         //Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
         //quadTree = new(boundingBox, CAPACATY);
         //PointRegionQuadtree.Count = 0;
     }
 
+
+
     private bool started;
-    private void UpdateUI(object? sender, EventArgs e)
+    private void OnCompositionTargetRendering(object? sender, EventArgs e)
     {
         viewModel.Update();
 

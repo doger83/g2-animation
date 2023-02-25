@@ -13,20 +13,24 @@ public static class Time
 
     private static double deltaTime;
     private static long previousUpdateTicks;
+    private static long actualUpdateTicks;
 
     private static double fixedDeltaTime;
     private static long previousFixedUpdateTicks;
+    private static long actualFixedUpdateTicks;
 
     public static void Delta()
     {
-        deltaTime = (double)(watch!.ElapsedTicks - previousUpdateTicks) / Stopwatch.Frequency;
-        previousUpdateTicks = watch.ElapsedTicks;
+        actualUpdateTicks = watch!.ElapsedTicks;
+        deltaTime = (double)(actualUpdateTicks - previousUpdateTicks) / Stopwatch.Frequency;
+        previousUpdateTicks = actualUpdateTicks;
     }
 
     internal static void FixedDelta()
     {
-        fixedDeltaTime = (double)(watch!.ElapsedTicks - previousFixedUpdateTicks) / Stopwatch.Frequency;
-        previousFixedUpdateTicks = watch.ElapsedTicks;
+        actualFixedUpdateTicks = watch!.ElapsedTicks;
+        fixedDeltaTime = (double)(actualFixedUpdateTicks - previousFixedUpdateTicks) / Stopwatch.Frequency;
+        previousFixedUpdateTicks = actualFixedUpdateTicks;
     }
 
     private static double? TotalTicksInMilliseconds()

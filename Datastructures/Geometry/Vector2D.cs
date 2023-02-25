@@ -5,7 +5,7 @@ namespace g2.Datastructures.Geometry;
 /// A 2-dimensional mathematical vector represented by double-precision X and Y components.
 /// </summary>
 /// <author>mbdavis</author>
-public partial struct Vector2D : ICloneable
+public struct Vector2D : ICloneable
 {
     /// <summary>
     /// Creates a new vector with all components set to Zero
