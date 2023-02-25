@@ -14,12 +14,13 @@ public class Particle
 
     private Vector2D location;
     private Vector2D velocity;
+    private Vector2D acceleration;
 
     public Particle(double x, double y, double width, double height, Quadrant quadrant)
     {
         location = new Vector2D(x, y);
         velocity = new Vector2D(0, 0);
-
+        acceleration = new Vector2D(0, 0);
         // ToDo: Add Z for deepth calculations
         this.width = width;
         this.height = height;
@@ -80,15 +81,29 @@ public class Particle
         init { velocity = value; }
     }
 
+    public Vector2D Acceleration
+    {
+        get
+        {
+            return acceleration;
+        }
+        init { acceleration = value; }
+    }
+
+
     public void Update()
     {
+        velocity.Add(acceleration * Time.DeltaTime);
+
         location.Add(velocity * Time.DeltaTime);
 
         //Debug.WriteLine($"Move X:\t{position.X}\tXSpeed:\t{speed.X}\tdt:\t{Time.DeltaTime:G65}");
     }
     public void FixedUpdate()
     {
-        location.Add(velocity /*  * Time.FixedDeltaTime ??  */);
+        velocity.Add(acceleration * Time.FixedDeltaTime);
+
+        location.Add(velocity * Time.FixedDeltaTime);
 
         //Debug.WriteLine($"Move X:\t{position.X}\tXSpeed:\t{speed.X}\tdt:\t{Time.FixedDeltaTime:G65}");
     }
@@ -132,6 +147,7 @@ public class Particle
         {
             velocity.NegateY();
             location.Reset(location.X, boundingBox.Height - Width);
+
             return;
         }
     }
