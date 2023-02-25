@@ -8,19 +8,22 @@ namespace g2.Animation.Core.ParticleSystems;
 public class Particle
 {
     private int index = -1;
-    private double radius;
-    private Vector2D position;
-    private Vector2D speed;
-    private readonly Quadrant quadrant;
+    private readonly double width;
+    private readonly double height;
+    private readonly Quadrant boundingBox;
 
-    public Particle(double x, double y, double radius, Quadrant quadrant)
+    private Vector2D location;
+    private Vector2D velocity;
+
+    public Particle(double x, double y, double width, double height, Quadrant quadrant)
     {
-        position = new Vector2D(x, y);
-        speed = new Vector2D(0, 0);
+        location = new Vector2D(x, y);
+        velocity = new Vector2D(0, 0);
 
         // ToDo: Add Z for deepth calculations
-        this.radius = radius;
-        this.quadrant = quadrant;
+        this.width = width;
+        this.height = height;
+        this.boundingBox = quadrant;
     }
 
     public int Index
@@ -29,7 +32,6 @@ public class Particle
         {
             return index;
         }
-
         set
         {
             index = value;
@@ -40,7 +42,7 @@ public class Particle
     {
         get
         {
-            return position.X;
+            return location.X;
         }
     }
 
@@ -48,63 +50,58 @@ public class Particle
     {
         get
         {
-            return position.Y;
+            return location.Y;
         }
     }
 
-    public double Radius
+    public double Width
     {
         get
         {
-            return radius;
-        }
-
-        set
-        {
-            radius = value;
+            return width;
         }
     }
 
-    public Vector2D Position
+    public Vector2D Location
     {
         get
         {
-            return position;
+            return location;
         }
-
-        set
-        {
-            position = value;
-        }
+        init { location = value; }
     }
-    public Vector2D Speed
+
+    public Vector2D Velocity
     {
         get
         {
-            return speed;
+            return velocity;
         }
-
-        set
-        {
-            speed = value;
-        }
+        init { velocity = value; }
     }
 
-    public void Move()
+    public void Update()
     {
-        position.Add(speed * Time.DeltaTime);
+        location.Add(velocity * Time.DeltaTime);
 
-        //Debug.WriteLine($"Move X:\t{position.X}\tXSpeed:\t{speed.X}\tdt:\t{Time.FixedDeltaTime:G65}\tdt:\t{Time.DeltaTime:G65}");
+        //Debug.WriteLine($"Move X:\t{position.X}\tXSpeed:\t{speed.X}\tdt:\t{Time.DeltaTime:G65}");
+    }
+    public void FixedUpdate()
+    {
+        location.Add(velocity /*  * Time.FixedDeltaTime ??  */);
+
+        //Debug.WriteLine($"Move X:\t{position.X}\tXSpeed:\t{speed.X}\tdt:\t{Time.FixedDeltaTime:G65}");
     }
 
-    public void Boundary()
+    public void CheckBoundaries()
     {
-        bool crossedTopBoundary = position.Y - radius < 0;
-        bool crossedRightBoundary = position.X > quadrant.Width - radius;
-        bool crossedBottomBoundary = position.Y > quadrant.Height - radius;
-        bool crossedLeftBoundary = position.X - radius < 0;
+        bool crossedTopBoundary = location.Y - width < 0;
+        bool crossedRightBoundary = location.X > boundingBox.Width - width;
+        bool crossedBottomBoundary = location.Y > boundingBox.Height - width;
+        bool crossedLeftBoundary = location.X - width < 0;
+        bool crossedNoBoundary = !(crossedLeftBoundary || crossedRightBoundary || crossedTopBoundary || crossedBottomBoundary);
 
-        if (!(crossedLeftBoundary || crossedRightBoundary || crossedTopBoundary || crossedBottomBoundary))
+        if (crossedNoBoundary)
         {
             // No boundary conditions are met, so early
             return;
@@ -112,29 +109,29 @@ public class Particle
 
         if (crossedLeftBoundary)
         {
-            speed.NegateX();
-            position = new Vector2D(radius, position.Y);
+            velocity.NegateX();
+            location.Reset(width, location.Y);
             return;
         }
 
         if (crossedRightBoundary)
         {
-            speed.NegateX();
-            position = new Vector2D(quadrant.Width - Radius, position.Y);
+            velocity.NegateX();
+            location.Reset(boundingBox.Width - Width, location.Y);
             return;
         }
 
         if (crossedTopBoundary)
         {
-            speed.NegateY();
-            position = new Vector2D(position.X, Radius);
+            velocity.NegateY();
+            location.Reset(location.X, Width);
             return;
         }
 
         if (crossedBottomBoundary)
         {
-            speed.NegateY();
-            position = new Vector2D(position.X, quadrant.Height - Radius);
+            velocity.NegateY();
+            location.Reset(location.X, boundingBox.Height - Width);
             return;
         }
     }

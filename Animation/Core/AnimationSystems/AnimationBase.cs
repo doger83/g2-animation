@@ -30,11 +30,11 @@ public class AnimationBase
             double x = random.NextDouble() * width;
             double y = random.NextDouble() * height;
 
-            Particle particle = new(x, y, 2, quadrant)
+            Particle particle = new(x, y, 2, 2, quadrant)
             {
                 //Speed = new Vector2D((random.NextDouble() * 150) - 75, (random.NextDouble() * 150) - 75)
 
-                Speed = new Vector2D(0, 100)
+                Velocity = new Vector2D(0, 100)
             };
 
             particles[i] = particle;
@@ -74,8 +74,8 @@ public class AnimationBase
                 fpsCounter.Update();
                 for (int i = 0; i < particles.Length; i++)
                 {
-                    particles[i].Move();
-                    particles[i].Boundary();
+                    particles[i].Update();
+                    particles[i].CheckBoundaries();
                 }
                 //Debug.WriteLine($"FixedUpdate: {DateTime.Now:O} \t FixedDetlatatime: {Time.FixedDeltaTime:G35}");
             }
@@ -96,8 +96,8 @@ public class AnimationBase
 
                 for (int i = 0; i < particles.Length; i++)
                 {
-                    particles[i].Move();
-                    particles[i].Boundary();
+                    particles[i].Update();
+                    particles[i].CheckBoundaries();
                 }
 
                 //Debug.WriteLine("---------------------------------");
