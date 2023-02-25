@@ -128,7 +128,7 @@ public struct Vector2D : ICloneable
         {
             return x;
         }
-        set { x = value; }
+
     }
 
     /// <summary>
@@ -140,7 +140,6 @@ public struct Vector2D : ICloneable
         {
             return y;
         }
-        set { y = value; }
     }
 
     /// <summary>
@@ -202,6 +201,23 @@ public struct Vector2D : ICloneable
     public Vector2D Negate()
     {
         return Create(-x, -y);
+    }
+
+    /// <summary>
+    /// Negates this vectors X value
+    /// </summary>
+    /// <returns>A new vector with [-_x, -_y]</returns>
+    public void NegateX()
+    {
+        x *= -1;
+    }
+    /// <summary>
+    /// Negates this vectors X value
+    /// </summary>
+    /// <returns>A new vector with [-_x, -_y]</returns>
+    public void NegateY()
+    {
+        y *= -1;
     }
 
     /// <summary>

@@ -113,29 +113,29 @@ public class Particle
 
         if (crossedLeftBoundary)
         {
-            speed.X *= -1;
-            position.X = Radius;
+            speed.NegateX();
+            position = new Vector2D(radius, position.Y);
             return;
         }
 
         if (crossedRightBoundary)
         {
-            speed.X *= -1;
-            position.X = quadrant.Width - Radius;
+            speed.NegateX();
+            position = new Vector2D(quadrant.Width - Radius, position.Y);
             return;
         }
 
         if (crossedTopBoundary)
         {
-            speed.Y *= -1;
-            position.Y = Radius;
+            speed.NegateY();
+            position = new Vector2D(position.X, Radius);
             return;
         }
 
         if (crossedBottomBoundary)
         {
-            speed.Y *= -1;
-            position.Y = quadrant.Height - Radius;
+            speed.NegateY();
+            position = new Vector2D(position.X, quadrant.Height - Radius);
             return;
         }
     }
