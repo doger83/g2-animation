@@ -193,6 +193,12 @@ public partial struct Vector2D : ICloneable
         return Create(x / d, y / d);
     }
 
+    public void Reset(double x, double y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+
     /// <summary>
     /// Negates this vector
     /// </summary>
@@ -457,6 +463,7 @@ public partial struct Vector2D : ICloneable
         result = (37 * result) + y.GetHashCode();
         return result;
     }
+
 
     /// <summary>
     /// Adds two vectors.
