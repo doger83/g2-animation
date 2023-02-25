@@ -34,7 +34,8 @@ public class AnimationBase
             {
                 //Speed = new Vector2D((random.NextDouble() * 150) - 75, (random.NextDouble() * 150) - 75)
 
-                Velocity = new Vector2D(35, 0)
+                Velocity = new Vector2D(130, 0),
+                Acceleration = new Vector2D(0, 0)
             };
 
             particles[i] = particle;
@@ -74,7 +75,7 @@ public class AnimationBase
                 fpsCounter.Update();
                 for (int i = 0; i < particles.Length; i++)
                 {
-                    particles[i].Update();
+                    particles[i].FixedUpdate();
                     particles[i].CheckBoundaries();
                 }
                 //Debug.WriteLine($"FixedUpdate: {DateTime.Now:O} \t FixedDetlatatime: {Time.FixedDeltaTime:G35}");
