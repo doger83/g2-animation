@@ -19,6 +19,10 @@
     <None Remove="Trees\TestDesktopWPFUI\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
 
 
 

@@ -1,7 +1,6 @@
 ﻿using g2.Animation.Core.Timing;
 using g2.Datastructures.Geometry;
 using System.Diagnostics;
-using Vector2D = g2.Datastructures.Geometry.Vector2D;
 
 namespace g2.Animation.Core.ParticleSystems;
 // ToDo: Add Regions like WPF Samples

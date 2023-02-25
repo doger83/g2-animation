@@ -34,7 +34,7 @@ public class AnimationBase
             {
                 //Speed = new Vector2D((random.NextDouble() * 150) - 75, (random.NextDouble() * 150) - 75)
 
-                Speed = new Vector2D(100, 0)
+                Speed = new Vector2D(0, 100)
             };
 
             particles[i] = particle;

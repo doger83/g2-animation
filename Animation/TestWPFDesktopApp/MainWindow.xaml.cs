@@ -116,8 +116,6 @@ public partial class MainWindow : Window
         btnStart.Content = "STOP";
     }
 
-
-
     private void BtnStop_Click(object sender, RoutedEventArgs e)
     {
         started = false;

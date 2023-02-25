@@ -1,12 +1,11 @@
-﻿using ICloneable = System.ICloneable;
-
+﻿
 namespace g2.Datastructures.Geometry;
 
 /// <summary>
 /// A 2-dimensional mathematical vector represented by double-precision X and Y components.
 /// </summary>
 /// <author>mbdavis</author>
-public struct Vector2D : ICloneable
+public partial struct Vector2D : ICloneable
 {
     /// <summary>
     /// Creates a new vector with all components set to Zero
@@ -120,7 +119,7 @@ public struct Vector2D : ICloneable
     //}
 
     /// <summary>
-    /// Gets the x-ordinate value
+    /// Gets the x-cordinate value
     /// </summary>
     public double X
     {
@@ -128,11 +127,10 @@ public struct Vector2D : ICloneable
         {
             return x;
         }
-
     }
 
     /// <summary>
-    /// Gets the y-ordinate value
+    /// Gets the y-cordinate value
     /// </summary>
     public double Y
     {
@@ -153,7 +151,6 @@ public struct Vector2D : ICloneable
         1 => y,
         _ => throw new ArgumentOutOfRangeException("index"),
     };
-
     /// <summary>
     /// Adds <paramref name="v"/> to this vector instance.
     /// </summary>
@@ -163,6 +160,8 @@ public struct Vector2D : ICloneable
         x += v.x;
         y += v.y;
     }
+
+
 
     /// <summary>
     /// Subtracts <paramref name="v"/> from this vector instance
@@ -206,33 +205,32 @@ public struct Vector2D : ICloneable
     /// <summary>
     /// Negates this vectors X value
     /// </summary>
-    /// <returns>A new vector with [-_x, -_y]</returns>
     public void NegateX()
     {
         x *= -1;
     }
+
     /// <summary>
-    /// Negates this vectors X value
+    /// Negates this vectors Y value
     /// </summary>
-    /// <returns>A new vector with [-_x, -_y]</returns>
     public void NegateY()
     {
         y *= -1;
     }
 
     /// <summary>
-    ///
+    /// This vectors length
     /// </summary>
-    /// <returns></returns>
+    /// <returns>this vectors length</returns>
     public double Length()
     {
         return Math.Sqrt((x * x) + (y * y));
     }
 
     /// <summary>
-    ///
+    /// This vectors length squared
     /// </summary>
-    /// <returns></returns>
+    /// <returns>this vectors length squared</returns>
     public double LengthSquared()
     {
         return (x * x) + (y * y);
@@ -241,7 +239,6 @@ public struct Vector2D : ICloneable
     /// <summary>
     /// Normalizes the vector
     /// </summary>
-    /// <returns>A new normalized vector</returns>
     public Vector2D Normalize()
     {
         double length = Length();
@@ -437,9 +434,9 @@ public struct Vector2D : ICloneable
     /// </summary>
     /// <param name="o">A <see cref="Vector2D"/> with which to do the comparison.</param>
     /// <returns>true if <paramref name="o"/> is a <see cref="T:NetTopologySuite.Mathematics.Vector2D"/>with the same values for the X and Y components.</returns>
-    public override bool Equals(object o)
+    public override bool Equals(object? o)
     {
-        if (o is not Vector2D)
+        if (o is null or not Vector2D)
         {
             return false;
         }
