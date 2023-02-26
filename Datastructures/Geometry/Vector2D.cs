@@ -161,8 +161,6 @@ public struct Vector2D : ICloneable
         y += v.y;
     }
 
-
-
     /// <summary>
     /// Subtracts <paramref name="v"/> from this vector instance
     /// </summary>
@@ -463,7 +461,6 @@ public struct Vector2D : ICloneable
         result = (37 * result) + y.GetHashCode();
         return result;
     }
-
 
     /// <summary>
     /// Adds two vectors.
