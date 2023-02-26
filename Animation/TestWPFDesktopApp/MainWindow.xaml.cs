@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace g2.Animation.TestWPFDesktopApp;
@@ -76,21 +75,19 @@ public partial class MainWindow : Window
         {
             return;
         }
+
         _ = await Dispatcher.InvokeAsync(async () =>
-        {
-            await UpdateCanvas();
-        },
-        DispatcherPriority.Send);
+         {
+             await UpdateCanvas();
+         });
     }
 
     private Task UpdateCanvas()
     {
         for (int i = 0; i < animation!.Particles.Length; i++)
         {
-            Ellipse shape = canvasParticles![i].Shape;
-
-            shape.SetValue(Canvas.LeftProperty, animation.Particles[i].X - animation.Particles[i].Width);
-            shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Width);
+            canvasParticles![i].Shape.SetValue(Canvas.LeftProperty, animation.Particles[i].X - animation.Particles[i].Width);
+            canvasParticles![i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Height);
 
             //canvasParticles![i].Shape.SetValue(Canvas.LeftProperty, animation.Particles[i].Location.X - animation.Particles[i].Width);
             //canvasParticles![i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Location.Y - animation.Particles[i].Width);

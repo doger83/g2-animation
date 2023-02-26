@@ -64,6 +64,13 @@ public class Particle
         }
     }
 
+    public double Height
+    {
+        get
+        {
+            return height;
+        }
+    }
     public Vector2D Location
     {
         get

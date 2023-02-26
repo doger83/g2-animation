@@ -21,14 +21,24 @@ public static class Time
 
     public static void Delta()
     {
-        actualUpdateTicks = watch!.ElapsedTicks;
+        if (watch is null)
+        {
+            return;
+        }
+
+        actualUpdateTicks = watch.ElapsedTicks;
         deltaTime = (double)(actualUpdateTicks - previousUpdateTicks) / Stopwatch.Frequency;
         previousUpdateTicks = actualUpdateTicks;
     }
 
     internal static void FixedDelta()
     {
-        actualFixedUpdateTicks = watch!.ElapsedTicks;
+        if (watch is null)
+        {
+            return;
+        }
+
+        actualFixedUpdateTicks = watch.ElapsedTicks;
         fixedDeltaTime = (double)(actualFixedUpdateTicks - previousFixedUpdateTicks) / Stopwatch.Frequency;
         previousFixedUpdateTicks = actualFixedUpdateTicks;
     }
@@ -94,11 +104,11 @@ public static class Time
         systemTimer.Start();
     }
 
-    public static PeriodicTimer PeriodicTimer { get { return periodicTimer!; } }
+    public static PeriodicTimer? PeriodicTimer { get { return periodicTimer; } }
 
-    public static void StarPeriodicTimer(float interval)
+    public static void StarPeriodicTimer(double intervalInSeconds)
     {
-        periodicTimer ??= new(TimeSpan.FromMilliseconds(interval));
+        periodicTimer ??= new(TimeSpan.FromSeconds(intervalInSeconds));
     }
 
     public static event EventHandler<EventArgs>? TimerTick;
