@@ -2,7 +2,6 @@
 using g2.Animation.Core.Timing;
 using g2.Datastructures.Geometry;
 using System.Diagnostics;
-using System.Reflection.Metadata.Ecma335;
 using System.Timers;
 
 namespace g2.Animation.Core.AnimationSystems;
@@ -62,11 +61,11 @@ public class AnimationBase
         });
     }
 
-    private Task Update()
+    private async Task Update()
     {
         updateRunning = true;
 
-        return Task.Run(() =>
+        await Task.Run(() =>
         {
             while (updateRunning)
             {
@@ -82,12 +81,12 @@ public class AnimationBase
         });
     }
 
-    private Task FixedUpdate()
+    private async Task FixedUpdate()
     {
         fixedUpdateRunning = true;
         Time.StarPeriodicTimer(1 / 50.0);
 
-        return Task.Run((Func<Task?>)(async () =>
+        await Task.Run(async () =>
         {
             while (fixedUpdateRunning && Time.PeriodicTimer is not null && await Time.PeriodicTimer.WaitForNextTickAsync())
             {
@@ -103,7 +102,7 @@ public class AnimationBase
                 _ = (FixedUpdateComplete?.Invoke(null, EventArgs.Empty));
                 //Debug.WriteLine($"FixedUpdate: {DateTime.Now:O} \t FixedDetlatatime: {Time.FixedDeltaTime:G35}");
             }
-        }));
+        });
     }
 
     public void Pause()

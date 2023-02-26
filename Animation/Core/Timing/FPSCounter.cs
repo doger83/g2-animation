@@ -34,7 +34,8 @@ public class FPSCounter : INotifyPropertyChanged
             NotifyPropertyChanged(nameof(FPS));
         }
     }
-    private string fixedFps = "xxx fps (Update)";
+
+    private string fixedFps = "xxx fps (FixedUpdate)";
     public string FixedFPS
     {
         get
