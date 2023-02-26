@@ -67,7 +67,7 @@ public partial class MainWindow : Window
     }
 
     private bool started;
-    private async Task FixedUpdate(object? sender, EventArgs e)
+    private async Task FixedUpdateAsync(object? sender, EventArgs e)
     {
         //viewModel.Update();
 
@@ -101,7 +101,7 @@ public partial class MainWindow : Window
         if (animation == null)
         {
             animation = new(fpsCounter, WIDTH, HEIGHT);
-            animation.FixedUpdateComplete += FixedUpdate;
+            animation.FixedUpdateComplete += FixedUpdateAsync;
 
             canvasParticles = new ParticleViewModel[animation.Particles.Length];
             Particle animationParticle;

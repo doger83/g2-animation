@@ -9,7 +9,7 @@ namespace g2.Animation.Core.AnimationSystems;
 
 public class AnimationBase
 {
-    private const int PARTICLESCOUNT = 5000;
+    private const int PARTICLESCOUNT = 1;
 
     private readonly FPSCounter fpsCounter;
     private readonly Quadrant quadrant;
@@ -28,10 +28,10 @@ public class AnimationBase
 
         for (int i = 0; i < PARTICLESCOUNT; i++)
         {
-            double x = random.NextDouble() * width - 10;
-            double y = random.NextDouble() * height - 10;
+            double x = (random.NextDouble() * width) - 10;
+            double y = (random.NextDouble() * height) - 10;
 
-            Particle particle = new(x, y, 2, 2, quadrant)
+            Particle particle = new(x, y, 25, 25, quadrant)
             {
                 //Speed = new Vector2D((random.NextDouble() * 150) - 75, (random.NextDouble() * 150) - 75)
 
@@ -45,10 +45,7 @@ public class AnimationBase
 
     public Particle[] Particles
     {
-        get
-        {
-            return particles;
-        }
+        get => particles;
     }
 
     public Task Loop()
@@ -56,12 +53,12 @@ public class AnimationBase
         return Task.Run(() =>
         {
             // ToDo: remove discard an only return completetd if both returned completed?
-            _ = Update();
-            _ = FixedUpdate();
+            _ = UpdateAsync();
+            _ = FixedUpdateAsync();
         });
     }
 
-    private async Task Update()
+    private async Task UpdateAsync()
     {
         updateRunning = true;
 
@@ -81,7 +78,7 @@ public class AnimationBase
         });
     }
 
-    private async Task FixedUpdate()
+    private async Task FixedUpdateAsync()
     {
         fixedUpdateRunning = true;
         Time.StarPeriodicTimer(1 / 50.0);
@@ -91,6 +88,7 @@ public class AnimationBase
             while (fixedUpdateRunning && Time.PeriodicTimer is not null && await Time.PeriodicTimer.WaitForNextTickAsync())
             {
                 Time.FixedDelta();
+
                 fpsCounter.FixedUpdate();
 
                 for (int i = 0; i < particles.Length; i++)

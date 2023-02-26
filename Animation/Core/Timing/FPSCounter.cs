@@ -21,10 +21,7 @@ public class FPSCounter : INotifyPropertyChanged
     private string fps = "xxx fps (Update)";
     public string FPS
     {
-        get
-        {
-            return fps;
-        }
+        get => fps;
 
         set
         {
@@ -38,10 +35,7 @@ public class FPSCounter : INotifyPropertyChanged
     private string fixedFps = "xxx fps (FixedUpdate)";
     public string FixedFPS
     {
-        get
-        {
-            return fixedFps;
-        }
+        get => fixedFps;
 
         set
         {
@@ -68,13 +62,6 @@ public class FPSCounter : INotifyPropertyChanged
         }
     }
 
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
     internal void Update()
     {
         // ToDo: Wenn Counter die UI Updated stottert es?
@@ -91,5 +78,12 @@ public class FPSCounter : INotifyPropertyChanged
 
             FPS = fps;
         }
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

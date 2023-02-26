@@ -30,72 +30,46 @@ public class Particle
 
     public int Index
     {
-        get
-        {
-            return index;
-        }
-        set
-        {
-            index = value;
-        }
+        get => index;
+        set => index = value;
     }
 
     public double X
     {
-        get
-        {
-            return location.X;
-        }
+        get => location.X;
     }
 
     public double Y
     {
-        get
-        {
-            return location.Y;
-        }
+        get => location.Y;
     }
 
     public double Width
     {
-        get
-        {
-            return width;
-        }
+        get => width;
     }
 
     public double Height
     {
-        get
-        {
-            return height;
-        }
+        get => height;
     }
+
     public Vector2D Location
     {
-        get
-        {
-            return location;
-        }
-        init { location = value; }
+        get => location;
+        init => location = value;
     }
 
     public Vector2D Velocity
     {
-        get
-        {
-            return velocity;
-        }
-        init { velocity = value; }
+        get => velocity;
+        init => velocity = value;
     }
 
     public Vector2D Acceleration
     {
-        get
-        {
-            return acceleration;
-        }
-        init { acceleration = value; }
+        get => acceleration;
+        init => acceleration = value;
     }
 
     public void Update()
@@ -105,6 +79,7 @@ public class Particle
 
         //Debug.WriteLine($"Move X:\t{position.X}\tXSpeed:\t{speed.X}\tdt:\t{Time.DeltaTime:G65}");
     }
+
     public void FixedUpdate()
     {
         velocity.Add(acceleration * Time.FixedDeltaTime);

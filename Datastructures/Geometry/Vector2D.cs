@@ -12,10 +12,7 @@ public struct Vector2D : ICloneable
     /// </summary>
     public static Vector2D Zero
     {
-        get
-        {
-            return new Vector2D();
-        }
+        get => new();
     }
 
     /// <summary>
@@ -123,10 +120,7 @@ public struct Vector2D : ICloneable
     /// </summary>
     public double X
     {
-        get
-        {
-            return x;
-        }
+        get => x;
     }
 
     /// <summary>
@@ -134,10 +128,7 @@ public struct Vector2D : ICloneable
     /// </summary>
     public double Y
     {
-        get
-        {
-            return y;
-        }
+        get => y;
     }
 
     /// <summary>
@@ -149,7 +140,7 @@ public struct Vector2D : ICloneable
     {
         0 => x,
         1 => y,
-        _ => throw new ArgumentOutOfRangeException("index"),
+        _ => throw new ArgumentOutOfRangeException(nameof(index)),
     };
     /// <summary>
     /// Adds <paramref name="v"/> to this vector instance.
