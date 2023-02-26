@@ -7,7 +7,9 @@ public class FPSCounter : INotifyPropertyChanged
 {
     // ToDo: LastUpdate aus Time classe erhalten?
     private DateTime lastUpdate;
+    private DateTime lastFixedUpdate;
     private uint framesSinceLastUpdate;
+    private uint framesSinceLastFixedUpdate;
 
     // ToDo: Use Time class for messering FPS Counter. 
     public FPSCounter()
@@ -32,19 +34,36 @@ public class FPSCounter : INotifyPropertyChanged
             NotifyPropertyChanged(nameof(FPS));
         }
     }
+    private string fixedFps = "xxx fps (Update)";
+    public string FixedFPS
+    {
+        get
+        {
+            return fixedFps;
+        }
 
-    public void Update()
+        set
+        {
+            fixedFps = value;
+            // ToDo: use Timer from Time class
+            // ToDo: put in wpf project only calculation here
+            NotifyPropertyChanged(nameof(FixedFPS));
+        }
+    }
+    public void FixedUpdate()
     {
         // ToDo: Wenn Counter die UI Updated stottert es?
-        framesSinceLastUpdate++;
-        if ((DateTime.Now - lastUpdate).TotalMilliseconds >= 1000)
+        DateTime actualFixedUpdate = DateTime.Now;
+        framesSinceLastFixedUpdate++;
+
+        if ((actualFixedUpdate - lastFixedUpdate).TotalMilliseconds >= 1000)
         {
-            fps = $"{framesSinceLastUpdate:n0} fps (Update)";
+            fixedFps = $"{framesSinceLastFixedUpdate:n0} fps (FixedUpdate)";
 
-            framesSinceLastUpdate = 0;
-            lastUpdate = DateTime.Now;
+            framesSinceLastFixedUpdate = 0;
+            lastFixedUpdate = actualFixedUpdate;
 
-            FPS = fps;
+            FixedFPS = fixedFps;
         }
     }
 
@@ -53,5 +72,23 @@ public class FPSCounter : INotifyPropertyChanged
     protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    internal void Update()
+    {
+        // ToDo: Wenn Counter die UI Updated stottert es?
+        DateTime actualUpdate = DateTime.Now;
+
+        framesSinceLastUpdate++;
+
+        if ((actualUpdate - lastUpdate).TotalMilliseconds >= 1000)
+        {
+            fps = $"{framesSinceLastUpdate:n0} fps (Update)";
+
+            framesSinceLastUpdate = 0;
+            lastUpdate = actualUpdate;
+
+            FPS = fps;
+        }
     }
 }

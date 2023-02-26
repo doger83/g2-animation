@@ -53,8 +53,8 @@ public class AnimationBase
 
     public async Task Loop()
     {
-        //await Update();
-        await FixedUpdate();
+        Update();
+        FixedUpdate();
     }
 
     private async Task FixedUpdate()
@@ -72,14 +72,15 @@ public class AnimationBase
             while (Time.PeriodicTimer is not null && fixedUpdateRunning && await Time.PeriodicTimer.WaitForNextTickAsync())
             {
                 Time.FixedDelta();
-                fpsCounter.Update();
+                fpsCounter.FixedUpdate();
+
                 for (int i = 0; i < particles.Length; i++)
                 {
                     particles[i].FixedUpdate();
                     particles[i].CheckBoundaries();
                 }
 
-                FixedUpdateComplete?.Invoke((object?)null, EventArgs.Empty);
+                _ = (FixedUpdateComplete?.Invoke(null, EventArgs.Empty));
                 //Debug.WriteLine($"FixedUpdate: {DateTime.Now:O} \t FixedDetlatatime: {Time.FixedDeltaTime:G35}");
             }
         }));
@@ -97,22 +98,10 @@ public class AnimationBase
 
                 fpsCounter.Update();
 
-                for (int i = 0; i < particles.Length; i++)
-                {
-                    particles[i].Update();
-                    particles[i].CheckBoundaries();
-                }
 
-                //Debug.WriteLine("---------------------------------");
-#if DEBUG
-                for (int i = 0; i < 1_100_100; i++)
-                {
-                    // ToDo: Hack for simulating work during frames to prevent updating toooo fast an deltatime isnt exactly enough
-                }
-                //Debug.WriteLine("Running");
-#endif
-                FixedUpdateComplete?.Invoke((object?)null, EventArgs.Empty);
 
+
+                _ = (UpdateComplete?.Invoke(null, EventArgs.Empty));
             }
         });
     }
@@ -124,6 +113,7 @@ public class AnimationBase
     }
 
     public event Func<object?, EventArgs, Task>? FixedUpdateComplete;
+    public event Func<object?, EventArgs, Task>? UpdateComplete;
 
 }
 
