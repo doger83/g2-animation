@@ -2,6 +2,7 @@
 using g2.Animation.Core.Timing;
 using g2.Datastructures.Geometry;
 using System.Diagnostics;
+using System.Reflection.Metadata.Ecma335;
 using System.Timers;
 
 namespace g2.Animation.Core.AnimationSystems;
@@ -51,25 +52,44 @@ public class AnimationBase
         }
     }
 
-    public async Task Loop()
+    public Task Loop()
     {
-        Update();
-        FixedUpdate();
+        return Task.Run(() =>
+        {
+            // ToDo: remove discard an only return completetd if both returned completed?
+            _ = Update();
+            _ = FixedUpdate();
+        });
     }
 
-    private async Task FixedUpdate()
+    private Task Update()
     {
-        await PeriodicUpdate();
+        updateRunning = true;
+
+        return Task.Run(() =>
+        {
+            while (updateRunning)
+            {
+                Time.Delta();
+
+                fpsCounter.Update();
+
+
+
+
+                _ = (UpdateComplete?.Invoke(null, EventArgs.Empty));
+            }
+        });
     }
 
-    private async Task PeriodicUpdate()
+    private Task FixedUpdate()
     {
         fixedUpdateRunning = true;
         Time.StarPeriodicTimer(1 / 50.0);
 
-        await Task.Run((Func<Task?>)(async () =>
+        return Task.Run((Func<Task?>)(async () =>
         {
-            while (Time.PeriodicTimer is not null && fixedUpdateRunning && await Time.PeriodicTimer.WaitForNextTickAsync())
+            while (fixedUpdateRunning && Time.PeriodicTimer is not null && await Time.PeriodicTimer.WaitForNextTickAsync())
             {
                 Time.FixedDelta();
                 fpsCounter.FixedUpdate();
@@ -84,26 +104,6 @@ public class AnimationBase
                 //Debug.WriteLine($"FixedUpdate: {DateTime.Now:O} \t FixedDetlatatime: {Time.FixedDeltaTime:G35}");
             }
         }));
-    }
-
-    private async Task Update()
-    {
-        updateRunning = true;
-
-        await Task.Run(() =>
-        {
-            while (updateRunning)
-            {
-                Time.Delta();
-
-                fpsCounter.Update();
-
-
-
-
-                _ = (UpdateComplete?.Invoke(null, EventArgs.Empty));
-            }
-        });
     }
 
     public void Pause()
