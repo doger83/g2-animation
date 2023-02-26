@@ -49,51 +49,66 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
+        CompositionTarget.Rendering += UpdateFPS;
 
         viewModel = (MainWindowViewModel)DataContext;
-
         fpsCounter = viewModel.Lbl_FPSCounterUpdate;
 
         mainCanvas.MinWidth = WIDTH;
         mainCanvas.MinHeight = HEIGHT;
-
-        CompositionTarget.Rendering += OnCompositionTargetRendering;
 
         //Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
         //quadTree = new(boundingBox, CAPACATY);
         //PointRegionQuadtree.Count = 0;
     }
 
-
-
-    private bool started;
-    private void OnCompositionTargetRendering(object? sender, EventArgs e)
+    private void UpdateFPS(object? sender, EventArgs e)
     {
         viewModel.Update();
+    }
+
+    private bool started;
+    private async Task FixedUpdate(object? sender, EventArgs e)
+    {
+        //viewModel.Update();
 
         if (!started)
         {
             return;
         }
+        _ = await Dispatcher.InvokeAsync(async () =>
+        {
+            await UpdateCanvas();
+        },
+        DispatcherPriority.Send);
+    }
 
+    private Task UpdateCanvas()
+    {
         for (int i = 0; i < animation!.Particles.Length; i++)
         {
-            //Canvas.SetLeft(canvasParticles[i].Shape, animation!.Particles[i].Position.X - animation.Particles[i].Radius);
-            //Canvas.SetTop(canvasParticles[i].Shape, animation.Particles[i].Position.Y - animation.Particles[i].Radius);
+            Ellipse shape = canvasParticles![i].Shape;
 
-            canvasParticles![i].Shape.SetValue(Canvas.LeftProperty, animation.Particles[i].Location.X - animation.Particles[i].Width);
-            canvasParticles![i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Location.Y - animation.Particles[i].Width);
+            shape.SetValue(Canvas.LeftProperty, animation.Particles[i].X - animation.Particles[i].Width);
+            shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Width);
+
+            //canvasParticles![i].Shape.SetValue(Canvas.LeftProperty, animation.Particles[i].Location.X - animation.Particles[i].Width);
+            //canvasParticles![i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Location.Y - animation.Particles[i].Width);
 
             //Debug.WriteLine($"UI X:\t{animation?.Particles[i].Position.X}\tXSpeed:\t{animation?.Particles[i].XSpeed}\tdt:\t{Time.DeltaTime:G65}");
         }
+
+        return Task.CompletedTask;
     }
 
     private void BtnStart_Click(object sender, RoutedEventArgs e)
     {
-        // ToDo: Put stuff here to the classes it belongs and move on/off toggle an method?
+        // ToDo: Put stuff here to the classes it belongs and move on/off toggle to method or command?
         if (animation == null)
         {
             animation = new(fpsCounter, WIDTH, HEIGHT);
+            animation.FixedUpdateComplete += FixedUpdate;
+
             canvasParticles = new ParticleViewModel[animation.Particles.Length];
             Particle animationParticle;
             ParticleViewModel particleVM;

@@ -2,6 +2,7 @@
 using g2.Animation.Core.Timing;
 using g2.Datastructures.Geometry;
 using System.Diagnostics;
+using System.Timers;
 
 namespace g2.Animation.Core.AnimationSystems;
 // ToDo: Add Boundary for canvas maybe move checking for boundaries in box like quadtree?  or BoundaryCheckc class?  efficiant boundary checks (k d tree?)
@@ -50,24 +51,23 @@ public class AnimationBase
         }
     }
 
-    public void StartAnimation()
+    public async Task Loop()
     {
-        _ = Update();
-        //_ = FixedUpdate();
+        // await Update();
+        await FixedUpdate();
     }
 
     private async Task FixedUpdate()
     {
-
         await PeriodicUpdate();
     }
 
-    private Task PeriodicUpdate()
+    private async Task PeriodicUpdate()
     {
         fixedUpdateRunning = true;
         Time.StarPeriodicTimer(20);
 
-        return Task.Run(async () =>
+        await Task.Run((Func<Task?>)(async () =>
         {
             while (await Time.PeriodicTimer.WaitForNextTickAsync() && fixedUpdateRunning)
             {
@@ -78,9 +78,11 @@ public class AnimationBase
                     particles[i].FixedUpdate();
                     particles[i].CheckBoundaries();
                 }
+
+                FixedUpdateComplete?.Invoke((object?)null, EventArgs.Empty);
                 //Debug.WriteLine($"FixedUpdate: {DateTime.Now:O} \t FixedDetlatatime: {Time.FixedDeltaTime:G35}");
             }
-        });
+        }));
     }
 
     private async Task Update()
@@ -118,5 +120,8 @@ public class AnimationBase
         updateRunning = false;
         fixedUpdateRunning = false;
     }
+
+    public event Func<object?, EventArgs, Task>? FixedUpdateComplete;
+
 }
 
