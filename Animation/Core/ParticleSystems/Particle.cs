@@ -1,6 +1,7 @@
 ﻿using g2.Animation.Core.Timing;
 using g2.Datastructures.Geometry;
 using System.Diagnostics;
+using System.Timers;
 
 namespace g2.Animation.Core.ParticleSystems;
 // ToDo: Add Regions like WPF Samples
@@ -24,7 +25,7 @@ public class Particle
         // ToDo: Add Z for deepth calculations
         this.width = width;
         this.height = height;
-        this.boundingBox = quadrant;
+        boundingBox = quadrant;
     }
 
     public int Index
@@ -90,11 +91,9 @@ public class Particle
         init { acceleration = value; }
     }
 
-
     public void Update()
     {
         velocity.Add(acceleration * Time.DeltaTime);
-
         location.Add(velocity * Time.DeltaTime);
 
         //Debug.WriteLine($"Move X:\t{position.X}\tXSpeed:\t{speed.X}\tdt:\t{Time.DeltaTime:G65}");
@@ -102,7 +101,6 @@ public class Particle
     public void FixedUpdate()
     {
         velocity.Add(acceleration * Time.FixedDeltaTime);
-
         location.Add(velocity * Time.FixedDeltaTime);
 
         //Debug.WriteLine($"Move X:\t{position.X}\tXSpeed:\t{speed.X}\tdt:\t{Time.FixedDeltaTime:G65}");

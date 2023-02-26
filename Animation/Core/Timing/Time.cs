@@ -96,7 +96,6 @@ public static class Time
 
     public static PeriodicTimer PeriodicTimer { get { return periodicTimer!; } }
 
-
     public static void StarPeriodicTimer(float interval)
     {
         periodicTimer ??= new(TimeSpan.FromMilliseconds(interval));

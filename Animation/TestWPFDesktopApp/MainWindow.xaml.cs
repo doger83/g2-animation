@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace g2.Animation.TestWPFDesktopApp;
 
@@ -111,7 +113,8 @@ public partial class MainWindow : Window
 
         Time.Start();
         started = true;
-        animationLoop = Task.Factory.StartNew(animation.StartAnimation);
+
+        animationLoop = Task.Factory.StartNew(animation.Loop);
 
         btnStart.Click -= BtnStart_Click;
         btnStart.Click += BtnStop_Click;

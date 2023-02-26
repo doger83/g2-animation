@@ -27,14 +27,14 @@ public class AnimationBase
 
         for (int i = 0; i < PARTICLESCOUNT; i++)
         {
-            double x = random.NextDouble() * width;
-            double y = random.NextDouble() * height;
+            double x = random.NextDouble() * width - 10;
+            double y = random.NextDouble() * height - 10;
 
             Particle particle = new(x, y, 25, 25, quadrant)
             {
                 //Speed = new Vector2D((random.NextDouble() * 150) - 75, (random.NextDouble() * 150) - 75)
 
-                Velocity = new Vector2D(130, 0),
+                Velocity = new Vector2D(100, 100),
                 Acceleration = new Vector2D(0, 0)
             };
 
