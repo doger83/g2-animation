@@ -36,7 +36,6 @@ public class AnimationBase
                 Velocity = new Vector2D((random.NextDouble() * 150) - 75, (random.NextDouble() * 150) - 75),
                 //Velocity = new Vector2D(100, 100),
 
-                Velocity = new Vector2D(100, 100),
                 Acceleration = new Vector2D(0, 0)
             };
 
