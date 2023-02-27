@@ -87,8 +87,10 @@ public partial class MainWindow : Window
     {
         for (int i = 0; i < animation!.Particles.Length; i++)
         {
-            canvasParticles![i].Shape.SetValue(Canvas.LeftProperty, animation.Particles[i].X - animation.Particles[i].Width);
-            canvasParticles![i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Height);
+            canvasParticles![i].Shape.Arrange(new Rect(animation.Particles[i].X - animation.Particles[i].Width, animation.Particles[i].Y - animation.Particles[i].Height, canvasParticles![i].Shape.ActualWidth, canvasParticles![i].Shape.ActualHeight));
+
+            //canvasParticles![i].Shape.SetValue(Canvas.LeftProperty, animation.Particles[i].X - animation.Particles[i].Width);
+            //canvasParticles![i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Height);
 
             //Debug.WriteLine($"UI X:\t{animation?.Particles[i].Position.X}\tXSpeed:\t{animation?.Particles[i].XSpeed}\tdt:\t{Time.DeltaTime:G65}");
         }
@@ -112,6 +114,9 @@ public partial class MainWindow : Window
             {
                 animationParticle = animation.Particles[i];
                 particleVM = new(animationParticle.X, animationParticle.Y, animationParticle.Width);
+
+                particleVM.Shape.Measure(new Size(particleVM.Shape.ActualWidth, particleVM.Shape.ActualHeight));
+                particleVM.Shape.Arrange(new Rect(animationParticle.X - animationParticle.Width, animationParticle.Y - animationParticle.Width, particleVM.Shape.ActualWidth, particleVM.Shape.ActualHeight));
 
                 particleVM.Shape.SetValue(Canvas.LeftProperty, animationParticle.X - animationParticle.Width);
                 particleVM.Shape.SetValue(Canvas.TopProperty, animationParticle.Y - animationParticle.Width);
