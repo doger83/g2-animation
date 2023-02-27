@@ -16,6 +16,8 @@ public class Particle
     private Vector2D location;
     private Vector2D velocity;
     private Vector2D acceleration;
+    private Vector2D rotation;
+    private Vector2D position;
 
     public Particle(double x, double y, double width, double height, Quadrant quadrant)
     {
