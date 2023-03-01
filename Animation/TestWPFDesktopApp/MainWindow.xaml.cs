@@ -85,7 +85,6 @@ public partial class MainWindow : Window
 
     private Task UpdateCanvas()
     {
-        mainCanvas.InvalidateVisual();
 
         for (int i = 0; i < animation!.Particles.Length; i++)
         {
@@ -101,6 +100,7 @@ public partial class MainWindow : Window
 
             //Debug.WriteLine($"UI X:\t{animation?.Particles[i].Position.X}\tXSpeed:\t{animation?.Particles[i].XSpeed}\tdt:\t{Time.DeltaTime:G65}");
         }
+        mainCanvas.InvalidateVisual();
 
         return Task.CompletedTask;
     }
