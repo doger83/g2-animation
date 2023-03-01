@@ -48,7 +48,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
-        CompositionTarget.Rendering += UpdateFPS;
+        CompositionTarget.Rendering += UpdateCanvas;
 
         viewModel = (MainWindowViewModel)DataContext;
         fpsCounter = viewModel.Lbl_FPSCounterUpdate;
@@ -67,32 +67,38 @@ public partial class MainWindow : Window
     }
 
     private bool started;
-    private async Task FixedUpdate(object? sender, EventArgs e)
+    //private async Task FixedUpdate(object? sender, EventArgs e)
+    //{
+    //    //viewModel.Update();
+
+    //    if (!started)
+    //    {
+    //        return;
+    //    }
+
+    //    _ = await Dispatcher.InvokeAsync(async () =>
+    //     {
+    //         await UpdateCanvas();
+    //     });
+    //}
+
+    private void UpdateCanvas(object? sender, EventArgs e)
     {
-        //viewModel.Update();
+        viewModel.Update();
 
-        if (!started)
+        for (int i = 0; i < animation?.Particles.Length; i++)
         {
-            return;
-        }
 
-        _ = await Dispatcher.InvokeAsync(async () =>
-         {
-             await UpdateCanvas();
-         });
-    }
+            //canvasParticles?[i].Shape.Arrange(new Rect(animation.Particles[i].X - animation.Particles[i].Width, animation.Particles[i].Y - animation.Particles[i].Height, canvasParticles![i].Shape.ActualWidth, canvasParticles![i].Shape.ActualHeight));
 
-    private Task UpdateCanvas()
-    {
-        for (int i = 0; i < animation!.Particles.Length; i++)
-        {
-            canvasParticles![i].Shape.SetValue(Canvas.LeftProperty, animation.Particles[i].X - animation.Particles[i].Width);
-            canvasParticles![i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Height);
+
+            canvasParticles?[i].Shape.SetValue(Canvas.LeftProperty, animation.Particles[i].X - animation.Particles[i].Width);
+            canvasParticles?[i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Height);
 
             //Debug.WriteLine($"UI X:\t{animation?.Particles[i].Position.X}\tXSpeed:\t{animation?.Particles[i].XSpeed}\tdt:\t{Time.DeltaTime:G65}");
         }
 
-        return Task.CompletedTask;
+        //return Task.CompletedTask;
     }
 
     private void BtnStart_Click(object sender, RoutedEventArgs e)
@@ -101,7 +107,7 @@ public partial class MainWindow : Window
         if (animation == null)
         {
             animation = new(fpsCounter, WIDTH, HEIGHT);
-            animation.FixedUpdateComplete += FixedUpdate;
+            //animation.FixedUpdateComplete += FixedUpdate;
 
             canvasParticles = new ParticleViewModel[animation.Particles.Length];
             Particle animationParticle;
