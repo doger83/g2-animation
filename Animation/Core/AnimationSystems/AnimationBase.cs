@@ -9,7 +9,7 @@ namespace g2.Animation.Core.AnimationSystems;
 
 public class AnimationBase
 {
-    private const int PARTICLESCOUNT = 500;
+    private const int PARTICLESCOUNT = 5;
 
     private readonly FPSCounter fpsCounter;
     private readonly Quadrant quadrant;
@@ -31,7 +31,7 @@ public class AnimationBase
             double x = (random.NextDouble() * width);
             double y = (random.NextDouble() * height);
 
-            Particle particle = new(x, y, 5, 5, quadrant)
+            Particle particle = new(x, y, 25, 25, quadrant)
             {
                 //Velocity = new Vector2D((random.NextDouble() * 150) - 75, (random.NextDouble() * 150) - 75),
                 Velocity = new Vector2D(100, 0),
@@ -81,7 +81,7 @@ public class AnimationBase
     private async Task FixedUpdateAsync()
     {
         fixedUpdateRunning = true;
-        Time.StarPeriodicTimer(1 / 100.0);
+        Time.StarPeriodicTimer(1 / 50.0);
 
         await Task.Run(async () =>
         {
