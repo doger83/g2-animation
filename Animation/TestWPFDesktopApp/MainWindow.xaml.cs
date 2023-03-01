@@ -94,9 +94,11 @@ public partial class MainWindow : Window
 
             canvasParticles?[i].Shape.SetValue(Canvas.LeftProperty, animation.Particles[i].X - animation.Particles[i].Width);
             canvasParticles?[i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Height);
-            mainCanvas.InvalidateVisual();
+
+
             //Debug.WriteLine($"UI X:\t{animation?.Particles[i].Position.X}\tXSpeed:\t{animation?.Particles[i].XSpeed}\tdt:\t{Time.DeltaTime:G65}");
         }
+        mainCanvas.InvalidateVisual();
 
         //return Task.CompletedTask;
     }
