@@ -65,7 +65,6 @@ public partial class MainWindow : Window
     private void UpdateFPS(object? sender, EventArgs e)
     {
         viewModel.Update();
-
         mainCanvas.InvalidateVisual();
     }
 
@@ -83,6 +82,7 @@ public partial class MainWindow : Window
          {
              await UpdateCanvas();
          });
+
     }
 
     private Task UpdateCanvas()
@@ -91,11 +91,11 @@ public partial class MainWindow : Window
         for (int i = 0; i < animation!.Particles.Length; i++)
         {
 
-            //Canvas.SetLeft(canvasParticles?[i].Shape, animation.Particles[i].X - animation.Particles[i].Width);
-            //Canvas.SetTop(canvasParticles?[i].Shape, animation.Particles[i].Y - animation.Particles[i].Height);
+            Canvas.SetLeft(canvasParticles?[i].Shape, animation.Particles[i].X - animation.Particles[i].Width);
+            Canvas.SetTop(canvasParticles?[i].Shape, animation.Particles[i].Y - animation.Particles[i].Height);
 
-            canvasParticles![i].Shape.SetValue(Canvas.LeftProperty, animation.Particles[i].X - animation.Particles[i].Width);
-            canvasParticles![i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Height);
+            //canvasParticles![i].Shape.SetValue(Canvas.LeftProperty, animation.Particles[i].X - animation.Particles[i].Width);
+            //canvasParticles![i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Height);
 
             //Debug.WriteLine($"UI X:\t{animation?.Particles[i].Position.X}\tXSpeed:\t{animation?.Particles[i].XSpeed}\tdt:\t{Time.DeltaTime:G65}");
         }
