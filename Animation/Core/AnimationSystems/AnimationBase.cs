@@ -83,24 +83,22 @@ public class AnimationBase
         fixedUpdateRunning = true;
         Time.StarPeriodicTimer(1 / 50.0);
 
-        await Task.Run(async () =>
+
+        while (fixedUpdateRunning && Time.PeriodicTimer is not null && await Time.PeriodicTimer.WaitForNextTickAsync())
         {
-            while (fixedUpdateRunning && Time.PeriodicTimer is not null && await Time.PeriodicTimer.WaitForNextTickAsync())
+            Time.FixedDelta();
+
+            fpsCounter.FixedUpdate();
+
+            for (int i = 0; i < particles.Length; i++)
             {
-                Time.FixedDelta();
-
-                fpsCounter.FixedUpdate();
-
-                for (int i = 0; i < particles.Length; i++)
-                {
-                    particles[i].FixedUpdate();
-                    particles[i].CheckBoundaries();
-                }
-
-                _ = (FixedUpdateComplete?.Invoke(null, EventArgs.Empty));
-                //Debug.WriteLine($"FixedUpdate: {DateTime.Now:O} \t FixedDetlatatime: {Time.FixedDeltaTime:G35}");
+                particles[i].FixedUpdate();
+                particles[i].CheckBoundaries();
             }
-        });
+
+            _ = (FixedUpdateComplete?.Invoke(null, EventArgs.Empty));
+            //Debug.WriteLine($"FixedUpdate: {DateTime.Now:O} \t FixedDetlatatime: {Time.FixedDeltaTime:G35}");
+        }
     }
 
     public void Pause()
