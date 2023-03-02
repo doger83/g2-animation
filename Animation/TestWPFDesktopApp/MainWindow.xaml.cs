@@ -67,12 +67,13 @@ public partial class MainWindow : Window
     {
         viewModel.Update();
         mainCanvas.InvalidateVisual();
-        Debug.WriteLine($"Render:\t\t\t{Time.FixedDeltaTime:G65}");
+        //Debug.WriteLine($"Render:\t\t\t{Time.FixedDeltaTime:G65}");
         //Debug.WriteLine($"Detlatatime:\t\t{Time.DeltaTime:G65}");
         //Debug.WriteLine("-------------------------------------");
     }
 
     private bool started;
+    int dispatchcount = 0;
     private async Task FixedUpdateAsync(object? sender, EventArgs e)
     {
         //viewModel.Update();
@@ -85,10 +86,12 @@ public partial class MainWindow : Window
         _ = await Dispatcher.InvokeAsync(async () =>
          {
              await UpdateCanvas();
+             dispatchcount++;
+             Debug.WriteLine($"Dispatch\t{dispatchcount}: {(string)sender}\t{Time.FixedDeltaTime:G65}");
+
          });
 
     }
-
     private Task UpdateCanvas()
     {
 

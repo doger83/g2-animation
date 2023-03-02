@@ -9,7 +9,7 @@ namespace g2.Animation.Core.AnimationSystems;
 
 public class AnimationBase
 {
-    private const int PARTICLESCOUNT = 5000;
+    private const int PARTICLESCOUNT = 5;
 
     private readonly FPSCounter fpsCounter;
     private readonly Quadrant quadrant;
@@ -78,7 +78,7 @@ public class AnimationBase
             }
         });
     }
-
+    int fixedcount = 0;
     private async Task FixedUpdateAsync()
     {
         fixedUpdateRunning = true;
@@ -96,9 +96,9 @@ public class AnimationBase
                 particles[i].FixedUpdate();
                 particles[i].CheckBoundaries();
             }
-
-            Debug.WriteLine($"FixedUpdate:\t{Time.FixedDeltaTime:G65}");
-            _ = (FixedUpdateComplete?.Invoke(null, EventArgs.Empty));
+            fixedcount++;
+            Debug.WriteLine($"FixedUpdate\t{fixedcount}:\t\t{Time.FixedDeltaTime:G65}");
+            _ = (FixedUpdateComplete?.Invoke("-" + fixedcount, EventArgs.Empty));
         }
     }
 
