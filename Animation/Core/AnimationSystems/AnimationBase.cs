@@ -26,7 +26,7 @@ public class AnimationBase
 
         for (int i = 0; i < PARTICLESCOUNT; i++)
         {
-            double x = random.NextDouble() * width - 10;
+            double x = 275;// random.NextDouble() * width - 10;
             double y = random.NextDouble() * height - 10;
 
             Particle particle = new(x, y, 2, 2, quadrant)
