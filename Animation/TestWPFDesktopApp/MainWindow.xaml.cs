@@ -104,6 +104,7 @@ public partial class MainWindow : Window
         mainCanvas.InvalidateVisual();
         //Debug.WriteLine($"FixedDetlatatime:\t{Time.FixedDeltaTime:G65}");
         //Debug.WriteLine($"Detlatatime:\t\t{Time.DeltaTime:G65}");
+        Debug.WriteLine($"Render:\t\t\t{Time.FixedDeltaTime:G65}");
 
         //return Task.CompletedTask;
     }
