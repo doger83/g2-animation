@@ -7,7 +7,7 @@ namespace g2.Animation.Core.AnimationSystems;
 
 public class AnimationBase
 {
-    private const int PARTICLESCOUNT = 5;
+    private const int PARTICLESCOUNT = 5000;
 
     private readonly FPSCounter fpsCounter;
     private readonly Quadrant quadrant;
@@ -29,7 +29,7 @@ public class AnimationBase
             double x = random.NextDouble() * width - 10;
             double y = random.NextDouble() * height - 10;
 
-            Particle particle = new(x, y, 25, 25, quadrant)
+            Particle particle = new(x, y, 2, 2, quadrant)
             {
                 //Speed = new Vector2D((random.NextDouble() * 150) - 75, (random.NextDouble() * 150) - 75)
 
