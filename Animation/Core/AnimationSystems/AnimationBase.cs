@@ -1,13 +1,14 @@
 ﻿using g2.Animation.Core.ParticleSystems;
 using g2.Animation.Core.Timing;
 using g2.Datastructures.Geometry;
+using System.Diagnostics;
 
 namespace g2.Animation.Core.AnimationSystems;
 // ToDo: Add Boundary for canvas maybe move checking for boundaries in box like quadtree?  or BoundaryCheckc class?  efficiant boundary checks (k d tree?)
 
 public class AnimationBase
 {
-    private const int PARTICLESCOUNT = 500;
+    private const int PARTICLESCOUNT = 5000;
 
     private readonly FPSCounter fpsCounter;
     private readonly Quadrant quadrant;
@@ -73,8 +74,9 @@ public class AnimationBase
 
 
 
+                //Debug.WriteLine($"Update: {DateTime.Now:O} \t Detlatatime: {Time.DeltaTime:G65}");
 
-                _ = (UpdateComplete?.Invoke(null, EventArgs.Empty));
+                //_ = (UpdateComplete?.Invoke(null, EventArgs.Empty));
             }
         });
     }
@@ -96,6 +98,7 @@ public class AnimationBase
                     particles[i].FixedUpdate();
                     particles[i].CheckBoundaries();
                 }
+                //Debug.WriteLine($"FixedUpdate: {DateTime.Now:O} \t FixedDetlatatime: {Time.FixedDeltaTime:G65}");
 
                 _ = (FixedUpdateComplete?.Invoke(null, EventArgs.Empty));
                 //Debug.WriteLine($"FixedUpdate: {DateTime.Now:O} \t FixedDetlatatime: {Time.FixedDeltaTime:G35}");

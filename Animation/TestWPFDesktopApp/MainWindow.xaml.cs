@@ -4,6 +4,7 @@ using g2.Animation.Core.Timing;
 using g2.Animation.TestWPFDesktopApp.ViewModels;
 using g2.Animation.UI.WPF.Shapes.Library.CanvasShapes;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -101,6 +102,8 @@ public partial class MainWindow : Window
             //Debug.WriteLine($"UI X:\t{animation?.Particles[i].Position.X}\tXSpeed:\t{animation?.Particles[i].XSpeed}\tdt:\t{Time.DeltaTime:G65}");
         }
         mainCanvas.InvalidateVisual();
+        //Debug.WriteLine($"FixedDetlatatime:\t{Time.FixedDeltaTime:G65}");
+        //Debug.WriteLine($"Detlatatime:\t\t{Time.DeltaTime:G65}");
 
         //return Task.CompletedTask;
     }
