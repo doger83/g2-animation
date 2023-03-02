@@ -4,6 +4,7 @@ using g2.Animation.Core.Timing;
 using g2.Animation.TestWPFDesktopApp.ViewModels;
 using g2.Animation.UI.WPF.Shapes.Library.CanvasShapes;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -66,6 +67,9 @@ public partial class MainWindow : Window
     {
         viewModel.Update();
         mainCanvas.InvalidateVisual();
+        Debug.WriteLine($"Render:\t\t\t{Time.FixedDeltaTime:G65}");
+        //Debug.WriteLine($"Detlatatime:\t\t{Time.DeltaTime:G65}");
+        //Debug.WriteLine("-------------------------------------");
     }
 
     private bool started;
