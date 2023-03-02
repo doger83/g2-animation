@@ -2,7 +2,6 @@
 using g2.Animation.Core.Timing;
 using g2.Datastructures.Geometry;
 using System.Diagnostics;
-using System.Reflection.Metadata.Ecma335;
 using System.Timers;
 
 namespace g2.Animation.Core.AnimationSystems;
@@ -52,58 +51,51 @@ public class AnimationBase
         }
     }
 
-    public Task Loop()
+    public void Loop()
     {
-        return Task.Run(() =>
-        {
-            // ToDo: remove discard an only return completetd if both returned completed?
-            _ = Update();
-            _ = FixedUpdate();
-        });
+
+        // ToDo: remove discard an only return completetd if both returned completed?
+
+
     }
 
-    private Task Update()
+    public void Update()
     {
         updateRunning = true;
 
-        return Task.Run(() =>
+        while (updateRunning)
         {
-            while (updateRunning)
-            {
-                Time.Delta();
+            Time.Delta();
 
-                fpsCounter.Update();
+            fpsCounter.Update();
 
 
 
 
-                _ = (UpdateComplete?.Invoke(null, EventArgs.Empty));
-            }
-        });
+            _ = (UpdateComplete?.Invoke(null, EventArgs.Empty));
+        }
+
     }
 
-    private Task FixedUpdate()
+    public async Task FixedUpdate()
     {
         fixedUpdateRunning = true;
         Time.StarPeriodicTimer(1 / 50.0);
 
-        return Task.Run((Func<Task?>)(async () =>
+        while (fixedUpdateRunning && Time.PeriodicTimer is not null && await Time.PeriodicTimer.WaitForNextTickAsync())
         {
-            while (fixedUpdateRunning && Time.PeriodicTimer is not null && await Time.PeriodicTimer.WaitForNextTickAsync())
+            Time.FixedDelta();
+            fpsCounter.FixedUpdate();
+
+            for (int i = 0; i < particles.Length; i++)
             {
-                Time.FixedDelta();
-                fpsCounter.FixedUpdate();
-
-                for (int i = 0; i < particles.Length; i++)
-                {
-                    particles[i].FixedUpdate();
-                    particles[i].CheckBoundaries();
-                }
-
-                _ = (FixedUpdateComplete?.Invoke(null, EventArgs.Empty));
-                //Debug.WriteLine($"FixedUpdate: {DateTime.Now:O} \t FixedDetlatatime: {Time.FixedDeltaTime:G35}");
+                particles[i].FixedUpdate();
+                particles[i].CheckBoundaries();
             }
-        }));
+
+            _ = (FixedUpdateComplete?.Invoke(null, EventArgs.Empty));
+            //Debug.WriteLine($"FixedUpdate: {DateTime.Now:O} \t FixedDetlatatime: {Time.FixedDeltaTime:G35}");
+        }
     }
 
     public void Pause()

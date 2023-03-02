@@ -36,7 +36,8 @@ public partial class MainWindow : Window
 
     ////private readonly PointRegionQuadtree quadTree;
 
-    private Task? animationLoop;
+    private Task? animationUpdate;
+    private Task? animationFixedUpdate;
     private AnimationBase? animation;
     private ParticleViewModel[]? canvasParticles;
 
@@ -133,7 +134,8 @@ public partial class MainWindow : Window
         Time.Start();
         started = true;
 
-        animationLoop = Task.Factory.StartNew(animation.Loop);
+        animationUpdate = Task.Factory.StartNew(animation.Update);
+        animationFixedUpdate = Task.Factory.StartNew(animation.FixedUpdate);
 
         btnStart.Click -= BtnStart_Click;
         btnStart.Click += BtnStop_Click;
@@ -144,8 +146,11 @@ public partial class MainWindow : Window
     {
         started = false;
         animation?.Pause();
-        animationLoop?.Dispose();
-        animationLoop = null;
+        animationUpdate?.Dispose();
+        animationUpdate = null;
+
+        animationFixedUpdate?.Dispose();
+        animationFixedUpdate = null;
         Time.Reset();
 
         btnStart.Click -= BtnStop_Click;
