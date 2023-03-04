@@ -7,42 +7,11 @@ using System.Windows.Shapes;
 namespace g2.Animation.UI.WPF.Shapes.Library.CanvasShapes;
 public static class CanvasShapes
 {
-    // ToDo: make Canvas resize dynamicly when resizing window
-    public static Canvas GetCanvas(double width, double height)
-    {
-        Canvas canvas = new()
-        {
-            Width = width,
-            Height = height,
-            Margin = new Thickness(0, 0, 0, 34)
-        };
-        //canvas.MouseLeftButtonDown += MyCanvas_LeftMouseDown;
-        //canvas.MouseRightButtonDown += MyCanvas_RightMouseDown;
-
-        RadialGradientBrush brush = new()
-        {
-            MappingMode = BrushMappingMode.RelativeToBoundingBox,
-            SpreadMethod = GradientSpreadMethod.Pad,
-            RadiusX = 0.7,
-            RadiusY = 0.7
-        };
-        GradientStop gradientStop1 = new(Colors.Black, 1);
-        GradientStop gradientStop2 = new(Color.FromRgb(69, 69, 69), 0);
-        brush.GradientStops.Add(gradientStop1);
-        brush.GradientStops.Add(gradientStop2);
-
-        canvas.Background = brush;
-
-        //AddGridLines(canvas);
-
-        return canvas;
-    }
 
     public static void SetCanvas(Canvas canvas, double width, double height)
     {
-        canvas.Width = width;
-        canvas.Height = height;
-        canvas.Margin = new Thickness(0, 0, 0, 34);
+        canvas.MinWidth = width;
+        canvas.MinHeight = height;
 
         //canvas.MouseLeftButtonDown += MyCanvas_LeftMouseDown;
         //canvas.MouseRightButtonDown += MyCanvas_RightMouseDown;
@@ -61,12 +30,14 @@ public static class CanvasShapes
 
         canvas.Background = brush;
 
-        //AddGridLines(canvas);
+        canvas.Measure(new Size(width, height));
+        canvas.Arrange(new Rect(0, 0, width, height));
 
+        AddGridLines(canvas);
     }
 
     // ToDo: make Gridlines resize dynamicly when resizing window
-    public static void AddGridLines(Canvas canvas)
+    private static void AddGridLines(Canvas canvas)
     {
         for (double x = 0; x <= canvas.ActualWidth; x += 50)
         {

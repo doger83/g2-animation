@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System.Windows;
+using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace g2.Animation.UI.WPF.Shapes.Library.ParticleShapes;
@@ -30,6 +31,9 @@ public static class ParticleShapes
             StrokeThickness = 0.5,
             Fill = gradientBrush
         };
+        //shape.Measure(new Size(radius * 2, radius * 2));
+        //shape.Arrange(new Rect(0, 0, radius * 2, radius * 2));
+
         return shape;
     }
 }

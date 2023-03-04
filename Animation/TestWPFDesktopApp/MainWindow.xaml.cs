@@ -4,10 +4,12 @@ using g2.Animation.Core.Timing;
 using g2.Animation.TestWPFDesktopApp.ViewModels;
 using g2.Animation.UI.WPF.Shapes.Library.CanvasShapes;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace g2.Animation.TestWPFDesktopApp;
@@ -20,9 +22,6 @@ namespace g2.Animation.TestWPFDesktopApp;
 // ToDo: Move code to seperate classes...CLean IT!!!!
 // ToDo: Move Main usings to global (the main dependencies)
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
 public partial class MainWindow : Window
 {
     // ToDo: Move to configuration (file) later make usable for templateanimations
@@ -48,14 +47,14 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+
         RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
         CompositionTarget.Rendering += UpdateCanvas;
 
+        CanvasShapes.SetCanvas(mainCanvas, WIDTH, HEIGHT);
+
         viewModel = (MainWindowViewModel)DataContext;
         fpsCounter = viewModel.Lbl_FPSCounterUpdate;
-
-        mainCanvas.MinWidth = WIDTH;
-        mainCanvas.MinHeight = HEIGHT;
 
         //Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
         //quadTree = new(boundingBox, CAPACATY);
@@ -65,6 +64,17 @@ public partial class MainWindow : Window
     private void UpdateFPS(object? sender, EventArgs e)
     {
         viewModel.Update();
+        if (started)
+        {
+
+            mainCanvas.InvalidateVisual();
+
+        }
+
+
+        //Debug.WriteLine($"Render:\t\t\t{Time.FixedDeltaTime:G65}");
+        //Debug.WriteLine($"Detlatatime:\t\t{Time.DeltaTime:G65}");
+        //Debug.WriteLine("-------------------------------------");
     }
 
     private bool started;
@@ -123,6 +133,9 @@ public partial class MainWindow : Window
                 animationParticle = animation.Particles[i];
                 particleVM = new(animationParticle.X, animationParticle.Y, animationParticle.Width);
 
+                particleVM.Shape.Measure(new Size(particleVM.Shape.ActualWidth, particleVM.Shape.ActualHeight));
+                particleVM.Shape.Arrange(new Rect(animationParticle.X - animationParticle.Width, animationParticle.Y - animationParticle.Width, particleVM.Shape.ActualWidth, particleVM.Shape.ActualHeight));
+
                 particleVM.Shape.SetValue(Canvas.LeftProperty, animationParticle.X - animationParticle.Width);
                 particleVM.Shape.SetValue(Canvas.TopProperty, animationParticle.Y - animationParticle.Width);
 
@@ -160,7 +173,6 @@ public partial class MainWindow : Window
 
     private void MainWIndow_Loaded(object sender, RoutedEventArgs e)
     {
-        CanvasShapes.AddGridLines(mainCanvas);
     }
 
     private void MainWIndow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
