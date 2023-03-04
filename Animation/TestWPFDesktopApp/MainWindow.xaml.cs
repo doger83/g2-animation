@@ -90,11 +90,11 @@ public partial class MainWindow : Window
             return;
         }
 
-        await Dispatcher.InvokeAsync(async () =>
+        _ = await Dispatcher.InvokeAsync(async () =>
          {
              await UpdateCanvas();
              dispatchcount++;
-             Debug.WriteLine($"Dispatch\t{dispatchcount}: {(string)sender}\t{Time.FixedDeltaTime:G65}");
+             Debug.WriteLine($"Dispatch\t{dispatchcount}: {sender}\t{Time.FixedDeltaTime:G65}");
 
          });
 
