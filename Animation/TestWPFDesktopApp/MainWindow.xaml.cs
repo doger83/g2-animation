@@ -22,9 +22,6 @@ namespace g2.Animation.TestWPFDesktopApp;
 // ToDo: Move code to seperate classes...CLean IT!!!!
 // ToDo: Move Main usings to global (the main dependencies)
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
 public partial class MainWindow : Window
 {
     // ToDo: Move to configuration (file) later make usable for templateanimations
