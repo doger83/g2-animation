@@ -48,13 +48,17 @@ public class AnimationBase
         get => particles;
     }
 
+    Task a;
+    Task b;
+
+
     public Task Loop()
     {
         return Task.Run(() =>
         {
             // ToDo: remove discard an only return completetd if both returned completed?
-            _ = UpdateAsync();
-            _ = FixedUpdateAsync();
+            a = UpdateAsync();
+            b = FixedUpdateAsync();
         });
     }
 
