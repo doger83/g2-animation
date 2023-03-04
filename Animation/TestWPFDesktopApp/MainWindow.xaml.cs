@@ -66,7 +66,14 @@ public partial class MainWindow : Window
     private void UpdateFPS(object? sender, EventArgs e)
     {
         viewModel.Update();
-        mainCanvas.InvalidateVisual();
+        if (started)
+        {
+
+            mainCanvas.InvalidateVisual();
+
+        }
+
+
         //Debug.WriteLine($"Render:\t\t\t{Time.FixedDeltaTime:G65}");
         //Debug.WriteLine($"Detlatatime:\t\t{Time.DeltaTime:G65}");
         //Debug.WriteLine("-------------------------------------");
@@ -83,7 +90,7 @@ public partial class MainWindow : Window
             return;
         }
 
-        _ = await Dispatcher.InvokeAsync(async () =>
+        await Dispatcher.InvokeAsync(async () =>
          {
              await UpdateCanvas();
              dispatchcount++;
