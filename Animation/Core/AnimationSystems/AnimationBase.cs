@@ -9,7 +9,7 @@ namespace g2.Animation.Core.AnimationSystems;
 
 public class AnimationBase
 {
-    private const int PARTICLESCOUNT = 500;
+    private const int PARTICLESCOUNT = 5;
 
     private readonly FPSCounter fpsCounter;
     private readonly Quadrant quadrant;
