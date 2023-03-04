@@ -47,14 +47,14 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+
         RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
         CompositionTarget.Rendering += UpdateCanvas;
 
+        CanvasShapes.SetCanvas(mainCanvas, WIDTH, HEIGHT);
+
         viewModel = (MainWindowViewModel)DataContext;
         fpsCounter = viewModel.Lbl_FPSCounterUpdate;
-
-        mainCanvas.MinWidth = WIDTH;
-        mainCanvas.MinHeight = HEIGHT;
 
         //Quadrant boundingBox = new(X, Y, WIDTH, HEIGHT);
         //quadTree = new(boundingBox, CAPACATY);
@@ -178,7 +178,6 @@ public partial class MainWindow : Window
 
     private void MainWIndow_Loaded(object sender, RoutedEventArgs e)
     {
-        CanvasShapes.AddGridLines(mainCanvas);
     }
 
     private void MainWIndow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
