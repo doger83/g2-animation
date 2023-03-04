@@ -56,7 +56,7 @@ public class AnimationBase
     {
         return Task.Run(() =>
         {
-            // ToDo: remove discard an only return completetd if both returned completed?
+            // ToDo: never in "running" status_
             a = UpdateAsync();
             b = FixedUpdateAsync();
         });
