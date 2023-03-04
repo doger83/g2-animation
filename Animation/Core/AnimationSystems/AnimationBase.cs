@@ -2,6 +2,7 @@
 using g2.Animation.Core.Timing;
 using g2.Datastructures.Geometry;
 using System.Diagnostics;
+using System.Timers;
 
 namespace g2.Animation.Core.AnimationSystems;
 // ToDo: Add Boundary for canvas maybe move checking for boundaries in box like quadtree?  or BoundaryCheckc class?  efficiant boundary checks (k d tree?)
@@ -32,9 +33,9 @@ public class AnimationBase
 
             Particle particle = new(x, y, 2, 2, quadrant)
             {
-                //Speed = new Vector2D((random.NextDouble() * 150) - 75, (random.NextDouble() * 150) - 75)
-
+                //Velocity = new Vector2D((random.NextDouble() * 150) - 75, (random.NextDouble() * 150) - 75),
                 Velocity = new Vector2D(100, 0),
+
                 Acceleration = new Vector2D(0, 0)
             };
 
@@ -44,27 +45,28 @@ public class AnimationBase
 
     public Particle[] Particles
     {
-        get
-        {
-            return particles;
-        }
+        get => particles;
     }
+
+    Task a;
+    Task b;
+
 
     public Task Loop()
     {
         return Task.Run(() =>
         {
             // ToDo: remove discard an only return completetd if both returned completed?
-            _ = Update();
-            _ = FixedUpdate();
+            a = UpdateAsync();
+            b = FixedUpdateAsync();
         });
     }
 
-    private Task Update()
+    private async Task UpdateAsync()
     {
         updateRunning = true;
 
-        return Task.Run(() =>
+        await Task.Run(() =>
         {
             while (updateRunning)
             {
@@ -80,13 +82,13 @@ public class AnimationBase
             }
         });
     }
-
-    private Task FixedUpdate()
+    int fixedcount = 0;
+    private async Task FixedUpdateAsync()
     {
         fixedUpdateRunning = true;
         Time.StarPeriodicTimer(1 / 50.0);
 
-        return Task.Run(async () =>
+        await Task.Run(async () =>
         {
             while (fixedUpdateRunning && Time.PeriodicTimer is not null && await Time.PeriodicTimer.WaitForNextTickAsync())
             {
