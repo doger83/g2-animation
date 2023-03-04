@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace g2.Animation.TestWPFDesktopApp;
@@ -22,9 +23,6 @@ namespace g2.Animation.TestWPFDesktopApp;
 // ToDo: Move code to seperate classes...CLean IT!!!!
 // ToDo: Move Main usings to global (the main dependencies)
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
 public partial class MainWindow : Window
 {
     // ToDo: Move to configuration (file) later make usable for templateanimations
@@ -66,6 +64,17 @@ public partial class MainWindow : Window
     private void UpdateFPS(object? sender, EventArgs e)
     {
         viewModel.Update();
+        if (started)
+        {
+
+            mainCanvas.InvalidateVisual();
+
+        }
+
+
+        //Debug.WriteLine($"Render:\t\t\t{Time.FixedDeltaTime:G65}");
+        //Debug.WriteLine($"Detlatatime:\t\t{Time.DeltaTime:G65}");
+        //Debug.WriteLine("-------------------------------------");
     }
 
     private bool started;
@@ -132,6 +141,9 @@ public partial class MainWindow : Window
             {
                 animationParticle = animation.Particles[i];
                 particleVM = new(animationParticle.X, animationParticle.Y, animationParticle.Width);
+
+                particleVM.Shape.Measure(new Size(particleVM.Shape.ActualWidth, particleVM.Shape.ActualHeight));
+                particleVM.Shape.Arrange(new Rect(animationParticle.X - animationParticle.Width, animationParticle.Y - animationParticle.Width, particleVM.Shape.ActualWidth, particleVM.Shape.ActualHeight));
 
                 particleVM.Shape.SetValue(Canvas.LeftProperty, animationParticle.X - animationParticle.Width);
                 particleVM.Shape.SetValue(Canvas.TopProperty, animationParticle.Y - animationParticle.Width);

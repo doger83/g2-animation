@@ -54,29 +54,14 @@ public static class Time
 
     public static double FixedDeltaTime
     {
-        get
-        {
-
-            return fixedDeltaTime;
-        }
-
-        private set
-        {
-            fixedDeltaTime = value;
-        }
+        get => fixedDeltaTime;
+        private set => fixedDeltaTime = value;
     }
 
     public static double DeltaTime
     {
-        get
-        {
-            return deltaTime;
-        }
-
-        private set
-        {
-            deltaTime = value;
-        }
+        get => deltaTime;
+        private set => deltaTime = value;
     }
 
     public static void Start()
@@ -109,7 +94,10 @@ public static class Time
         systemTimer.Start();
     }
 
-    public static PeriodicTimer? PeriodicTimer { get { return periodicTimer; } }
+    public static PeriodicTimer? PeriodicTimer
+    {
+        get => periodicTimer;
+    }
 
     public static void StarPeriodicTimer(double intervalInSeconds)
     {
