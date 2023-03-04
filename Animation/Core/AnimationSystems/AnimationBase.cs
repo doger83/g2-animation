@@ -76,9 +76,9 @@ public class AnimationBase
 
 
 
+                //Debug.WriteLine($"Update: {DateTime.Now:O} \t Detlatatime: {Time.DeltaTime:G65}");
 
-                //Debug.WriteLine($"Update:\t Detlatatime: {Time.FixedDeltaTime:G65}");
-                _ = (UpdateComplete?.Invoke(null, EventArgs.Empty));
+                //_ = (UpdateComplete?.Invoke(null, EventArgs.Empty));
             }
         });
     }
@@ -88,22 +88,25 @@ public class AnimationBase
         fixedUpdateRunning = true;
         Time.StarPeriodicTimer(1 / 50.0);
 
-
-        while (fixedUpdateRunning && Time.PeriodicTimer is not null && await Time.PeriodicTimer.WaitForNextTickAsync())
+        await Task.Run(async () =>
         {
-            Time.FixedDelta();
-
-            fpsCounter.FixedUpdate();
-
-            for (int i = 0; i < particles.Length; i++)
+            while (fixedUpdateRunning && Time.PeriodicTimer is not null && await Time.PeriodicTimer.WaitForNextTickAsync())
             {
-                particles[i].FixedUpdate();
-                particles[i].CheckBoundaries();
+                Time.FixedDelta();
+                fpsCounter.FixedUpdate();
+
+                for (int i = 0; i < particles.Length; i++)
+                {
+                    particles[i].FixedUpdate();
+                    particles[i].CheckBoundaries();
+                }
+                //Debug.WriteLine($"FixedUpdate: {DateTime.Now:O} \t FixedDetlatatime: {Time.FixedDeltaTime:G65}");
+                Debug.WriteLine($"FixedUpdate:\t{Time.FixedDeltaTime:G65}");
+
+                _ = (FixedUpdateComplete?.Invoke(null, EventArgs.Empty));
+                //Debug.WriteLine($"FixedUpdate: {DateTime.Now:O} \t FixedDetlatatime: {Time.FixedDeltaTime:G35}");
             }
-            fixedcount++;
-            Debug.WriteLine($"FixedUpdate\t{fixedcount}:\t\t{Time.FixedDeltaTime:G65}");
-            _ = (FixedUpdateComplete?.Invoke("-" + fixedcount, EventArgs.Empty));
-        }
+        });
     }
 
     public void Pause()
