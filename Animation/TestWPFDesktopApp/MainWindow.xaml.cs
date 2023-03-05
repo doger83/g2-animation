@@ -5,6 +5,7 @@ using g2.Animation.TestWPFDesktopApp.ViewModels;
 using g2.Animation.UI.WPF.Shapes.Library.CanvasShapes;
 using System;
 using System.Diagnostics;
+using System.Numerics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,7 +36,8 @@ public partial class MainWindow : Window
 
     ////private readonly PointRegionQuadtree quadTree;
 
-    private Task? animationLoop;
+    private Task? animationUpdate;
+    private Task? animationFixedUpdate;
     private AnimationBase? animation;
     private ParticleViewModel[]? canvasParticles;
 
@@ -48,7 +50,7 @@ public partial class MainWindow : Window
         InitializeComponent();
 
         RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
-        CompositionTarget.Rendering += UpdateFPS;
+        CompositionTarget.Rendering += UpdateCanvas;
 
         CanvasShapes.SetCanvas(mainCanvas, WIDTH, HEIGHT);
 
@@ -77,41 +79,51 @@ public partial class MainWindow : Window
     }
 
     private bool started;
-    int dispatchcount = 0;
-    private async Task FixedUpdateAsync(object? sender, EventArgs e)
+    //private async Task FixedUpdate(object? sender, EventArgs e)
+    //{
+    //    //viewModel.Update();
+
+    //    if (!started)
+    //    {
+    //        return;
+    //    }
+
+    //    _ = await Dispatcher.InvokeAsync(async () =>
+    //     {
+    //         await UpdateCanvas();
+    //     });
+    //}
+
+
+    private void UpdateCanvas(object? sender, EventArgs e)
     {
-        //viewModel.Update();
+        viewModel.Update();
 
         if (!started)
         {
             return;
         }
 
-        _ = await Dispatcher.InvokeAsync(async () =>
-         {
-             await UpdateCanvas();
-             dispatchcount++;
-             Debug.WriteLine($"Dispatch\t{dispatchcount}: {sender}\t{Time.FixedDeltaTime:G65}");
-
-         });
-
-    }
-    private Task UpdateCanvas()
-    {
-
         for (int i = 0; i < animation!.Particles.Length; i++)
         {
 
-            Canvas.SetLeft(canvasParticles?[i].Shape, animation.Particles[i].X - animation.Particles[i].Width);
-            Canvas.SetTop(canvasParticles?[i].Shape, animation.Particles[i].Y - animation.Particles[i].Height);
+            //canvasParticles?[i].Shape.Arrange(new Rect(animation.Particles[i].X - animation.Particles[i].Width, animation.Particles[i].Y - animation.Particles[i].Height, canvasParticles![i].Shape.ActualWidth, canvasParticles![i].Shape.ActualHeight));
 
-            //canvasParticles![i].Shape.SetValue(Canvas.LeftProperty, animation.Particles[i].X - animation.Particles[i].Width);
-            //canvasParticles![i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Height);
+            Canvas.SetLeft(canvasParticles![i].Shape, animation.Particles[i].X - animation.Particles[i].Width);
+            Canvas.SetTop(canvasParticles![i].Shape, animation.Particles[i].Y - animation.Particles[i].Height);
+
+            //canvasParticles?[i].Shape.SetValue(Canvas.LeftProperty, animation.Particles[i].X - animation.Particles[i].Width);
+            //canvasParticles?[i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Height);
+
 
             //Debug.WriteLine($"UI X:\t{animation?.Particles[i].Position.X}\tXSpeed:\t{animation?.Particles[i].XSpeed}\tdt:\t{Time.DeltaTime:G65}");
         }
+        mainCanvas.InvalidateVisual();
+        //Debug.WriteLine($"FixedDetlatatime:\t{Time.FixedDeltaTime:G65}");
+        //Debug.WriteLine($"Detlatatime:\t\t{Time.DeltaTime:G65}");
+        //Debug.WriteLine($"Render:\t\t\t{Time.FixedDeltaTime:G65}");
 
-        return Task.CompletedTask;
+        //return Task.CompletedTask;
     }
 
     private void BtnStart_Click(object sender, RoutedEventArgs e)
@@ -120,7 +132,7 @@ public partial class MainWindow : Window
         if (animation == null)
         {
             animation = new(fpsCounter, WIDTH, HEIGHT);
-            animation.FixedUpdateComplete += FixedUpdateAsync;
+            //animation.FixedUpdateComplete += FixedUpdate;
 
             canvasParticles = new ParticleViewModel[animation.Particles.Length];
             Particle animationParticle;
@@ -145,7 +157,8 @@ public partial class MainWindow : Window
         Time.Start();
         started = true;
 
-        animationLoop = Task.Factory.StartNew(animation.Loop);
+        animationUpdate = Task.Factory.StartNew(animation.Update);
+        animationFixedUpdate = Task.Factory.StartNew(animation.FixedUpdate);
 
         btnStart.Click -= BtnStart_Click;
         btnStart.Click += BtnStop_Click;
@@ -156,8 +169,11 @@ public partial class MainWindow : Window
     {
         started = false;
         animation?.Pause();
-        animationLoop?.Dispose();
-        animationLoop = null;
+        animationUpdate?.Dispose();
+        animationUpdate = null;
+
+        animationFixedUpdate?.Dispose();
+        animationFixedUpdate = null;
         Time.Reset();
 
         btnStart.Click -= BtnStop_Click;

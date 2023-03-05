@@ -48,51 +48,41 @@ public class AnimationBase
         get => particles;
     }
 
-    Task a;
-    Task b;
-
-
-    public Task Loop()
+    public void Loop()
     {
-        return Task.Run(() =>
-        {
-            // ToDo: never in "running" status_
-            a = UpdateAsync();
-            b = FixedUpdateAsync();
-        });
+
+        // ToDo: remove discard an only return completetd if both returned completed?
+
+
     }
 
-    private async Task UpdateAsync()
+    public void Update()
     {
         updateRunning = true;
 
-        await Task.Run(() =>
+        while (updateRunning)
         {
-            while (updateRunning)
-            {
-                Time.Delta();
+            Time.Delta();
 
-                fpsCounter.Update();
+            fpsCounter.Update();
 
 
 
+            //Debug.WriteLine($"Update: {DateTime.Now:O} \t Detlatatime: {Time.DeltaTime:G65}");
 
-                //Debug.WriteLine($"Update:\t Detlatatime: {Time.FixedDeltaTime:G65}");
-                _ = (UpdateComplete?.Invoke(null, EventArgs.Empty));
-            }
-        });
+            _ = (UpdateComplete?.Invoke(null, EventArgs.Empty));
+        }
+
     }
-    int fixedcount = 0;
-    private async Task FixedUpdateAsync()
+
+    public async Task FixedUpdate()
     {
         fixedUpdateRunning = true;
         Time.StarPeriodicTimer(1 / 50.0);
 
-
         while (fixedUpdateRunning && Time.PeriodicTimer is not null && await Time.PeriodicTimer.WaitForNextTickAsync())
         {
             Time.FixedDelta();
-
             fpsCounter.FixedUpdate();
 
             for (int i = 0; i < particles.Length; i++)
@@ -100,9 +90,9 @@ public class AnimationBase
                 particles[i].FixedUpdate();
                 particles[i].CheckBoundaries();
             }
-            fixedcount++;
-            Debug.WriteLine($"FixedUpdate\t{fixedcount}:\t\t{Time.FixedDeltaTime:G65}");
-            _ = (FixedUpdateComplete?.Invoke("-" + fixedcount, EventArgs.Empty));
+
+            _ = (FixedUpdateComplete?.Invoke(null, EventArgs.Empty));
+            //Debug.WriteLine($"FixedUpdate: {DateTime.Now:O} \t FixedDetlatatime: {Time.FixedDeltaTime:G35}");
         }
     }
 
