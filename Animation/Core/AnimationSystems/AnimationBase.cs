@@ -68,6 +68,7 @@ public class AnimationBase
 
 
 
+            //Debug.WriteLine($"Update: {DateTime.Now:O} \t Detlatatime: {Time.DeltaTime:G65}");
 
             _ = (UpdateComplete?.Invoke(null, EventArgs.Empty));
         }
