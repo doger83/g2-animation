@@ -30,10 +30,10 @@ public static class CanvasShapes
 
         canvas.Background = brush;
 
-        AddGridLines(canvas);
         canvas.Measure(new Size(width, height));
         canvas.Arrange(new Rect(0, 0, width, height));
 
+        AddGridLines(canvas);
     }
 
     // ToDo: make Gridlines resize dynamicly when resizing window
