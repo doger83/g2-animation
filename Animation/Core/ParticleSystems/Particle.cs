@@ -76,16 +76,16 @@ public class Particle
 
     public void Update()
     {
-        velocity.Add(acceleration * Time.DeltaTime);
-        location.Add(velocity * Time.DeltaTime);
+        velocity.Add(Time.DeltaTime * acceleration);
+        location.Add(Time.DeltaTime * velocity);
 
         //Debug.WriteLine($"Move X:\t{position.X}\tXSpeed:\t{speed.X}\tdt:\t{Time.DeltaTime:G65}");
     }
 
     public void FixedUpdate()
     {
-        velocity.Add(acceleration * Time.FixedDeltaTime);
-        location.Add(velocity * Time.FixedDeltaTime);
+        velocity += Time.FixedDeltaTime * acceleration;
+        location += Time.FixedDeltaTime * velocity;
 
         //Debug.WriteLine($"Move X:\t{position.X}\tXSpeed:\t{speed.X}\tdt:\t{Time.FixedDeltaTime:G65}");
     }

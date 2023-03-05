@@ -9,7 +9,7 @@ namespace g2.Animation.Core.AnimationSystems;
 
 public class AnimationBase
 {
-    private const int PARTICLESCOUNT = 500;
+    private const int PARTICLESCOUNT = 5000;
 
     private readonly FPSCounter fpsCounter;
     private readonly Quadrant quadrant;
@@ -31,7 +31,7 @@ public class AnimationBase
             double x = 275;// (random.NextDouble() * width);
             double y = 275;// (random.NextDouble() * height);
 
-            Particle particle = new(x, y, 12, 12, quadrant)
+            Particle particle = new(x, y, 2, 2, quadrant)
             {
                 Velocity = new Vector2D((random.NextDouble() * 150) - 75, (random.NextDouble() * 150) - 75),
                 //Velocity = new Vector2D(100, 0),
@@ -85,7 +85,7 @@ public class AnimationBase
             Time.FixedDelta();
             fpsCounter.FixedUpdate();
 
-            for (int i = 0; i < particles.Length; i++)
+            for (int i = 0; i < PARTICLESCOUNT; i++)
             {
                 particles[i].FixedUpdate();
                 particles[i].CheckBoundaries();
