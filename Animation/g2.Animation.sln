@@ -10,8 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sources", "sources", "{1903
 		..\sources\Codingtrain\quadtree.js = ..\sources\Codingtrain\quadtree.js
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.Animation.Tests", "Tests\g2.Animation.Tests.csproj", "{1AD9A19A-255C-4838-83C5-D24E4DAA1CF1}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.Animation.TestWPFDesktopApp", "TestWPFDesktopApp\g2.Animation.TestWPFDesktopApp.csproj", "{11CE7CBA-A4F6-4AB4-882F-29F79BAFCF22}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "g2.Animation.UI.WPF.Shapes.Library", "UI\WPF\Shapes\g2.Animation.UI.WPF.Shapes.Library.csproj", "{2C22BCAF-7A37-4702-A877-43E8B683CAA0}"
@@ -52,10 +50,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1AD9A19A-255C-4838-83C5-D24E4DAA1CF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1AD9A19A-255C-4838-83C5-D24E4DAA1CF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1AD9A19A-255C-4838-83C5-D24E4DAA1CF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1AD9A19A-255C-4838-83C5-D24E4DAA1CF1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{11CE7CBA-A4F6-4AB4-882F-29F79BAFCF22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{11CE7CBA-A4F6-4AB4-882F-29F79BAFCF22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11CE7CBA-A4F6-4AB4-882F-29F79BAFCF22}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -81,7 +75,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{1AD9A19A-255C-4838-83C5-D24E4DAA1CF1} = {79DF2053-2658-4F71-B3D0-8C6597EFD244}
 		{2C22BCAF-7A37-4702-A877-43E8B683CAA0} = {AD18D6A8-13C1-47AC-956C-A82577358922}
 		{3792AC96-6827-49C9-BC3B-B8685D96F417} = {872E7A36-BAC5-4123-BC3F-2FDD16979C11}
 		{2822D680-99A8-4120-B8FC-E662604828FE} = {8A3CBD5A-DE9F-44B4-B9B4-53D5FACC35DC}
