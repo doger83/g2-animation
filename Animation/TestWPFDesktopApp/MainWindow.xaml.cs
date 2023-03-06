@@ -96,11 +96,6 @@ public partial class MainWindow : Window
     //     });
     //}
 
-    Ellipse shape;
-    double xPos;
-    double yPos;
-    double width;
-    double height;
 
     private void UpdateCanvas(object? sender, EventArgs e)
     {
@@ -113,13 +108,10 @@ public partial class MainWindow : Window
 
         for (int i = 0; i < particlesCount; i++)
         {
-            shape = canvasParticles![i].Shape;
-            xPos = animation!.Particles[i].X - animation.Particles[i].Width;
-            yPos = animation.Particles[i].Y - animation.Particles[i].Height;
             //canvasParticles?[i].Shape.Arrange(new Rect(animation.Particles[i].X - animation.Particles[i].Width, animation.Particles[i].Y - animation.Particles[i].Height, canvasParticles![i].Shape.ActualWidth, canvasParticles![i].Shape.ActualHeight));
 
-            Canvas.SetLeft(shape, xPos);
-            Canvas.SetTop(shape, yPos);
+            Canvas.SetLeft(canvasParticles![i].Shape, animation!.Particles[i].X - animation.Particles[i].Width);
+            Canvas.SetTop(canvasParticles![i].Shape, animation.Particles[i].Y - animation.Particles[i].Height);
 
             //canvasParticles?[i].Shape.SetValue(Canvas.LeftProperty, animation.Particles[i].X - animation.Particles[i].Width);
             //canvasParticles?[i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Height);
@@ -127,7 +119,7 @@ public partial class MainWindow : Window
 
             //Debug.WriteLine($"UI X:\t{animation?.Particles[i].Position.X}\tXSpeed:\t{animation?.Particles[i].XSpeed}\tdt:\t{Time.DeltaTime:G65}");
         }
-        mainCanvas.InvalidateVisual();
+        //mainCanvas.InvalidateVisual();
         //Debug.WriteLine($"FixedDetlatatime:\t{Time.FixedDeltaTime:G65}");
         //Debug.WriteLine($"Detlatatime:\t\t{Time.DeltaTime:G65}");
         //Debug.WriteLine($"Render:\t\t\t{Time.FixedDeltaTime:G65}");
