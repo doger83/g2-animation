@@ -29,6 +29,8 @@ public static class Time
         actualUpdateTicks = watch.ElapsedTicks;
         deltaTime = (double)(actualUpdateTicks - previousUpdateTicks) / Stopwatch.Frequency;
         previousUpdateTicks = actualUpdateTicks;
+        if (deltaTime < 0) { throw new InvalidOperationException("deltaTime below zero!!!"); }
+
     }
 
     internal static void FixedDelta()
@@ -41,6 +43,8 @@ public static class Time
         actualFixedUpdateTicks = watch.ElapsedTicks;
         fixedDeltaTime = (double)(actualFixedUpdateTicks - previousFixedUpdateTicks) / Stopwatch.Frequency;
         previousFixedUpdateTicks = actualFixedUpdateTicks;
+        if (fixedDeltaTime < 0) { throw new InvalidOperationException("FixedDeltaTime below zero!!!"); }
+
     }
 
     private static double? TotalTicksInMilliseconds()
