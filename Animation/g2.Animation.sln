@@ -50,7 +50,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmarks", "Benchmarks", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{17BCB89F-9DBB-43E6-98C7-83A44652BC92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "g2.Animation.Benchmarks", "Tests\Benchmarks\g2.Animation.Benchmarks\g2.Animation.Benchmarks.csproj", "{93FDAA76-35E2-41AC-8904-6399C532754D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "g2.Animation.Core.Benchmarks", "Tests\Benchmarks\g2.Animation.Benchmarks\g2.Animation.Core.Benchmarks.csproj", "{93FDAA76-35E2-41AC-8904-6399C532754D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

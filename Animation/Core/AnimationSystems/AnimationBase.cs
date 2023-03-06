@@ -88,7 +88,7 @@ public class AnimationBase
             for (int i = 0; i < PARTICLESCOUNT; i++)
             {
                 particles[i].FixedUpdate();
-                particles[i].CheckBoundaries();
+                particles[i].CheckBoundaries_basic();
             }
 
             _ = (FixedUpdateComplete?.Invoke(null, EventArgs.Empty));
