@@ -92,7 +92,6 @@ public class Particle
 
     public void CheckBoundaries_basic()
     {
-
         if (!(location.X - width < 0 || location.X > boundingBox.Width - width || location.Y - height < 0 || location.Y > boundingBox.Height - height))
         {
             // No boundary conditions are met, so early
@@ -131,10 +130,10 @@ public class Particle
 
     public void CheckBoundaries_cachedInMethod()
     {
-        bool crossedTopBoundary = location.Y - width < 0;
+        bool crossedTopBoundary = location.Y < height;
+        bool crossedBottomBoundary = location.Y > boundingBox.Height - height;
         bool crossedRightBoundary = location.X > boundingBox.Width - width;
-        bool crossedBottomBoundary = location.Y > boundingBox.Height - width;
-        bool crossedLeftBoundary = location.X - width < 0;
+        bool crossedLeftBoundary = location.X < width;
         bool crossedNoBoundary = !(crossedLeftBoundary || crossedRightBoundary || crossedTopBoundary || crossedBottomBoundary);
 
         if (crossedNoBoundary)

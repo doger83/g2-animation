@@ -5,12 +5,9 @@
 [RankColumn]
 public class ParticleBenchmarks
 {
-
-
-    const int PARTICLESCOUNT = 1;
-    readonly Particle particle;
-    readonly Particle[] particles;
-
+    private const int PARTICLESCOUNT = 1;
+    private readonly Particle particle;
+    private readonly Particle[] particles;
 
     public ParticleBenchmarks()
     {
@@ -35,35 +32,26 @@ public class ParticleBenchmarks
         for (int i = 0; i < PARTICLESCOUNT; i++)
         {
             particles[i].CheckBoundaries_basic();
-
         }
-
-
     }
 
 
     [Benchmark]
     public void CheckBoundaries_cachedInMethod()
     {
-
         for (int i = 0; i < PARTICLESCOUNT; i++)
         {
             particles[i].CheckBoundaries_cachedInMethod();
-
         }
-
-
     }
+
     [Benchmark]
     public void CheckBoundaries_basicWithFixedBounds()
     {
         for (int i = 0; i < PARTICLESCOUNT; i++)
         {
-
             particles[i].CheckBoundaries_basicWithFixedBounds();
         }
-
-
     }
 
     [Benchmark]
@@ -71,11 +59,8 @@ public class ParticleBenchmarks
     {
         for (int i = 0; i < PARTICLESCOUNT; i++)
         {
-
             particles[i].CheckBoundaries_cachedInMethodWithFixedBounds();
         }
-
-
     }
 
     [Benchmark]
@@ -83,10 +68,7 @@ public class ParticleBenchmarks
     {
         for (int i = 0; i < PARTICLESCOUNT; i++)
         {
-
             particles[i].CheckBoundaries_cachedGlobal();
         }
-
-
     }
 }
