@@ -1,10 +1,4 @@
-﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Order;
-using g2.Animation.Core.ParticleSystems;
-using g2.Datastructures.Geometry;
-using Microsoft.Diagnostics.Tracing.Parsers.Clr;
-
-namespace g2.Animation.Benchmarks.ParticleSystems;
+﻿namespace g2.Animation.Benchmarks.ParticleSystems;
 
 [MemoryDiagnoser]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]

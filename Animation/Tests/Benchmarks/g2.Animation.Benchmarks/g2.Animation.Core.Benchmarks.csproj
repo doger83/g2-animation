@@ -21,4 +21,13 @@
     <Folder Include="Timing\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="BenchmarkDotNet.Attributes" />
+    <Using Include="BenchmarkDotNet.Order" />
+    <Using Include="BenchmarkDotNet.Running" />
+    <Using Include="g2.Animation.Benchmarks.ParticleSystems" />
+    <Using Include="g2.Animation.Core.ParticleSystems" />
+    <Using Include="g2.Datastructures.Geometry" />
+  </ItemGroup>
+
 </Project>
