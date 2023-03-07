@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Datastructures\g2.Datastructures.csproj" />
-    <ProjectReference Include="..\Core\g2.Animation.Core.csproj" />
     <ProjectReference Include="..\UI\WPF\MVVM\Models\g2.Animation.UI.Models.Library.csproj" />
     <ProjectReference Include="..\UI\WPF\Shapes\g2.Animation.UI.WPF.Shapes.Library.csproj" />
   </ItemGroup>

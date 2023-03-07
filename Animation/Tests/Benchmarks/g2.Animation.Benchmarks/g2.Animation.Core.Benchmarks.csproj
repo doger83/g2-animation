@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Datastructures\g2.Datastructures.csproj" />
-    <ProjectReference Include="..\..\..\Core\g2.Animation.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
