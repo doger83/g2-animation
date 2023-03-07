@@ -12,7 +12,10 @@ public struct Vector2D : ICloneable
     /// </summary>
     public static Vector2D Zero
     {
-        get => new();
+        get
+        {
+            return new();
+        }
     }
 
     /// <summary>
@@ -120,7 +123,10 @@ public struct Vector2D : ICloneable
     /// </summary>
     public double X
     {
-        get => x;
+        get
+        {
+            return x;
+        }
     }
 
     /// <summary>
@@ -128,7 +134,10 @@ public struct Vector2D : ICloneable
     /// </summary>
     public double Y
     {
-        get => y;
+        get
+        {
+            return y;
+        }
     }
 
     /// <summary>
@@ -136,12 +145,19 @@ public struct Vector2D : ICloneable
     /// </summary>
     /// <param name="index">The index</param>
     /// <exception cref="T:System.ArgumentOutOfRangeException">Thrown if index &lt; 0 or &gt; 1</exception>
-    public double this[int index] => index switch
+    public double this[int index]
     {
-        0 => x,
-        1 => y,
-        _ => throw new ArgumentOutOfRangeException(nameof(index)),
-    };
+        get
+        {
+            return index switch
+            {
+                0 => x,
+                1 => y,
+                _ => throw new ArgumentOutOfRangeException(nameof(index)),
+            };
+        }
+    }
+
     /// <summary>
     /// Adds <paramref name="v"/> to this vector instance.
     /// </summary>

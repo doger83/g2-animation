@@ -17,9 +17,7 @@
 #region Usings
 
 using g2.Animation.Core._EventArgs;
-using System;
 using System.Diagnostics;
-using System.Threading;
 
 #endregion
 

@@ -2,14 +2,13 @@
 using g2.Animation.Core.Timing;
 using g2.Datastructures.Geometry;
 using System.Diagnostics;
-using System.Timers;
 
 namespace g2.Animation.Core.AnimationSystems;
 // ToDo: Add Boundary for canvas maybe move checking for boundaries in box like quadtree?  or BoundaryCheckc class?  efficiant boundary checks (k d tree?)
 
 public class AnimationBase
 {
-    private const int PARTICLESCOUNT = 5;
+    private const int PARTICLESCOUNT = 5000;
 
     private readonly FPSCounter fpsCounter;
     private readonly Quadrant quadrant;
@@ -29,12 +28,12 @@ public class AnimationBase
         for (int i = 0; i < PARTICLESCOUNT; i++)
         {
             double x = 275;// (random.NextDouble() * width);
-            double y = (random.NextDouble() * height);
+            double y = 275;// (random.NextDouble() * height);
 
-            Particle particle = new(x, y, 12, 12, quadrant)
+            Particle particle = new(x, y, 2, 2, quadrant)
             {
-                //Velocity = new Vector2D((random.NextDouble() * 150) - 75, (random.NextDouble() * 150) - 75),
-                Velocity = new Vector2D(100, 0),
+                Velocity = new Vector2D((random.NextDouble() * 150) - 75, (random.NextDouble() * 150) - 75),
+                //Velocity = new Vector2D(100, 0),
 
                 Acceleration = new Vector2D(0, 0)
             };
@@ -45,12 +44,14 @@ public class AnimationBase
 
     public Particle[] Particles
     {
-        get => particles;
+        get
+        {
+            return particles;
+        }
     }
 
-    Task a;
-    Task b;
-
+    private Task a;
+    private Task b;
 
     public Task Loop()
     {
@@ -74,15 +75,14 @@ public class AnimationBase
 
                 fpsCounter.Update();
 
-
-
                 //Debug.WriteLine($"Update: {DateTime.Now:O} \t Detlatatime: {Time.DeltaTime:G65}");
 
                 //_ = (UpdateComplete?.Invoke(null, EventArgs.Empty));
             }
         });
     }
-    int fixedcount = 0;
+
+    private readonly int fixedcount = 0;
     private async Task FixedUpdateAsync()
     {
         fixedUpdateRunning = true;

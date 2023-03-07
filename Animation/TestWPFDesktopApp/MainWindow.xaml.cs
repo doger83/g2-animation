@@ -4,14 +4,10 @@ using g2.Animation.Core.Timing;
 using g2.Animation.TestWPFDesktopApp.ViewModels;
 using g2.Animation.UI.WPF.Shapes.Library.CanvasShapes;
 using System;
-using System.Diagnostics;
-using System.Numerics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace g2.Animation.TestWPFDesktopApp;
 
@@ -71,7 +67,6 @@ public partial class MainWindow : Window
 
         }
 
-
         //Debug.WriteLine($"Render:\t\t\t{Time.FixedDeltaTime:G65}");
         //Debug.WriteLine($"Detlatatime:\t\t{Time.DeltaTime:G65}");
         //Debug.WriteLine("-------------------------------------");
@@ -93,7 +88,6 @@ public partial class MainWindow : Window
     //     });
     //}
 
-
     private void UpdateCanvas(object? sender, EventArgs e)
     {
         viewModel.Update();
@@ -114,9 +108,9 @@ public partial class MainWindow : Window
             //canvasParticles?[i].Shape.SetValue(Canvas.LeftProperty, animation.Particles[i].X - animation.Particles[i].Width);
             //canvasParticles?[i].Shape.SetValue(Canvas.TopProperty, animation.Particles[i].Y - animation.Particles[i].Height);
 
-
             //Debug.WriteLine($"UI X:\t{animation?.Particles[i].Position.X}\tXSpeed:\t{animation?.Particles[i].XSpeed}\tdt:\t{Time.DeltaTime:G65}");
         }
+
         mainCanvas.InvalidateVisual();
         //Debug.WriteLine($"FixedDetlatatime:\t{Time.FixedDeltaTime:G65}");
         //Debug.WriteLine($"Detlatatime:\t\t{Time.DeltaTime:G65}");

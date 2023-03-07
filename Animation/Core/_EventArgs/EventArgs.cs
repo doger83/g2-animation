@@ -15,8 +15,6 @@
 
 #region Usings
 
-using System;
-
 #endregion
 
 namespace g2.Animation.Core._EventArgs;
