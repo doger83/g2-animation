@@ -81,11 +81,11 @@ csharp_style_var_for_built_in_types = false:suggestion
 csharp_style_var_when_type_is_apparent = false:suggestion
 
 # Expression-bodied members
-csharp_style_expression_bodied_accessors = when_on_single_line:suggestion
+csharp_style_expression_bodied_accessors = false:suggestion
 csharp_style_expression_bodied_constructors = false:suggestion
-csharp_style_expression_bodied_indexers = when_on_single_line:suggestion
+csharp_style_expression_bodied_indexers = false:suggestion
 csharp_style_expression_bodied_lambdas = false:suggestion
-csharp_style_expression_bodied_local_functions = when_on_single_line:suggestion
+csharp_style_expression_bodied_local_functions = false:suggestion
 csharp_style_expression_bodied_methods = false:suggestion
 csharp_style_expression_bodied_operators = false:suggestion
 csharp_style_expression_bodied_properties = false:suggestion
@@ -126,7 +126,7 @@ csharp_style_prefer_tuple_swap = true
 csharp_style_prefer_utf8_string_literals = true
 csharp_style_throw_expression = true
 csharp_style_unused_value_assignment_preference = discard_variable
-csharp_style_unused_value_expression_statement_preference = discard_variable:suggestion
+csharp_style_unused_value_expression_statement_preference = discard_variable
 
 # 'using' directive preferences
 csharp_using_directive_placement = outside_namespace
