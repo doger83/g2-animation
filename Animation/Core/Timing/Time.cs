@@ -30,7 +30,6 @@ public static class Time
         deltaTime = (double)(actualUpdateTicks - previousUpdateTicks) / Stopwatch.Frequency;
         previousUpdateTicks = actualUpdateTicks;
         if (deltaTime < 0) { throw new InvalidOperationException("deltaTime below zero!!!"); }
-
     }
 
     internal static void FixedDelta()
@@ -44,7 +43,6 @@ public static class Time
         fixedDeltaTime = (double)(actualFixedUpdateTicks - previousFixedUpdateTicks) / Stopwatch.Frequency;
         previousFixedUpdateTicks = actualFixedUpdateTicks;
         if (fixedDeltaTime < 0) { throw new InvalidOperationException("FixedDeltaTime below zero!!!"); }
-
     }
 
     private static double? TotalTicksInMilliseconds()
@@ -54,14 +52,28 @@ public static class Time
 
     public static double FixedDeltaTime
     {
-        get => fixedDeltaTime;
-        private set => fixedDeltaTime = value;
+        get
+        {
+            return fixedDeltaTime;
+        }
+
+        private set
+        {
+            fixedDeltaTime = value;
+        }
     }
 
     public static double DeltaTime
     {
-        get => deltaTime;
-        private set => deltaTime = value;
+        get
+        {
+            return deltaTime;
+        }
+
+        private set
+        {
+            deltaTime = value;
+        }
     }
 
     public static void Start()
@@ -96,7 +108,10 @@ public static class Time
 
     public static PeriodicTimer? PeriodicTimer
     {
-        get => periodicTimer;
+        get
+        {
+            return periodicTimer;
+        }
     }
 
     public static void StarPeriodicTimer(double intervalInSeconds)

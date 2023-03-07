@@ -21,7 +21,10 @@ public class FPSCounter : INotifyPropertyChanged
     private string fps = "xxx fps (Update)";
     public string FPS
     {
-        get => fps;
+        get
+        {
+            return fps;
+        }
 
         set
         {
@@ -35,7 +38,10 @@ public class FPSCounter : INotifyPropertyChanged
     private string fixedFps = "xxx fps (FixedUpdate)";
     public string FixedFPS
     {
-        get => fixedFps;
+        get
+        {
+            return fixedFps;
+        }
 
         set
         {

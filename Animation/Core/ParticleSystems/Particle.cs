@@ -32,46 +32,86 @@ public class Particle
 
     public int Index
     {
-        get => index;
-        set => index = value;
+        get
+        {
+            return index;
+        }
+
+        set
+        {
+            index = value;
+        }
     }
 
     public double X
     {
-        get => location.X;
+        get
+        {
+            return location.X;
+        }
     }
 
     public double Y
     {
-        get => location.Y;
+        get
+        {
+            return location.Y;
+        }
     }
 
     public double Width
     {
-        get => width;
+        get
+        {
+            return width;
+        }
     }
 
     public double Height
     {
-        get => height;
+        get
+        {
+            return height;
+        }
     }
 
     public Vector2D Location
     {
-        get => location;
-        init => location = value;
+        get
+        {
+            return location;
+        }
+
+        init
+        {
+            location = value;
+        }
     }
 
     public Vector2D Velocity
     {
-        get => velocity;
-        init => velocity = value;
+        get
+        {
+            return velocity;
+        }
+
+        init
+        {
+            velocity = value;
+        }
     }
 
     public Vector2D Acceleration
     {
-        get => acceleration;
-        init => acceleration = value;
+        get
+        {
+            return acceleration;
+        }
+
+        init
+        {
+            acceleration = value;
+        }
     }
 
     public void Update()
@@ -173,11 +213,10 @@ public class Particle
         }
     }
 
-
-    int left = 25;
-    int top = 25;
-    int right = 550;
-    int bottom = 550;
+    private int left = 25;
+    private int top = 25;
+    private int right = 550;
+    private int bottom = 550;
     public void CheckBoundaries_basicWithFixedBounds()
     {
 
@@ -259,11 +298,12 @@ public class Particle
             return;
         }
     }
-    bool crossedTopBoundaryGlobal;
-    bool crossedRightBoundaryGlobal;
-    bool crossedBottomBoundaryGlobal;
-    bool crossedLeftBoundaryGlobal;
-    bool crossedNoBoundaryGlobal;
+
+    private bool crossedTopBoundaryGlobal;
+    private bool crossedRightBoundaryGlobal;
+    private bool crossedBottomBoundaryGlobal;
+    private bool crossedLeftBoundaryGlobal;
+    private bool crossedNoBoundaryGlobal;
 
     public void CheckBoundaries_cachedGlobal()
     {
