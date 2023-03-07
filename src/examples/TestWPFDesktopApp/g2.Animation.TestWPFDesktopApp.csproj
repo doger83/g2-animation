@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <LangVersion>10</LangVersion>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Views\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Datastructures\g2.Datastructures.csproj" />
+    <ProjectReference Include="..\UI\WPF\MVVM\Models\g2.Animation.UI.Models.Library.csproj" />
+    <ProjectReference Include="..\UI\WPF\Shapes\g2.Animation.UI.WPF.Shapes.Library.csproj" />
+  </ItemGroup>
+
+</Project>
