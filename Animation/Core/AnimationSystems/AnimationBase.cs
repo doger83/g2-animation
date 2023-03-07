@@ -1,8 +1,6 @@
 ﻿using g2.Animation.Core.ParticleSystems;
 using g2.Animation.Core.Timing;
 using g2.Datastructures.Geometry;
-using System.Diagnostics;
-using System.Timers;
 
 namespace g2.Animation.Core.AnimationSystems;
 // ToDo: Add Boundary for canvas maybe move checking for boundaries in box like quadtree?  or BoundaryCheckc class?  efficiant boundary checks (k d tree?)
@@ -45,7 +43,10 @@ public class AnimationBase
 
     public Particle[] Particles
     {
-        get => particles;
+        get
+        {
+            return particles;
+        }
     }
 
     public void Loop()

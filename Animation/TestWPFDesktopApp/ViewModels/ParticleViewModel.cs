@@ -13,6 +13,9 @@ internal class ParticleViewModel
 
     public Ellipse Shape
     {
-        get => shape;
+        get
+        {
+            return shape;
+        }
     }
 }

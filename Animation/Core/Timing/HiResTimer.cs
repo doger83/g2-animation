@@ -17,9 +17,7 @@
 #region Usings
 
 using g2.Animation.Core._EventArgs;
-using System;
 using System.Diagnostics;
-using System.Threading;
 
 #endregion
 
@@ -77,7 +75,10 @@ public class HiResTimer
     /// </remarks>
     public float Interval
     {
-        get => interval;
+        get
+        {
+            return interval;
+        }
 
         set
         {
@@ -105,7 +106,10 @@ public class HiResTimer
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="value"/> is zero or negative or <see cref="float.NaN"/>.</exception>
     public float IgnoreElapsedThreshold
     {
-        get => ignoreElapsedThreshold;
+        get
+        {
+            return ignoreElapsedThreshold;
+        }
 
         set
         {
@@ -127,7 +131,10 @@ public class HiResTimer
     /// </value>
     public bool Enabled
     {
-        get => isRunning;
+        get
+        {
+            return isRunning;
+        }
 
         set
         {

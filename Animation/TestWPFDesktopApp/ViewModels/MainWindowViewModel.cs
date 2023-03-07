@@ -17,7 +17,10 @@ public class MainWindowViewModel : ViewModelBase
 
     public DateAndTimeViewModel Lbl_DateAndTime
     {
-        get => lbl_DateAndTime;
+        get
+        {
+            return lbl_DateAndTime;
+        }
 
         set
         {
@@ -31,7 +34,10 @@ public class MainWindowViewModel : ViewModelBase
 
     public FPSUIViewModel Lbl_FPSCounterUI
     {
-        get => lbl_FPSCounterUI;
+        get
+        {
+            return lbl_FPSCounterUI;
+        }
 
         set
         {
@@ -45,7 +51,10 @@ public class MainWindowViewModel : ViewModelBase
 
     public FPSCounter Lbl_FPSCounterUpdate
     {
-        get => lbl_FPSCounterUpdate;
+        get
+        {
+            return lbl_FPSCounterUpdate;
+        }
 
         set
         {

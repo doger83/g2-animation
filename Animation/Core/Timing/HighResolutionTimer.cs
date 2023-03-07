@@ -1,9 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Text;
-using System.Threading;
+﻿using System.Diagnostics;
 
 namespace g2.Animation.Core.Timing;
 
@@ -76,7 +71,10 @@ public class HighResolutionTimer
     /// </summary>
     public float Interval
     {
-        get => _interval;
+        get
+        {
+            return _interval;
+        }
 
         set
         {
@@ -94,7 +92,10 @@ public class HighResolutionTimer
     /// </summary>
     public bool IsRunning
     {
-        get => _isRunning;
+        get
+        {
+            return _isRunning;
+        }
     }
 
     /// <summary>

@@ -7,7 +7,7 @@ public class DateTimeToStringConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        return value is DateTime dateTime ? DateTime.Now.ToString(parameter as string ?? "G") : value;
+        return value is DateTime ? DateTime.Now.ToString(parameter as string ?? "G") : value;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

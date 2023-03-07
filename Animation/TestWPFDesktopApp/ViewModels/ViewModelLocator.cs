@@ -5,7 +5,10 @@ public class ViewModelLocator
 
     public MainWindowViewModel MainWindowViewModel
     {
-        get => mainWindowViewModel;
+        get
+        {
+            return mainWindowViewModel;
+        }
     }
 }
 

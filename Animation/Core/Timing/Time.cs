@@ -52,14 +52,28 @@ public static class Time
 
     public static double FixedDeltaTime
     {
-        get => fixedDeltaTime;
-        private set => fixedDeltaTime = value;
+        get
+        {
+            return fixedDeltaTime;
+        }
+
+        private set
+        {
+            fixedDeltaTime = value;
+        }
     }
 
     public static double DeltaTime
     {
-        get => deltaTime;
-        private set => deltaTime = value;
+        get
+        {
+            return deltaTime;
+        }
+
+        private set
+        {
+            deltaTime = value;
+        }
     }
 
     public static void Start()
@@ -94,7 +108,10 @@ public static class Time
 
     public static PeriodicTimer? PeriodicTimer
     {
-        get => periodicTimer;
+        get
+        {
+            return periodicTimer;
+        }
     }
 
     public static void StarPeriodicTimer(double intervalInSeconds)

@@ -4,14 +4,10 @@ using g2.Animation.Core.Timing;
 using g2.Animation.TestWPFDesktopApp.ViewModels;
 using g2.Animation.UI.WPF.Shapes.Library.CanvasShapes;
 using System;
-using System.Diagnostics;
-using System.Numerics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace g2.Animation.TestWPFDesktopApp;
 
