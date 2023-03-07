@@ -77,10 +77,7 @@ public class HiResTimer
     /// </remarks>
     public float Interval
     {
-        get
-        {
-            return interval;
-        }
+        get => interval;
 
         set
         {
@@ -108,10 +105,7 @@ public class HiResTimer
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="value"/> is zero or negative or <see cref="float.NaN"/>.</exception>
     public float IgnoreElapsedThreshold
     {
-        get
-        {
-            return ignoreElapsedThreshold;
-        }
+        get => ignoreElapsedThreshold;
 
         set
         {
@@ -133,10 +127,7 @@ public class HiResTimer
     /// </value>
     public bool Enabled
     {
-        get
-        {
-            return isRunning;
-        }
+        get => isRunning;
 
         set
         {

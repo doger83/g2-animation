@@ -53,7 +53,6 @@ public class AnimationBase
 
         // ToDo: remove discard an only return completetd if both returned completed?
 
-
     }
 
     public void Update()
@@ -66,13 +65,10 @@ public class AnimationBase
 
             fpsCounter.Update();
 
-
-
             //Debug.WriteLine($"Update: {DateTime.Now:O} \t Detlatatime: {Time.DeltaTime:G65}");
 
             _ = (UpdateComplete?.Invoke(null, EventArgs.Empty));
         }
-
     }
 
     public async Task FixedUpdate()

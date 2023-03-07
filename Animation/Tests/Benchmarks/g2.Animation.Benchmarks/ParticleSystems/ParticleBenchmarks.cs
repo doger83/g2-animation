@@ -1,4 +1,4 @@
-﻿namespace g2.Animation.Benchmarks.ParticleSystems;
+﻿namespace g2.Animation.Core.Benchmarks.ParticleSystems;
 
 [MemoryDiagnoser]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]
@@ -34,7 +34,6 @@ public class ParticleBenchmarks
             particles[i].CheckBoundaries_basic();
         }
     }
-
 
     [Benchmark]
     public void CheckBoundaries_cachedInMethod()

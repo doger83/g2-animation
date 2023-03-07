@@ -76,10 +76,7 @@ public class HighResolutionTimer
     /// </summary>
     public float Interval
     {
-        get
-        {
-            return _interval;
-        }
+        get => _interval;
 
         set
         {
@@ -97,10 +94,7 @@ public class HighResolutionTimer
     /// </summary>
     public bool IsRunning
     {
-        get
-        {
-            return _isRunning;
-        }
+        get => _isRunning;
     }
 
     /// <summary>

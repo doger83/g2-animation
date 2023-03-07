@@ -172,11 +172,10 @@ public class Particle
         }
     }
 
-
-    int left = 25;
-    int top = 25;
-    int right = 550;
-    int bottom = 550;
+    private int left = 25;
+    private int top = 25;
+    private int right = 550;
+    private int bottom = 550;
     public void CheckBoundaries_basicWithFixedBounds()
     {
 
@@ -258,11 +257,12 @@ public class Particle
             return;
         }
     }
-    bool crossedTopBoundaryGlobal;
-    bool crossedRightBoundaryGlobal;
-    bool crossedBottomBoundaryGlobal;
-    bool crossedLeftBoundaryGlobal;
-    bool crossedNoBoundaryGlobal;
+
+    private bool crossedTopBoundaryGlobal;
+    private bool crossedRightBoundaryGlobal;
+    private bool crossedBottomBoundaryGlobal;
+    private bool crossedLeftBoundaryGlobal;
+    private bool crossedNoBoundaryGlobal;
 
     public void CheckBoundaries_cachedGlobal()
     {
