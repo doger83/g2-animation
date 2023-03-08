@@ -1,7 +1,7 @@
 ﻿using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace g2.Animation.UI.WPF.Shapes.Library.ParticleShapes;
+namespace g2.Animation.UI.WPF.Shapes.ParticleShapes;
 
 public static class ParticleShapes
 {

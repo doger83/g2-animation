@@ -4,7 +4,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace g2.Animation.UI.WPF.Shapes.Library.CanvasShapes;
+namespace g2.Animation.UI.WPF.Shapes.CanvasShapes;
 public static class CanvasShapes
 {
 

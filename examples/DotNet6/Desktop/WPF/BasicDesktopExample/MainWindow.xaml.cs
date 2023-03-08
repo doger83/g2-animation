@@ -2,7 +2,7 @@
 using g2.Animation.Core.ParticleSystems;
 using g2.Animation.Core.Timing;
 using g2.Animation.TestWPFDesktopApp.ViewModels;
-using g2.Animation.UI.WPF.Shapes.Library.CanvasShapes;
+using g2.Animation.UI.WPF.Shapes.CanvasShapes;
 using System;
 using System.Threading.Tasks;
 using System.Windows;

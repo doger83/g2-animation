@@ -1,4 +1,9 @@
-﻿namespace g2.Animation.Core.Benchmarks.ParticleSystems;
+﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Order;
+using g2.Animation.Core.ParticleSystems;
+using g2.Datastructures.Geometry;
+
+namespace g2.Animation.Core.Benchmarks.ParticleSystems;
 
 [MemoryDiagnoser]
 [Orderer(SummaryOrderPolicy.FastestToSlowest)]

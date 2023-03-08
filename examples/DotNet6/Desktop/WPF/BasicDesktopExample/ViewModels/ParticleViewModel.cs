@@ -1,4 +1,4 @@
-﻿using g2.Animation.UI.WPF.Shapes.Library.ParticleShapes;
+﻿using g2.Animation.UI.WPF.Shapes.ParticleShapes;
 using System.Windows.Shapes;
 
 namespace g2.Animation.TestWPFDesktopApp.ViewModels;

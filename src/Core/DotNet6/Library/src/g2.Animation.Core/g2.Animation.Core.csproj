@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,8 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Datastructures\g2.Datastructures.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\..\g2.Datastructures\src\DotNet6\Library\src\g2.Datastructures\g2.Datastructures.csproj" />
   </ItemGroup>
+
 
 
 </Project>

@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <LangVersion>10</LangVersion>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\g2.Datastructures\src\DotNet6\Library\src\g2.Datastructures\g2.Datastructures.csproj" />
+    <ProjectReference Include="..\..\..\..\..\src\Core\DotNet6\Library\src\g2.Animation.Core\g2.Animation.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\..\src\UI\DotNet6\Library\Desktop\WPF\src\g2.Animation.UI.WPF\g2.Animation.UI.WPF.csproj" />
+  </ItemGroup>
+</Project>
