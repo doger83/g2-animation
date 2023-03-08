@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\g2.Datastructures\src\DotNet6\Api\src\g2.Datastructures\g2.Datastructures.csproj" />
     <ProjectReference Include="..\..\..\..\..\..\..\g2.Datastructures\src\DotNet6\Library\src\g2.Datastructures\g2.Datastructures.csproj" />
   </ItemGroup>
 
