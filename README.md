@@ -1,3 +1,5 @@
+![GitHub](https://img.shields.io/github/license/doger83/g2-animation)
+
 # .NET 6 Animation System
 
 This is a .NET 6 application that serves as an animation system. It allows users to create and manipulate animations in real-time. The system is built using the latest .NET 6 technologies, which makes it highly performant and scalable.
@@ -28,7 +30,7 @@ If you encounter any issues or have questions about the application, please reac
 ## Contributing
 We welcome contributions to the project. To contribute, please fork the repository, make your changes, and submit a pull request.
 
-## License ![GitHub](https://img.shields.io/github/license/doger83/g2-animation)
+## License 
 
 This software is released into the public domain under the Unlicense. Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means.
 
