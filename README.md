@@ -1,4 +1,4 @@
-![GitHub](https://img.shields.io/github/license/doger83/g2-animation)
+![GitHub](https://img.shields.io/github/license/doger83/g2-animation) ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/doger83/g2-animation)
 
 # .NET 6 Animation System
 
