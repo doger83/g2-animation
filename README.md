@@ -28,7 +28,8 @@ If you encounter any issues or have questions about the application, please reac
 ## Contributing
 We welcome contributions to the project. To contribute, please fork the repository, make your changes, and submit a pull request.
 
-## License
+## License ![GitHub](https://img.shields.io/github/license/doger83/g2-animation)
+
 This software is released into the public domain under the Unlicense. Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means.
 
 For more information, please refer to <https://unlicense.org>
